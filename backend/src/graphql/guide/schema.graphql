@@ -1,0 +1,53 @@
+type GuideData {
+    id: String
+    guideId: String
+    guide: Guide
+    viewType: String
+    itemId: String
+    item: Item
+    favouriteItemIds: [String]
+    favouriteItems: [Item]
+}
+
+type Guide {
+    id: String
+    name: String
+    url: String
+    description: String
+    latitude: Float
+    longitude: Float
+    zoomLevel: Float
+    published: Boolean
+    previewImageUrl: String
+    itemIds: [String]
+    items: [Item]
+    price: Float
+    currency: String
+}
+
+input GuideInput {
+    id: String
+    name: String
+    url: String
+    description: String
+    latitude: Float
+    longitude: Float
+    zoomLevel: Float
+    published: Boolean
+    previewImageUrl: String
+    itemIds: [String]
+    items: [ItemInput]
+    price: Float
+    currency: String
+}
+
+type Query {
+    fetchGuide (id: String, url: String): Guide
+    guides: [Guide]
+}
+
+type Mutation {
+    updateGuide (
+        data: GuideInput!
+    ): Guide
+}

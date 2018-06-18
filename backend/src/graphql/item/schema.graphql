@@ -1,0 +1,60 @@
+type Item {
+    id: String
+    uid: String
+    name: String
+    title: String
+    type: String
+    description: String
+    latitude: Float
+    longitude: Float
+    zoomLevel: Float
+    published: Boolean
+    previewImageUrl: String
+    tagIds: [String]
+    tags: [Tag]
+    relatedItemIds: [String]
+    relatedItems: [Item]
+}
+
+input ItemInput {
+    id: String
+    name: String
+    title: String
+    type: String
+    description: String
+    latitude: Float
+    longitude: Float
+    zoomLevel: Float
+    published: Boolean
+    previewImageUrl: String
+    tagIds: [String]
+    tags: [TagInput]
+    relatedItemIds: [String]
+    relatedItems: [ItemInput]
+}
+
+type ItemRelation {
+    firstItemId: String
+    firstItem: Item
+    secondItemId: String
+    secondItem: Item
+}
+
+input ItemRelationInput {
+    firstItemId: String
+    firstItem: ItemInput
+    secondItemId: String
+    secondItem: ItemInput
+}
+
+
+type Query {
+    fetchItem (id: String): Item
+    items: [Item]
+}
+
+type Mutation {
+    updateItem (
+        data: ItemInput!
+    ): Item
+}

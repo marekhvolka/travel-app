@@ -1,0 +1,30 @@
+type User {
+    id: String
+    email: String
+    firstName: String
+    lastName: String
+    role: String
+    guidesData: [GuideData]
+}
+
+input UserInput {
+    email: String
+    password: String
+}
+
+type Query {
+    users: [User]
+    fetchUser (id: String, token: String): User
+
+}
+
+type Mutation {
+    updateUser (
+        id: String!,
+        firstName: String!,
+        lastName: String,
+        email: String!,
+        password: String!,
+        role: String!
+    ): User
+}
