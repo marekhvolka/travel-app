@@ -20,7 +20,7 @@ const AppWrapper = styled.div`
   background-repeat: repeat;
   background-attachment: fixed;
   background-position: center;
-  background-image: linear-gradient(rgba(121, 96, 76, 0.15), rgba(121, 96, 76, 0.15)), url('/img/dust_scratches.png');
+  // background-image: linear-gradient(rgba(121, 96, 76, 0.15), rgba(121, 96, 76, 0.15)), url('/img/dust_scratches.png');
 `
 
 const App = () => (

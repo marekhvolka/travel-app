@@ -5,7 +5,12 @@ import UserAuthentication from '../../../common/organism/UserAuthentication/User
 
 const NavbarContainer = styled.div`
   height: 50px;
-  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  background: #fff;
   padding: 12px 0;
   border-bottom: 1px solid;
   border-color: ${props => props.theme.border.color};

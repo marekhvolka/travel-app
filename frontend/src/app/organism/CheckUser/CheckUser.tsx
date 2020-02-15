@@ -18,7 +18,7 @@ const CheckUser = () => {
             <Button primary>Login</Button>
           </Link>
           <Button onClick={() => setIsOpen(false)}>
-            Play without account
+            Explore without account
           </Button>
         </div>
       </div>

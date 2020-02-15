@@ -33,7 +33,7 @@ const theme = {
   secondaryColor: 'white',
   border: {
     radius: '5px',
-    color: '#aaa',
+    color: '#ccc',
   },
 }
 

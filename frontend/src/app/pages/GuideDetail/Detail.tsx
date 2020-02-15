@@ -18,7 +18,6 @@ type Props = {
 
 export const GuideDetail = ({ isBought, guide, onBuy }: Props) => (
   <div className={'text-center'}>
-    <MainHeading>{guide.name}</MainHeading>
     <Row>
       <Col xs={24} sm={12}>
         <PreviewImage
@@ -27,7 +26,8 @@ export const GuideDetail = ({ isBought, guide, onBuy }: Props) => (
           className="full-width padding-bottom"
         />
       </Col>
-      <Col xs={24} sm={12}>
+      <Col xs={24} sm={12} style={{padding: '10px'}}>
+        <MainHeading>{guide.name}</MainHeading>
         <Text value={guide.description} />
         <Button m={'10px'}>
           <Link to={`/guides/${guide.url}/explore`}>Try it for free</Link>

@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import {getImageUrl, IMAGE_SIZES} from '../../common'
 
 const Img = styled.img`
-  padding: 10px 0;
   width: 100%;
 `
 
