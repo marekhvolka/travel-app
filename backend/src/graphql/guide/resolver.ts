@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
-import { Guide, Item, User } from '../../models/index'
+import { Guide } from '../../models/Guide'
+import { Item } from '../../models/Item'
+import { User } from '../../models/User'
 
 export const resolver = {
   Guide: {
@@ -16,7 +18,7 @@ export const resolver = {
 
   GuideData: {
     guide(guideData) {
-      // return Guide.findById(guideData.guideId)
+      // return Guide.findOne(guideData.guideId)
       return context.dataloaders.guides.load(guideData.guideId)
     },
     favouriteItems(guideState) {
@@ -33,10 +35,10 @@ export const resolver = {
   Query: {
     // Get a guide by it ID
     fetchGuide(_, { id, url }) {
-      return id ? Guide.findById(id) : Guide.findOne({ url })
+      return id ? Guide.findOne(id) : Guide.findOne({ url })
     },
     guides() {
-      return Guide.find({})
+      return Guide.find()
     },
   },
 

@@ -1,10 +1,10 @@
-import { City } from '../../models/index'
+import { City } from '../../models/City'
 
 export const resolver = {
   Query: {
     // Get a city by it ID
     fetchCity(_, { id }) {
-      return City.findById(id)
+      return City.findOne(id)
     },
     cities() {
       return City.find({})

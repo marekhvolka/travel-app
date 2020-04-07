@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt'
-import { User } from '../../models/index'
+import { User } from '../../models/User'
 
 export const resolver = {
   User: {},

@@ -10,6 +10,7 @@ import { AssignForm } from '../../../common/organism/AssignForm/AssignForm'
 import { Flex } from '../../../common/atoms/Flex/Flex'
 import { Box } from '../../../common/atoms/Box/Box'
 import {RouteComponentProps} from 'react-router-dom';
+import {RestrictionsForm} from "../../organism/ItemForm/Restrictions/RestrictionsForm";
 
 type Props = {
   fetchTags: any
@@ -35,6 +36,7 @@ class Edit extends EditView<Props, State> {
       tagIds: [],
       relatedItemIds: [],
       relatedItems: [],
+      restrictions: [],
     },
   }
 
@@ -61,14 +63,14 @@ class Edit extends EditView<Props, State> {
 
     return (
       <Flex>
-        <Box flex={7}>
+        <Box flex={1}>
           <h1>
             {this.props.match.params.id
               ? `Edit item ${model.name}`
               : 'Add item'}
-            <Button onClick={this.handleSubmit}>Save</Button>
+            <Button style={{float: 'right'}} onClick={this.handleSubmit}>Save</Button>
           </h1>
-          <Tabs defaultActiveIndex={0}>
+          <Tabs defaultActiveIndex={3}>
             <div title="Basic settings">
               <ItemForm modelChanged={this.modelChanged} model={model} />
             </div>
@@ -92,15 +94,35 @@ class Edit extends EditView<Props, State> {
                 itemIdsArrayName={'relatedItemIds'}
               />
             </div>
+            <div title="Restrictions">
+              <h1>Restrictions</h1>
+              <RestrictionsForm
+                model={model.restrictions}
+                modelChanged={newData =>
+                  this.modelChanged({
+                    ...model,
+                    restrictions: {
+                      ...model.restrictions,
+                      ...newData
+                    },
+                  })
+                }
+              />
+            </div>
           </Tabs>
         </Box>
-        <Box flex={3} />
+        {/*<Box flex={3} />*/}
       </Flex>
     )
   }
 }
 
 const FETCH_QUERY = gql`
+  fragment dayRestrictionFields on DayRestriction {
+    state
+    from
+    to
+  }
   query fetch($id: String!) {
     fetchItem(id: $id) {
       id
@@ -122,6 +144,18 @@ const FETCH_QUERY = gql`
       relatedItems {
         id
         name
+      }
+      restrictions {
+        state
+        dayRestrictions {
+          mon { ...dayRestrictionFields }
+          tue { ...dayRestrictionFields }
+          wed { ...dayRestrictionFields }
+          thu { ...dayRestrictionFields }
+          fri { ...dayRestrictionFields }
+          sat { ...dayRestrictionFields }
+          sun { ...dayRestrictionFields }
+        }
       }
     }
   }

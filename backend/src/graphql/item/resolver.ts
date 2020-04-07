@@ -1,5 +1,7 @@
-import { Item, ItemRelation, Tag } from '../../models/index'
+import { Item } from '../../models/Item'
+import { Tag } from '../../models/Tag'
 import mongoose from 'mongoose'
+import {ItemRelation} from "../../models/ItemRelation";
 
 export const resolver = {
   Item: {
@@ -59,12 +61,44 @@ export const resolver = {
           ]
         }
       })
-    }
+    },
+    restrictions(item) {
+      if (item.restrictions) {
+        return item.restrictions
+      }
+
+      return {
+        state: 'notDefined',
+        dayRestrictions: {
+          mon: {
+            state: 'open'
+          },
+          tue: {
+            state: 'open',
+          },
+          wed: {
+            state: 'open',
+          },
+          thu: {
+            state: 'open',
+          },
+          fri: {
+            state: 'open',
+          },
+          sat: {
+            state: 'open',
+          },
+          sun: {
+            state: 'open',
+          }
+        }
+      }
+    },
   },
   Query: {
     // Get a item by it ID
     fetchItem(_, { id }) {
-      return Item.findById(id)
+      return Item.findOne(id)
     },
     items() {
       return Item.find({})

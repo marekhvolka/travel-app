@@ -1,3 +1,45 @@
+type DayRestriction {
+    state: String
+    from: String
+    to: String
+}
+
+type WeekRestriction {
+  mon: DayRestriction
+  tue: DayRestriction
+  wed: DayRestriction
+  thu: DayRestriction
+  fri: DayRestriction
+  sat: DayRestriction
+  sun: DayRestriction
+}
+
+input DayRestrictionInput {
+    state: String
+    from: String
+    to: String
+}
+
+input WeekRestrictionInput {
+  mon: DayRestrictionInput
+  tue: DayRestrictionInput
+  wed: DayRestrictionInput
+  thu: DayRestrictionInput
+  fri: DayRestrictionInput
+  sat: DayRestrictionInput
+  sun: DayRestrictionInput
+}
+
+type Restrictions {
+    state: String
+    dayRestrictions: WeekRestriction
+}
+
+input RestrictionsInput {
+    state: String
+    dayRestrictions: WeekRestrictionInput
+}
+
 type Item {
     id: String
     uid: String
@@ -14,6 +56,7 @@ type Item {
     tags: [Tag]
     relatedItemIds: [String]
     relatedItems: [Item]
+    restrictions: Restrictions
 }
 
 input ItemInput {
@@ -31,6 +74,7 @@ input ItemInput {
     tags: [TagInput]
     relatedItemIds: [String]
     relatedItems: [ItemInput]
+    restrictions: RestrictionsInput
 }
 
 type ItemRelation {

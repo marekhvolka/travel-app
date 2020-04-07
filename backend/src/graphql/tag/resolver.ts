@@ -1,10 +1,10 @@
-import { Tag } from '../../models/index'
+import { Tag } from '../../models/Tag'
 
 export const resolver = {
 
   Query: {
     fetchTag(_, { id }) {
-      return Tag.findById(id)
+      return Tag.findOne(id)
     },
     tags() {
       return Tag.find({})

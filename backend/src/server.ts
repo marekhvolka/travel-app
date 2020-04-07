@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import * as multiparty from 'multiparty'
 import bodyParser from 'body-parser'
 import compression from 'compression'
@@ -13,10 +14,26 @@ import config from '../config/config'
 import {saveFile} from './utils/file-functions'
 import log from './utils/logger'
 
-import {executableSchema} from './graphql'
+// import {executableSchema} from './graphql'
+
 import * as bcrypt from "bcrypt";
-import {User} from "./models";
+import {User} from "./models/User";
 import {generateToken} from "./utils/auth-functions";
+import {Connection, createConnection} from "typeorm";
+import {buildSchema} from "type-graphql";
+import {ApolloServer} from "apollo-server";
+
+createConnection({
+  type: "mongodb",
+  host: config.mongodb.host,
+  port: 27017,
+  database: config.mongodb.database,
+  username: config.mongodb.username,
+  password: config.mongodb.password,
+  entities: [
+    __dirname + "/models/*.ts"
+  ],
+});
 
 const app = express()
 
@@ -28,15 +45,22 @@ app.use(cors())
 app.use(helmet())
 
 app.use(express.static(config.resourcesDir))
-app.use(
-  '/graphql',
-  bodyParser.json(),
-  apolloUploadExpress({
-    maxFileSize: 10000000,
-    maxFiles: 10
-  }),
-  graphqlExpress({schema: executableSchema})
-)
+
+buildSchema({
+  resolvers: [__dirname + "/resolvers/*.ts"],
+}).then((schema) => {
+  app.use(
+    '/graphql',
+    bodyParser.json(),
+    apolloUploadExpress({
+      maxFileSize: 10000000,
+      maxFiles: 10
+    }),
+    graphqlExpress({schema})
+  )
+}).catch((err) => {
+  console.log(err)
+})
 
 if (process.env.NODE_ENV !== 'production') {
   app.use('/graphiql', graphiqlExpress({endpointURL: '/graphql'}))

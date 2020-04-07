@@ -5,6 +5,8 @@ import {Text} from '../../../common/atoms/Text/Text'
 import {ImageWrapper} from '../../../common/atoms/ImageWrapper/ImageWrapper'
 import {IMAGE_SIZES} from '../../../common/common'
 import {ItemsList} from '../ItemsList/ItemsList'
+import {ItemAvailability} from "./ItemAvailability";
+import {Item} from "../../../models/Item";
 
 const ItemDetailWrapper = styled.div`
   position: absolute;
@@ -18,7 +20,7 @@ const ItemDetailWrapper = styled.div`
 `
 
 type Props = {
-  item: any
+  item: Item
   hide: any
   onRelatedItemClicked: (string) => void
 }
@@ -30,6 +32,7 @@ const ItemDetail = ({item, hide, onRelatedItemClicked}: Props) => (
     <ImageWrapper size={IMAGE_SIZES.MEDIUM} url={item.previewImageUrl}/>
     <Text value={item.title}></Text>
     {/*<Text value={item.description} />*/}
+    <ItemAvailability restrictions={item.restrictions}/>
     {item.relatedItems.length > 0 && (
       <>
         <h4>Related places</h4>

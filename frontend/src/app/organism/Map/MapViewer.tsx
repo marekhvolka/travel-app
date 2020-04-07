@@ -63,7 +63,7 @@ class MapViewer extends Component<Props> {
 
   render() {
     const {userData, model, onZoomChanged, onShowFullDetail, onHideFullDetail, onItemClicked, onLatLngChanged} = this.props
-    const selectedItem = model.items.find((item) => item.id === userData.selectedItemId)
+    const selectedItem = model.items.find((item) => userData && (item.id === userData.selectedItemId))
 
     return (
       <LoadScript
@@ -93,13 +93,13 @@ class MapViewer extends Component<Props> {
             .map(item => (
               <CustomMarker
                 key={item.id}
-                isSelected={userData.selectedItemId === item.id}
+                isSelected={userData && (userData.selectedItemId === item.id)}
                 item={item}
                 onClick={() => onItemClicked(item.id)}
               />
             ))}
         </GoogleMap>
-        {userData.selectedItemId && (
+        {userData && userData.selectedItemId && (
           userData.showFullDetail ? (
             <ItemDetail item={selectedItem} hide={onHideFullDetail} onRelatedItemClicked={onItemClicked} />
           ) : (

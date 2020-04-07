@@ -10,6 +10,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import {Spinner} from "../../../common/atoms/Spinner/Spinner";
 
 const GUIDE_QUERY = gql`
+  fragment dayRestrictionFields on DayRestriction {
+    state
+    from
+    to
+  }
   fragment itemBaseFields on Item {
     id
     name
@@ -22,6 +27,18 @@ const GUIDE_QUERY = gql`
       name
       color
       icon
+    }
+    restrictions {
+      state
+      dayRestrictions {
+        mon { ...dayRestrictionFields }
+        tue { ...dayRestrictionFields }
+        wed { ...dayRestrictionFields }
+        thu { ...dayRestrictionFields }
+        fri { ...dayRestrictionFields }
+        sat { ...dayRestrictionFields }
+        sun { ...dayRestrictionFields }
+      }
     }
   }
 

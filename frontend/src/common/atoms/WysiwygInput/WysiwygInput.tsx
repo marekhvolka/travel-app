@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { Form } from 'antd'
 import { Editor } from 'react-draft-wysiwyg'
 import EditorState from 'draft-js/lib/EditorState'
@@ -14,54 +14,29 @@ type Props = {
   value: string
 }
 
-export class WysiwygInput extends Component<Props, {}> {
-  state = {
-    editorState: EditorState.createEmpty(),
+export const WysiwygInput = (props: Props) => {
+  const [editorState, setEditorState] = useState(EditorState.createWithContent(stateFromHTML(props.value ? props.value : '')))
+
+  const onEditorStateChange = editorState => {
+    setEditorState(editorState)
+    props.onChange({
+      [props.name]: stateToHTML(editorState.getCurrentContent()),
+    })
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      editorState: EditorState.createWithContent(
-        stateFromHTML(props.value ? props.value : '')
-      ),
-    }
-  }
-
-  onEditorStateChange = editorState => {
-    const oldValue = stateToHTML(this.state.editorState.getCurrentContent())
-
-    this.setState(
-      {
-        editorState,
-      },
-      () => {
-        const value = stateToHTML(this.state.editorState.getCurrentContent())
-        value !== oldValue &&
-          this.props.onChange({
-            [this.props.name]: value,
-          })
-      }
-    )
-  }
-
-  render() {
-    const { label, helperText } = this.props
-
-    return (
-      <Form.Item label={label}>
-        <Editor
-          editorState={this.state.editorState}
-          editorStyle={{
-            border: '1px solid #eee',
-            padding: '0 15px',
-          }}
-          onEditorStateChange={this.onEditorStateChange}
-        />
-        {helperText && (
-          <p>{helperText}</p>
-        )}
-      </Form.Item>
-    )
-  }
+  return (
+    <Form.Item label={props.label}>
+      <Editor
+        editorState={editorState}
+        editorStyle={{
+          border: '1px solid #eee',
+          padding: '0 15px',
+        }}
+        onEditorStateChange={onEditorStateChange}
+      />
+      {props.helperText && (
+        <p>{props.helperText}</p>
+      )}
+    </Form.Item>
+  )
 }

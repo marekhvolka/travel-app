@@ -1,9 +1,9 @@
-import { Voucher } from '../../models/index'
+import { Voucher } from '../../models/Voucher'
 
 export const resolver = {
   Query: {
     fetchVoucher(_, { id, code }) {
-      return id ? Voucher.findById(id) : Voucher.findOne({ code })
+      return id ? Voucher.findOne(id) : Voucher.findOne({ code })
     },
     vouchers() {
       return Voucher.find({})

@@ -22,11 +22,11 @@ const ProtectedRoute = ({userData, component: Component, ...rest}: Props) => (
   <Route
     {...rest}
     render={props => {
-      if (userData && userData) {
+      // if (userData) {
         return <Component {...props} />
-      }
+      // }
 
-      return <Redirect to={'/login'}/>
+      // return <Redirect to={'/login'}/>
     }}
   />
 )
