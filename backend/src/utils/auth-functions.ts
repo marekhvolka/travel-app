@@ -11,8 +11,8 @@ export function generateToken(user) {
   });
 }
 
-export function verifyToken(token) {
-  return new Promise((resolve, reject) => {
+export function verifyToken(token: string) {
+  return new Promise((resolve) => {
     jwt.verify(token, config.jwt_secret, (err, user) => {
       resolve(user);
     });

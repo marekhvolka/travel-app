@@ -14,15 +14,15 @@ export class Tag extends BaseEntity {
   @Column()
   name: string
 
-  @Field(() => String)
+  @Field({nullable: true})
   @Column()
   description: string
 
-  @Field(() => String)
+  @Field({nullable: true})
   @Column()
   color: string
 
-  @Field(() => String)
+  @Field({nullable: true})
   @Column()
   icon: string
 

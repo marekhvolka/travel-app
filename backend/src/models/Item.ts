@@ -42,11 +42,11 @@ export class Item extends BaseEntity {
   @Field(() => [Tag])
   tags: Tag[]
 
-  @Field(() => Number)
+  @Field({nullable: true})
   @Column()
   latitude: number
 
-  @Field(() => Number)
+  @Field({nullable: true})
   @Column()
   longitude: number
 

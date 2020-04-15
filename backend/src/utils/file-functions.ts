@@ -28,14 +28,14 @@ export const resourcesSizes = [
 
 const relativePath = __dirname + `/../../${config.resourcesDir}/`;
 
-export async function saveFile(sourcePath, targetPath, targetFileName, cropData) {
+export async function saveFile(sourcePath: string, targetPath: string, targetFileName: string, cropData) {
     const info = await sharp(sourcePath).metadata();
 
     const cropped = sharp(sourcePath).extract({
-        left: calculateSize(info.width, cropData.x),
-        top: calculateSize(info.height, cropData.y),
-        width: calculateSize(info.width, cropData.width),
-        height: calculateSize(info.height, cropData.height)
+        left: calculateSize(info.width!, cropData.x),
+        top: calculateSize(info.height!, cropData.y),
+        width: calculateSize(info.width!, cropData.width),
+        height: calculateSize(info.height!, cropData.height)
     });
 
     resourcesSizes.forEach(resourceSize => {
@@ -51,15 +51,15 @@ export async function saveFile(sourcePath, targetPath, targetFileName, cropData)
     });
 }
 
-export function directoryExists(path) {
+export function directoryExists(path: string): boolean {
     return fs.existsSync(relativePath + path);
 }
 
-export function createDirectory(path) {
+export function createDirectory(path: string) {
     console.log(relativePath + path);
-    shell.mkdir('-p', relativePath + path);
+    return shell.mkdir('-p', relativePath + path);
 }
 
-function calculateSize(fullSize, percentage) {
+function calculateSize(fullSize: number, percentage: number): number {
     return Math.floor((fullSize * percentage) / 100.0);
 }

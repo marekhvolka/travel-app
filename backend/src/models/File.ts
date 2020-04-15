@@ -1,5 +1,6 @@
 import {Field, ObjectType} from "type-graphql";
 import {Directory} from "./Directory";
+import {Stats} from "fs";
 
 @ObjectType()
 export class File {
@@ -28,6 +29,6 @@ export class File {
   @Field(() => String)
   content: string
 
-  @Field(() => Number)
-  size: number
+  @Field(() => Stats)
+  stats: Stats
 }

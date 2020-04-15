@@ -8,11 +8,11 @@ export class DayRestriction {
   @Column()
   state: string
 
-  @Field(() => String)
+  @Field({nullable: true})
   @Column()
   from: string
 
-  @Field(() => String)
+  @Field({nullable: true})
   @Column()
   to: string
 }

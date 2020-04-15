@@ -1,7 +1,6 @@
 import {Arg, FieldResolver, Mutation, Query, Resolver, Root} from "type-graphql";
 import {Guide} from "../models/Guide";
 import {Item} from "../models/Item";
-import {In} from "typeorm";
 import { ObjectID } from 'mongodb';
 
 @Resolver(() => Guide)
@@ -10,7 +9,7 @@ export class GuideResolver {
   items(@Root() guide: Guide) {
     return Item.find({
       where: {
-        _id: In(guide.itemIds.map((id) => new ObjectID(id)))
+        _id: { $in: guide.itemIds.map((id) => ObjectID(id)) }
       }
     })
   }

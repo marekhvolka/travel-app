@@ -1,26 +1,29 @@
 import fs from 'fs-extra'
 import path from 'path'
+import {Directory} from "../models/Directory";
+import {File} from "../models/File";
 
 class FileLoader {
   static baseDir = __dirname + '/../../resources/large'
 
-  static makeFullPath(partialPath) {
+  static makeFullPath(partialPath: string) {
     return path.join(FileLoader.baseDir, partialPath)
   }
 
-  static async openFile(filePath) {
+  static async openFile(filePath: string) {
     const fullPath = FileLoader.makeFullPath(filePath)
 
     try {
-      const file = await fs.open(fullPath, 'r+')
-      return new File(file, path.basename(fullPath), filePath)
+      const file = new File()
+      file.path = fullPath
+      return file
     } catch (err) {
       console.error('cannot open file', fullPath)
       return err
     }
   }
 
-  static async openDir(dirPath) {
+  static async openDir(dirPath: string) {
     const fullPath = FileLoader.makeFullPath(dirPath)
 
     try {
@@ -31,32 +34,23 @@ class FileLoader {
         return null
       }
 
-      return new Directory(dirPath)
+      const dir = new Directory()
+      dir.path = dirPath
+
+      return dir
     } catch (err) {
       console.error('could not find directory', fullPath)
       return null
     }
   }
-}
 
-class Directory {
-  constructor(dirPath) {
-    this.path = dirPath
-
-    // figure out the name
-    const pathFragments = dirPath.split('/')
-      .filter(x => x) //nix only
-
-    this.name = pathFragments[pathFragments.length - 1]
-  }
-
-  async contents({ includeFiles = true, includeDirs = true }) {
-    const dirFullPath = FileLoader.makeFullPath(this.path)
+  static async contents({ path, includeFiles = true, includeDirs = true }) {
+    const dirFullPath = FileLoader.makeFullPath(path)
 
     try {
       const files = await fs.readdir(dirFullPath)
-      const promises = files.map(async fileName => {
-        const fullPath = this.path + '/' + fileName
+      const promises = files.map(async (fileName: string) => {
+        const fullPath = path + '/' + fileName
 
         const res = await fs.stat(FileLoader.makeFullPath(fullPath))
 
@@ -78,34 +72,6 @@ class Directory {
       console.error('cannot list dir contents')
     }
   }
-
-  files() {
-    return this.contents({ includeDirs: false })
-  }
-
-  subdirectories() {
-    return this.contents({ includeFiles: false })
-  }
 }
 
-class File {
-  constructor(fd, name, fullPath) {
-    this.fd = fd
-    this.name = name
-    this.path = fullPath
-  }
-
-  read() {
-    return fs.readFile(this.fd)
-  }
-
-  stats() {
-    return fs.fstat(this.fd)
-      .catch(err => {
-        console.error('error getting file stats')
-        return null
-      })
-  }
-}
-
-export { FileLoader, File }
+export { FileLoader }

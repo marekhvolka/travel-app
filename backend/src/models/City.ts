@@ -1,9 +1,8 @@
 import {BaseEntity, Column, Entity, ObjectID, ObjectIdColumn} from "typeorm";
 import {Item} from "./Item";
-import {Field, ID, InputType, ObjectType} from "type-graphql";
+import {Field, ID, ObjectType} from "type-graphql";
 
 @Entity()
-@InputType()
 @ObjectType()
 export class City extends BaseEntity {
 
