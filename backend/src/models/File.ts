@@ -1,6 +1,6 @@
 import {Field, ObjectType} from "type-graphql";
 import {Directory} from "./Directory";
-import {Stats} from "fs";
+import {FileStats} from "./FileStats";
 
 @ObjectType()
 export class File {
@@ -15,20 +15,8 @@ export class File {
   directory: Directory
 
   @Field(() => String)
-  createdAt: string
-
-  @Field(() => String)
-  owner: string
-
-  @Field(() => String)
-  group: string
-
-  // @Field(() => String)
-  // permissions: PermissionSet
-
-  @Field(() => String)
   content: string
 
-  @Field(() => Stats)
-  stats: Stats
+  @Field(() => FileStats)
+  stats: FileStats
 }

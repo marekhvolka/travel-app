@@ -24,6 +24,7 @@ class FileLoader {
   }
 
   static async openDir(dirPath: string) {
+    console.log(dirPath)
     const fullPath = FileLoader.makeFullPath(dirPath)
 
     try {
@@ -37,6 +38,9 @@ class FileLoader {
       const dir = new Directory()
       dir.path = dirPath
 
+      console.log(dirPath)
+      console.log(dir)
+
       return dir
     } catch (err) {
       console.error('could not find directory', fullPath)
@@ -44,7 +48,7 @@ class FileLoader {
     }
   }
 
-  static async contents({ path, includeFiles = true, includeDirs = true }) {
+  static async contents({ path, includeFiles = false, includeDirs = false }) {
     const dirFullPath = FileLoader.makeFullPath(path)
 
     try {

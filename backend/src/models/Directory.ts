@@ -10,12 +10,6 @@ export class Directory {
   @Field(() => String)
   path: string
 
-  @Field(() => Directory)
-  parent: Directory
-
-  @Field(() => [File])
-  content: File[]
-
   @Field(() => [Directory])
   subdirectories: Directory[]
 

@@ -60,6 +60,7 @@ const main = async () => {
 
     apolloServer.applyMiddleware({app})
   } catch (e) {
+    console.log(e)
   }
 
 
@@ -203,17 +204,17 @@ const main = async () => {
     }
   }
 
-  // app.stop = () => {
-  //   log.info('Shutting down server')
-  //   services.server.close()
-  // }
-  //
-  // process.once('SIGINT', () => app.stop())
-  // process.once('SIGTERM', () => app.stop())
+  app.stop = () => {
+    log.info('Shutting down server')
+    services.server.close()
+  }
 
-  // app.start()
-  //   .then(() => log.info('App is running'))
-  //   .catch((err) => log.error(err))
+  process.once('SIGINT', () => app.stop())
+  process.once('SIGTERM', () => app.stop())
+
+  app.start()
+    .then(() => log.info('App is running'))
+    .catch((err) => log.error(err))
 
 }
 

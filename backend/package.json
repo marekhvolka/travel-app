@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "kill": "killall -9 node",
     "start": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "debug": "nodemon ./src/server.js --inspect --exec babel-node",
     "copy": "rm -rf public/config & cp -a config public/config",
