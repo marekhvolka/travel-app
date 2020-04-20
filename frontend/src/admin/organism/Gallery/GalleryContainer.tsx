@@ -13,9 +13,11 @@ const QUERY = gql`
         path
       }
       files {
-        size
         name
         path
+        stats {
+          size
+        }
       }
     }
   }

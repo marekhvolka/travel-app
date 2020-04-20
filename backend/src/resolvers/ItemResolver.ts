@@ -5,6 +5,7 @@ import {Arg, FieldResolver, Mutation, Query, Resolver, Root} from "type-graphql"
 // import {Restrictions} from "../models/Restrictions";
 import {ObjectID} from "mongodb";
 import {Restrictions} from "../models/Restrictions";
+import {ItemInput} from "../inputs/ItemInput";
 
 @Resolver(() => Item)
 export class ItemResolver {
@@ -13,7 +14,7 @@ export class ItemResolver {
   tags(@Root() item: Item) {
     return Tag.find({
       where: {
-        _id: {$in: item.tagIds.map((id) => ObjectID(id))}
+        _id: {$in: item.tagIds.map((id) => new ObjectID(id))}
       }
     })
   }
@@ -33,14 +34,8 @@ export class ItemResolver {
     })
 
     return [
-      ...relations1.map(
-        relation =>
-          ObjectID(relation.secondItemId)
-      ),
-      ...relations2.map(
-        relation =>
-          ObjectID(relation.firstItemId)
-      )
+      ...relations1.map(relation => new ObjectID(relation.secondItemId)),
+      ...relations2.map(relation => new ObjectID(relation.firstItemId))
     ]
   }
 
@@ -62,8 +57,8 @@ export class ItemResolver {
       where: {
         _id: {
           $in: [
-            ...relations1!.map(relation => ObjectID(relation.secondItemId)),
-            ...relations2!.map(relation => ObjectID(relation.firstItemId))
+            ...relations1!.map(relation => new ObjectID(relation.secondItemId)),
+            ...relations2!.map(relation => new ObjectID(relation.firstItemId))
           ]
         }
       }
@@ -115,7 +110,7 @@ export class ItemResolver {
   }
 
   @Mutation(() => Item)
-  async updateItem(_, {data}) {
+  async updateItem(@Arg("data") data: ItemInput) {
     const item = data.id ? Item.update(data.id, data) : Item.create(data)
     const promises = data.relatedItemIds.map((relatedItemId: string) => {
       return ItemRelation.find()

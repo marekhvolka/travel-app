@@ -21,6 +21,6 @@ export class User extends BaseEntity {
   @Column()
   role: string
 
-  @Column(type => GuideData)
+  @Column(() => GuideData)
   guidesData: GuideData
 }

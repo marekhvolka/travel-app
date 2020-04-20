@@ -16,7 +16,7 @@ export class CityResolver {
   }
 
   @Mutation(() => City)
-  updateCity(_, {data}: { data: CityInput }) {
+  updateCity(@Arg("data") data: CityInput) {
     return data.id ? City.update(data.id, data) : City.create(data)
   }
 }

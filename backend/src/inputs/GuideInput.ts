@@ -3,7 +3,7 @@ import {Field, ID, InputType} from "type-graphql";
 @InputType()
 export class GuideInput {
   @Field(() => ID)
-  id: String
+  id: string
 
   @Field(() => String)
   name: string

@@ -1,5 +1,6 @@
 import {Arg, Mutation, Query, Resolver} from "type-graphql";
 import {Tag} from "../models/Tag";
+import {TagInput} from "../inputs/TagInput";
 
 @Resolver(() => Tag)
 export class TagResolver {
@@ -14,7 +15,7 @@ export class TagResolver {
   }
 
   @Mutation(() => Tag)
-  updateTag(_, { data }) {
+  updateTag(@Arg("data") data: TagInput) {
     return data.id ? Tag.update(data.id, data) : Tag.create(data)
   }
 }

@@ -64,9 +64,9 @@ const main = async () => {
   }
 
 
-  app.listen(3001, () => {
-    console.log('Server started on http://localhost/graphql')
-  })
+  // app.listen(3001, () => {
+  //   console.log('Server started on http://localhost/graphql')
+  // })
 
   // app.use(
   //   '/graphql',

@@ -1,5 +1,6 @@
 import { Voucher } from '../models/Voucher'
 import {Arg, Mutation, Query, Resolver} from "type-graphql";
+import {VoucherInput} from "../inputs/VoucherInput";
 
 @Resolver(() => Voucher)
 export class VoucherResolver {
@@ -16,7 +17,7 @@ export class VoucherResolver {
   }
 
   @Mutation(() => Voucher)
-  updateVoucher(_, { data }) {
+  updateVoucher(@Arg("data") data: VoucherInput) {
     return data.id ? Voucher.update(data.id, data) : Voucher.create(data)
   }
 }

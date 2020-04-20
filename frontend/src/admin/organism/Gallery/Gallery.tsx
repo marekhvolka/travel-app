@@ -66,7 +66,7 @@ export const Gallery = ({
                 {fileNameAbbreviation}.{fileExtension}
               </span>
               <br />
-              {`${Math.floor(item.size / 1024)} KB`}
+              {`${Math.floor(item.stats.size / 1024)} KB`}
               <br />
               <span
                 // onClick={() => onImageSelected && onImageSelected(item.path)}
