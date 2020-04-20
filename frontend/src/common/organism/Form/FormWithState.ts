@@ -13,12 +13,12 @@ export class FormWithState<ChildProps = {}> extends Component<ChildProps & Props
     model: {},
   }
 
-  onChange = (newValues) => {
+  onChange = newValues => {
     this.setState(previousState => ({
       ...previousState,
       model: {
         ...previousState.model,
-        ...newValues
+        ...newValues,
       },
     }))
   }

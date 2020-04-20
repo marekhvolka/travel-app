@@ -12,10 +12,7 @@ const ITEM_TYPES = {
 }
 
 const getImageUrl = (size, imageUrl) =>
-  imageUrl &&
-  (!imageUrl.includes('http')
-    ? `${config.backendUrl}/${size}/${imageUrl}`
-    : imageUrl)
+  imageUrl && (!imageUrl.includes('http') ? `${config.backendUrl}/${size}/${imageUrl}` : imageUrl)
 
 const removeKeys = item => {
   const blackList = ['__typename']
@@ -40,9 +37,4 @@ const removeKeys = item => {
   return item
 }
 
-export {
-  IMAGE_SIZES,
-  ITEM_TYPES,
-  getImageUrl,
-  removeKeys,
-}
+export { IMAGE_SIZES, ITEM_TYPES, getImageUrl, removeKeys }

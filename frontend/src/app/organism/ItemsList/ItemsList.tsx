@@ -13,11 +13,7 @@ type Props = {
 export const ItemsList = ({ items, onRelatedItemClicked }: Props) => (
   <div>
     {items.map(item => (
-      <Box
-        style={{ cursor: 'pointer' }}
-        key={item.id}
-        onClick={() => onRelatedItemClicked(item.id)}
-      >
+      <Box style={{ cursor: 'pointer' }} key={item.id} onClick={() => onRelatedItemClicked(item.id)}>
         <Flex>
           <Box flex={1}>
             <ImageWrapper size={IMAGE_SIZES.SMALL} url={item.previewImageUrl} />

@@ -19,7 +19,7 @@ const GuideWrapper = styled.div`
 
 export const Guides = ({ guides }: Props) => (
   <div>
-    <h2 style={{textAlign: 'center'}}>Choose from our guides</h2>
+    <h2 style={{ textAlign: 'center' }}>Choose from our guides</h2>
     <div>
       {guides.map(guide => (
         <Link key={guide.id} to={`/guides/${guide.url}`}>
@@ -33,7 +33,7 @@ export const Guides = ({ guides }: Props) => (
                 />
               </Col>
               <Col xs={24} md={16}>
-                <div style={{textAlign: 'center', padding: '5px 10px'}}>
+                <div style={{ textAlign: 'center', padding: '5px 10px' }}>
                   <h3 className={'m-2'}>{guide.name}</h3>
                   <Text value={guide.description} />
                   <span>Price: {`${guide.price} ${guide.currency}`}</span>

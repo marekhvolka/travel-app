@@ -1,7 +1,7 @@
 import React from 'react'
-import styled from "styled-components";
-import {color, fontSize, space, width} from "styled-system";
-import {StyledSystemProps} from "../../../theme";
+import styled from 'styled-components'
+import { color, fontSize, space, width } from 'styled-system'
+import { StyledSystemProps } from '../../../theme'
 
 const P = styled.p<StyledSystemProps>`
   ${space}

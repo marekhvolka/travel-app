@@ -9,7 +9,7 @@ type Props = {
   onClick: any
 }
 
-export const CustomMarker = ({item, onClick, isSelected}: Props) => (
+export const CustomMarker = ({ item, onClick, isSelected }: Props) => (
   <Marker
     // className={'marker' + (isSelected ? 'selected' : '')}
     key={item.id}
@@ -23,6 +23,5 @@ export const CustomMarker = ({item, onClick, isSelected}: Props) => (
       lat: item.latitude,
       lng: item.longitude,
     }}
-  >
-  </Marker>
+  ></Marker>
 )

@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'react-router-dom/Link'
-import {Col, Row} from "antd";
+import { Col, Row } from 'antd'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
 import enablePreview from '../../../common/atoms/ImagePreview/enablePreview'
 import { IMAGE_SIZES } from '../../../common/common'
@@ -20,13 +20,9 @@ export const GuideDetail = ({ isBought, guide, onBuy }: Props) => (
   <div className={'text-center'}>
     <Row>
       <Col xs={24} sm={12}>
-        <PreviewImage
-          size={IMAGE_SIZES.MEDIUM}
-          url={guide.previewImageUrl}
-          className="full-width padding-bottom"
-        />
+        <PreviewImage size={IMAGE_SIZES.MEDIUM} url={guide.previewImageUrl} className="full-width padding-bottom" />
       </Col>
-      <Col xs={24} sm={12} style={{padding: '10px'}}>
+      <Col xs={24} sm={12} style={{ padding: '10px' }}>
         <MainHeading>{guide.name}</MainHeading>
         <Text value={guide.description} />
         <Button m={'10px'}>

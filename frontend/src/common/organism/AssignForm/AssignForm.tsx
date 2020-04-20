@@ -1,7 +1,7 @@
 import React from 'react'
 import { Label } from '../../atoms/Label/Label'
 import { CollectionForm } from '../../../admin/organism/DynamicForm/CollectionForm'
-import {Select} from "antd";
+import { Select } from 'antd'
 
 type Props = {
   items?: any
@@ -29,15 +29,15 @@ export class AssignForm extends CollectionForm<Props> {
         <Select
           placeholder="Assign an item"
           style={{ width: 200 }}
-          onChange={(value) => this.add(items.find((item) => item.id === value))}
+          onChange={value => this.add(items.find(item => item.id === value))}
         >
           {items
-            .filter(item => !model[itemIdsArrayName]
-              .includes(item.id))
+            .filter(item => !model[itemIdsArrayName].includes(item.id))
             .map(item => (
-                <Select.Option key={item.id} value={item}>{item.name}</Select.Option>
-            ))
-          }
+              <Select.Option key={item.id} value={item}>
+                {item.name}
+              </Select.Option>
+            ))}
         </Select>
       </div>
     )

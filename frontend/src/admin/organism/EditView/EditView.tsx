@@ -2,10 +2,10 @@ import { Component } from 'react'
 import { removeKeys } from '../../../common/common'
 
 type Props = {
-    fetch: any,
-    history: any,
-    update: any,
-    match: any
+  fetch: any
+  history: any
+  update: any
+  match: any
 }
 
 type State = {
@@ -34,9 +34,7 @@ export class EditView<ChildProps = {}, ChildState = {}> extends Component<ChildP
       })
       .then(data => {
         if (!this.state.model.id) {
-          this.props.history.push(
-            `/${this.slug}/edit/${data.data[this.updateMutationName].id}`
-          )
+          this.props.history.push(`/${this.slug}/edit/${data.data[this.updateMutationName].id}`)
         }
       })
   }
@@ -58,11 +56,7 @@ export class EditView<ChildProps = {}, ChildState = {}> extends Component<ChildP
   // }
 
   UNSAFE_componentWillReceiveProps(newProps) {
-    if (
-      newProps !== this.props &&
-      newProps.fetch &&
-      newProps.fetch[this.fetchQueryName]
-    ) {
+    if (newProps !== this.props && newProps.fetch && newProps.fetch[this.fetchQueryName]) {
       this.setState({
         model: newProps.fetch[this.fetchQueryName],
       })

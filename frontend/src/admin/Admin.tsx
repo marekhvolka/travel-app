@@ -8,7 +8,7 @@ import theme from '../theme'
 import Wrapper from './organism/Wrapper/Wrapper'
 import LoginContainer from './pages/Login/LoginContainer'
 import './Admin.css'
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'
 
 export const Admin = () => (
   <ThemeProvider theme={theme}>

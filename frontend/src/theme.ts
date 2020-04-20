@@ -10,7 +10,7 @@ import {
   SpaceProps,
   TextAlignProps,
   TextStyleProps,
-} from 'styled-system';
+} from 'styled-system'
 
 export type StyledSystemProps =
   | SpaceProps
@@ -26,7 +26,7 @@ export type StyledSystemProps =
   | LineHeightProps
   | TextAlignProps
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | { color: string; as?: keyof JSX.IntrinsicElements | React.ComponentType<any> };
+  | { color: string; as?: keyof JSX.IntrinsicElements | React.ComponentType<any> }
 
 const theme = {
   primaryColor: '#aa4439',

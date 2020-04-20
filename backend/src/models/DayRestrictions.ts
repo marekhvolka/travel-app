@@ -1,10 +1,9 @@
-import {Column} from "typeorm";
-import {Field, ObjectType} from "type-graphql";
-import {DayRestriction} from "./DayRestriction";
+import { Column } from 'typeorm'
+import { Field, ObjectType } from 'type-graphql'
+import { DayRestriction } from './DayRestriction'
 
 @ObjectType()
 export class DayRestrictions {
-
   @Field(() => DayRestriction)
   @Column()
   mon: DayRestriction

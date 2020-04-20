@@ -1,12 +1,12 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Modal from 'react-modal'
-import {Flex} from '../Flex/Flex'
-import {Box} from '../Box/Box'
+import { Flex } from '../Flex/Flex'
+import { Box } from '../Box/Box'
 import GalleryContainer from '../../../admin/organism/Gallery/GalleryContainer'
-import {ImageWrapper} from '../ImageWrapper/ImageWrapper'
-import {IMAGE_SIZES} from '../../common'
-import {Button} from '../Button/Button'
-import {Input} from '../Input/Input'
+import { ImageWrapper } from '../ImageWrapper/ImageWrapper'
+import { IMAGE_SIZES } from '../../common'
+import { Button } from '../Button/Button'
+import { Input } from '../Input/Input'
 
 type Props = {
   label: string
@@ -38,18 +38,10 @@ export const ImageInput = (props: Props) => {
           <Button onClick={() => setIsGalleryOpen(true)}>Gallery</Button>
         </Box>
       </Flex>
-      <ImageWrapper
-        size={IMAGE_SIZES.MEDIUM}
-        url={props.value}
-        style={{maxWidth: '500px'}}
-      />
+      <ImageWrapper size={IMAGE_SIZES.MEDIUM} url={props.value} style={{ maxWidth: '500px' }} />
 
       <div className="Gallery">
-        <Modal
-          isOpen={isGalleryOpen}
-          onRequestClose={() => setIsGalleryOpen(false)}
-          contentLabel="Example Modal"
-        >
+        <Modal isOpen={isGalleryOpen} onRequestClose={() => setIsGalleryOpen(false)} contentLabel="Example Modal">
           <GalleryContainer onImageSelected={onImageSelected} />
         </Modal>
       </div>

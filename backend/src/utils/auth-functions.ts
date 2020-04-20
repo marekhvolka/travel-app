@@ -1,20 +1,20 @@
-import jwt from 'jsonwebtoken';
-import config from '../../config/config';
+import jwt from 'jsonwebtoken'
+import config from '../../config/config'
 
 export function generateToken(user) {
   const u = {
     username: user.username,
-    _id: user._id.toString()
-  };
+    _id: user._id.toString(),
+  }
   return jwt.sign(u, config.jwt_secret, {
-    expiresIn: 60 * 60 * 24 // expires in 24 hours
-  });
+    expiresIn: 60 * 60 * 24, // expires in 24 hours
+  })
 }
 
 export function verifyToken(token: string) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     jwt.verify(token, config.jwt_secret, (err, user) => {
-      resolve(user);
-    });
-  });
+      resolve(user)
+    })
+  })
 }

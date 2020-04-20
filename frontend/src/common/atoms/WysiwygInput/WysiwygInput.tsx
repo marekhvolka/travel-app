@@ -15,7 +15,9 @@ type Props = {
 }
 
 export const WysiwygInput = (props: Props) => {
-  const [editorState, setEditorState] = useState(EditorState.createWithContent(stateFromHTML(props.value ? props.value : '')))
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(stateFromHTML(props.value ? props.value : ''))
+  )
 
   const onEditorStateChange = editorState => {
     setEditorState(editorState)
@@ -34,9 +36,7 @@ export const WysiwygInput = (props: Props) => {
         }}
         onEditorStateChange={onEditorStateChange}
       />
-      {props.helperText && (
-        <p>{props.helperText}</p>
-      )}
+      {props.helperText && <p>{props.helperText}</p>}
     </Form.Item>
   )
 }

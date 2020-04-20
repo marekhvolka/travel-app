@@ -15,12 +15,12 @@ export const Toggle = (props: Props) => (
       checkedChildren="On"
       unCheckedChildren="Off"
       defaultChecked
-      onChange={(value) => props.onChange({
-        [props.name]: value,
-      })}
+      onChange={value =>
+        props.onChange({
+          [props.name]: value,
+        })
+      }
     />
-    {props.helperText && (
-      <p>{props.helperText}</p>
-    )}
+    {props.helperText && <p>{props.helperText}</p>}
   </Form.Item>
 )

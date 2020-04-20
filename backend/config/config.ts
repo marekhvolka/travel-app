@@ -1,5 +1,6 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
+
 let configBuffer = null
 
 // Init config_buffer according to the NODE_ENV

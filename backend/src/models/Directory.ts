@@ -1,9 +1,8 @@
-import {Field, ObjectType} from "type-graphql";
-import {File} from "./File";
+import { Field, ObjectType } from 'type-graphql'
+import { File } from './File'
 
 @ObjectType()
 export class Directory {
-
   @Field(() => String)
   name: string
 

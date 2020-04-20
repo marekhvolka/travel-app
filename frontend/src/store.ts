@@ -1,16 +1,16 @@
-import {createStore} from "redux";
-import { persistStore, persistReducer } from 'redux-persist'
+import { createStore } from 'redux'
+import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 type UserData = {
-  id: string,
-  email: string,
-  token: string,
-  mapZoomLevel: number,
-  mapLatitude: number,
-  mapLongitude: number,
-  selectedItemId: string,
-  showFullDetail: boolean,
+  id: string
+  email: string
+  token: string
+  mapZoomLevel: number
+  mapLatitude: number
+  mapLongitude: number
+  selectedItemId: string
+  showFullDetail: boolean
 }
 
 export enum ActionTypes {
@@ -48,14 +48,14 @@ export class MapZoomLevelChangedAction {
 export class MapLatLngChangedAction {
   type: typeof ActionTypes.MAP_LAT_LNG_CHANGED = ActionTypes.MAP_LAT_LNG_CHANGED
   payload: {
-    latitude: number,
+    latitude: number
     longitude: number
   }
 
   constructor(latitude: number, longitude) {
     this.payload = {
       latitude,
-      longitude
+      longitude,
     }
   }
 }
@@ -78,22 +78,22 @@ export class MapHideFullItemDetailAction {
 }
 
 export type Actions =
-  LoadUserAction |
-  LogoutUserAction |
-  MapLatLngChangedAction |
-  MapZoomLevelChangedAction |
-  MapSelectItemAction |
-  MapShowFullItemDetailAction |
-  MapHideFullItemDetailAction
+  | LoadUserAction
+  | LogoutUserAction
+  | MapLatLngChangedAction
+  | MapZoomLevelChangedAction
+  | MapSelectItemAction
+  | MapShowFullItemDetailAction
+  | MapHideFullItemDetailAction
 
 export type State = {
-  userData: UserData,
+  userData: UserData
   _persist: any
 }
 
 const defaultState: State = {
   userData: undefined,
-  _persist: undefined
+  _persist: undefined,
 }
 
 function baseReducer(state: State, action: Actions): State {
@@ -101,7 +101,7 @@ function baseReducer(state: State, action: Actions): State {
     case ActionTypes.LOAD_USER: {
       return {
         ...state,
-        userData: action.payload
+        userData: action.payload,
       }
     }
 
@@ -117,8 +117,8 @@ function baseReducer(state: State, action: Actions): State {
         ...state,
         userData: {
           ...state.userData,
-          mapZoomLevel: action.payload
-        }
+          mapZoomLevel: action.payload,
+        },
       }
     }
 
@@ -129,7 +129,7 @@ function baseReducer(state: State, action: Actions): State {
           ...state.userData,
           mapLatitude: action.payload.latitude,
           mapLongitude: action.payload.longitude,
-        }
+        },
       }
     }
 
@@ -139,7 +139,7 @@ function baseReducer(state: State, action: Actions): State {
         userData: {
           ...state.userData,
           selectedItemId: action.payload,
-        }
+        },
       }
     }
 
@@ -148,8 +148,8 @@ function baseReducer(state: State, action: Actions): State {
         ...state,
         userData: {
           ...state.userData,
-          showFullDetail: true
-        }
+          showFullDetail: true,
+        },
       }
     }
 
@@ -158,13 +158,13 @@ function baseReducer(state: State, action: Actions): State {
         ...state,
         userData: {
           ...state.userData,
-          showFullDetail: false
-        }
+          showFullDetail: false,
+        },
       }
     }
   }
 
-  return state;
+  return state
 }
 
 const persistConfig = {
@@ -174,9 +174,6 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, baseReducer)
 
-export const store = createStore(
-  persistedReducer,
-  defaultState
-);
+export const store = createStore(persistedReducer, defaultState)
 
 export const persistor = persistStore(store)

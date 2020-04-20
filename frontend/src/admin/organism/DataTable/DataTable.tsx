@@ -11,20 +11,20 @@ export enum ColumnTypes {
 }
 
 type Props = {
-  fields: any[],
-  items: any[],
-  rowActions: any,
+  fields: any[]
+  items: any[]
+  rowActions: any
 }
 
 export const DataTable = ({ fields, items, rowActions }: Props) => {
-  const columns = fields.map((field) => {
+  const columns = fields.map(field => {
     return {
       title: field.label,
       dataIndex: field.name,
       key: field.name,
       render: (value, row) => {
         return getTableCell(value, field, '')
-      }
+      },
     }
   })
 
@@ -33,38 +33,32 @@ export const DataTable = ({ fields, items, rowActions }: Props) => {
     dataIndex: '',
     key: 'action',
     render: (value, row) => {
-      return rowActions(row).map((rowAction) => (
-        <Link key={rowAction.link} to={rowAction.link}>{rowAction.label}</Link>
+      return rowActions(row).map(rowAction => (
+        <Link key={rowAction.link} to={rowAction.link}>
+          {rowAction.label}
+        </Link>
       ))
-    }
+    },
   })
 
-  return (
-    <Table columns={columns} dataSource={items} />
-  )
+  return <Table columns={columns} dataSource={items} />
 }
 
 const getTableCell = (value: string, field, key) => {
-  let content;
+  let content
 
-  switch(field.type) {
+  switch (field.type) {
     case ColumnTypes.BOOLEAN:
       content = value ? 'Yes' : 'No'
-      break;
+      break
     case ColumnTypes.IMAGE:
-      content = (
-        <ImageWrapper
-          size={IMAGE_SIZES.SMALL}
-          style={{ width: '200px' }}
-          url={value}
-        />
-      )
-      break;
+      content = <ImageWrapper size={IMAGE_SIZES.SMALL} style={{ width: '200px' }} url={value} />
+      break
     case ColumnTypes.HTML:
       return <td key={key} dangerouslySetInnerHTML={{ __html: content }} />
 
     default:
-      content = value;
+      content = value
   }
 
   return <td key={key}>{content}</td>

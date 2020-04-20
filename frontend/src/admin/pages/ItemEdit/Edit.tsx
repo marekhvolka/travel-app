@@ -9,8 +9,8 @@ import { EditView } from '../../organism/EditView/EditView'
 import { AssignForm } from '../../../common/organism/AssignForm/AssignForm'
 import { Flex } from '../../../common/atoms/Flex/Flex'
 import { Box } from '../../../common/atoms/Box/Box'
-import {RouteComponentProps} from 'react-router-dom';
-import {RestrictionsForm} from "../../organism/ItemForm/Restrictions/RestrictionsForm";
+import { RouteComponentProps } from 'react-router-dom'
+import { RestrictionsForm } from '../../organism/ItemForm/Restrictions/RestrictionsForm'
 
 type Props = {
   fetchTags: any
@@ -21,10 +21,10 @@ type Props = {
 type State = {
   model: {
     name: string
-    tags: any[],
-    tagIds: string[],
-    relatedItemIds: string[],
-    relatedItems: any[],
+    tags: any[]
+    tagIds: string[]
+    relatedItemIds: string[]
+    relatedItems: any[]
   }
 }
 
@@ -47,17 +47,11 @@ class Edit extends EditView<Props, State> {
   render() {
     const { model } = this.state
 
-    if (
-      this.props.fetch &&
-      (this.props.fetchTags.loading || this.props.fetch.loading || !model)
-    ) {
+    if (this.props.fetch && (this.props.fetchTags.loading || this.props.fetch.loading || !model)) {
       return <div>Loading</div>
     }
 
-    if (
-      (this.props.fetch && this.props.fetch.error) ||
-      (this.props.fetchTags && this.props.fetchTags.error)
-    ) {
+    if ((this.props.fetch && this.props.fetch.error) || (this.props.fetchTags && this.props.fetchTags.error)) {
       return <div>Error</div>
     }
 
@@ -65,10 +59,10 @@ class Edit extends EditView<Props, State> {
       <Flex>
         <Box flex={1}>
           <h1>
-            {this.props.match.params.id
-              ? `Edit item ${model.name}`
-              : 'Add item'}
-            <Button style={{float: 'right'}} onClick={this.handleSubmit}>Save</Button>
+            {this.props.match.params.id ? `Edit item ${model.name}` : 'Add item'}
+            <Button style={{ float: 'right' }} onClick={this.handleSubmit}>
+              Save
+            </Button>
           </h1>
           <Tabs defaultActiveIndex={3}>
             <div title="Basic settings">
@@ -103,7 +97,7 @@ class Edit extends EditView<Props, State> {
                     ...model,
                     restrictions: {
                       ...model.restrictions,
-                      ...newData
+                      ...newData,
                     },
                   })
                 }
@@ -148,13 +142,27 @@ const FETCH_QUERY = gql`
       restrictions {
         state
         dayRestrictions {
-          mon { ...dayRestrictionFields }
-          tue { ...dayRestrictionFields }
-          wed { ...dayRestrictionFields }
-          thu { ...dayRestrictionFields }
-          fri { ...dayRestrictionFields }
-          sat { ...dayRestrictionFields }
-          sun { ...dayRestrictionFields }
+          mon {
+            ...dayRestrictionFields
+          }
+          tue {
+            ...dayRestrictionFields
+          }
+          wed {
+            ...dayRestrictionFields
+          }
+          thu {
+            ...dayRestrictionFields
+          }
+          fri {
+            ...dayRestrictionFields
+          }
+          sat {
+            ...dayRestrictionFields
+          }
+          sun {
+            ...dayRestrictionFields
+          }
         }
       }
     }
@@ -188,7 +196,7 @@ const UPDATE_MUTATION = gql`
 `
 
 type MatchParams = {
-    id: string
+  id: string
 }
 
 export default compose(

@@ -2,27 +2,22 @@ import React, { Fragment } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import withRouter from 'react-router-dom/withRouter'
 import Link from 'react-router-dom/Link'
-import {Dropdown, Icon, Menu} from 'antd'
-import {LogoutUserAction, State} from "../../../store";
-import {RouteComponentProps} from "react-router";
+import { Dropdown, Icon, Menu } from 'antd'
+import { LogoutUserAction, State } from '../../../store'
+import { RouteComponentProps } from 'react-router'
 
 const mapState = (state: State) => ({
-  userData: state.userData
+  userData: state.userData,
 })
 const mapDispatch = {
-  logout: () => ({...new LogoutUserAction()})
+  logout: () => ({ ...new LogoutUserAction() }),
 }
 
-const connector = connect(
-  mapState,
-  mapDispatch
-)
+const connector = connect(mapState, mapDispatch)
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-type Props = RouteComponentProps & PropsFromRedux & {
-
-}
+type Props = RouteComponentProps & PropsFromRedux & {}
 
 const UserAuthentication = ({ history, logout, userData }: Props) => {
   const onLogout = () => {
@@ -42,7 +37,7 @@ const UserAuthentication = ({ history, logout, userData }: Props) => {
     <span>
       {userData ? (
         <Dropdown.Button overlay={menu} placement="bottomLeft" icon={<Icon type="user" />}>
-            <span>{userData.email}</span>
+          <span>{userData.email}</span>
         </Dropdown.Button>
       ) : (
         <Fragment>

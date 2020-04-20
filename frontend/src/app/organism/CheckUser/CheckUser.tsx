@@ -10,16 +10,12 @@ const CheckUser = () => {
   return (
     <Modal isOpen={isOpen}>
       <div>
-        <h3 className={'text-center'}>
-          Do you want to login or play without an account?
-        </h3>
+        <h3 className={'text-center'}>Do you want to login or play without an account?</h3>
         <div className={'p-5 text-center'}>
           <Link to={'/login'}>
             <Button primary>Login</Button>
           </Link>
-          <Button onClick={() => setIsOpen(false)}>
-            Explore without account
-          </Button>
+          <Button onClick={() => setIsOpen(false)}>Explore without account</Button>
         </div>
       </div>
     </Modal>

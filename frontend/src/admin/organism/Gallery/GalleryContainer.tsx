@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import gql from 'graphql-tag'
 import withApollo from 'react-apollo/withApollo'
 import { Gallery } from './Gallery'
-import {WithApolloClient} from "react-apollo";
+import { WithApolloClient } from 'react-apollo'
 
 const QUERY = gql`
   query($path: String!) {

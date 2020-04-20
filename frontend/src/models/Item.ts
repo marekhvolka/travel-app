@@ -1,4 +1,4 @@
-import {Restrictions} from "./Restrictions";
+import { Restrictions } from './Restrictions'
 
 export type Item = {
   id: string

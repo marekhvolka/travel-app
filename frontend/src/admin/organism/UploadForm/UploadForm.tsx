@@ -35,8 +35,8 @@ export class UploadForm extends Component<Props, State> {
       width: null,
       height: null,
       crop: {
-        width: 100
-      }
+        width: 100,
+      },
     }
     this.nameInput = null
     this.fileInput = null
@@ -54,10 +54,7 @@ export class UploadForm extends Component<Props, State> {
   }
 
   returnCrop = image => {
-    const crop =
-      image.width / image.height > this.aspect
-        ? { height: 100 }
-        : { width: 100 }
+    const crop = image.width / image.height > this.aspect ? { height: 100 } : { width: 100 }
 
     return makeAspectCrop(
       {
@@ -135,16 +132,11 @@ export class UploadForm extends Component<Props, State> {
           <Button onClick={this.props.onClose}>Close</Button>
         </h2>
         <input type="text" ref={this.setNameInputRef} />
-        <input
-          type="file"
-          ref={this.setFileInputRef}
-          onChange={data => this.updateFile && this.updateFile()}
-        />
+        <input type="file" ref={this.setFileInputRef} onChange={data => this.updateFile && this.updateFile()} />
         {(this.state.width < 1200 || this.state.height < 800) && (
           <div style={{ border: '2px solid red' }}>
             <h3>
-              Warning - image is too small - {this.state.width} px /{' '}
-              {this.state.height} px
+              Warning - image is too small - {this.state.width} px / {this.state.height} px
             </h3>
           </div>
         )}

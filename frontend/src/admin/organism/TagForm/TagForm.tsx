@@ -1,24 +1,14 @@
 import React from 'react'
-import {Input} from '../../../common/atoms/Input/Input'
-import {WysiwygInput} from '../../../common/atoms/WysiwygInput/WysiwygInput'
-import {Toggle} from '../../../common/atoms/Toggle/Toggle'
-import {Select} from '../../../common/atoms/Select/Select'
-import {makeForm} from "../../../common/organism/Form/makeForm";
+import { Input } from '../../../common/atoms/Input/Input'
+import { WysiwygInput } from '../../../common/atoms/WysiwygInput/WysiwygInput'
+import { Toggle } from '../../../common/atoms/Toggle/Toggle'
+import { Select } from '../../../common/atoms/Select/Select'
+import { makeForm } from '../../../common/organism/Form/makeForm'
 
-export const TagForm = makeForm(({model, onChange}) => (
+export const TagForm = makeForm(({ model, onChange }) => (
   <div>
-    <Input
-      name="name"
-      label="Tag name"
-      value={model.name}
-      onChange={onChange}
-    />
-    <WysiwygInput
-      name="description"
-      label="Description"
-      onChange={onChange}
-      value={model.description}
-    />
+    <Input name="name" label="Tag name" value={model.name} onChange={onChange} />
+    <WysiwygInput name="description" label="Description" onChange={onChange} value={model.description} />
     <Select
       name="color"
       label="Color"
@@ -55,11 +45,6 @@ export const TagForm = makeForm(({model, onChange}) => (
         },
       ]}
     />
-    <Toggle
-      name="published"
-      value={model.published}
-      onChange={onChange}
-      label="Published"
-    />
+    <Toggle name="published" value={model.published} onChange={onChange} label="Published" />
   </div>
 ))

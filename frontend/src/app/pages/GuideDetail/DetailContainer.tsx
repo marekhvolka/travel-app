@@ -1,10 +1,10 @@
-import React  from 'react'
+import React from 'react'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import isNil from 'lodash/isNil'
 import { GuideDetail } from './Detail'
-import {RouteComponentProps} from "react-router";
-import {State} from "../../../store";
+import { RouteComponentProps } from 'react-router'
+import { State } from '../../../store'
 import { connect, ConnectedProps } from 'react-redux'
 
 const GUIDE_QUERY = gql`
@@ -22,12 +22,10 @@ const GUIDE_QUERY = gql`
 `
 
 const mapState = (state: State) => ({
-  userData: state.userData
+  userData: state.userData,
 })
 
-const connector = connect(
-  mapState
-)
+const connector = connect(mapState)
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
@@ -61,10 +59,12 @@ type MatchParams = {
   url: string
 }
 
-export default connector(compose(
-  graphql(GUIDE_QUERY, {
-    name: 'fetch',
-    skip: (props: RouteComponentProps<MatchParams>) => isNil(props.match.params.url),
-    options: (props: RouteComponentProps<MatchParams>) => ({ variables: { url: props.match.params.url } }),
-  })
-)(GuideDetailContainer))
+export default connector(
+  compose(
+    graphql(GUIDE_QUERY, {
+      name: 'fetch',
+      skip: (props: RouteComponentProps<MatchParams>) => isNil(props.match.params.url),
+      options: (props: RouteComponentProps<MatchParams>) => ({ variables: { url: props.match.params.url } }),
+    })
+  )(GuideDetailContainer)
+)

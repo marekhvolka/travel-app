@@ -8,7 +8,6 @@ type CollectionFormProps = {
 }
 
 export class CollectionForm<ChildProps = {}> extends Component<ChildProps & CollectionFormProps, {}> {
-
   add = item => {
     const changes = {
       [this.props.collectionName]: [...this.props.model[this.props.collectionName], item],

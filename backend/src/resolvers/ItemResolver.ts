@@ -1,21 +1,20 @@
-import {Item} from '../models/Item'
-import {Tag} from '../models/Tag'
-import {ItemRelation} from "../models/ItemRelation";
-import {Arg, FieldResolver, Mutation, Query, Resolver, Root} from "type-graphql";
+import { Item } from '../models/Item'
+import { Tag } from '../models/Tag'
+import { ItemRelation } from '../models/ItemRelation'
+import { Arg, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 // import {Restrictions} from "../models/Restrictions";
-import {ObjectID} from "mongodb";
-import {Restrictions} from "../models/Restrictions";
-import {ItemInput} from "../inputs/ItemInput";
+import { ObjectID } from 'mongodb'
+import { Restrictions } from '../models/Restrictions'
+import { ItemInput } from '../inputs/ItemInput'
 
 @Resolver(() => Item)
 export class ItemResolver {
-
   @FieldResolver(() => [Tag])
   tags(@Root() item: Item) {
     return Tag.find({
       where: {
-        _id: {$in: item.tagIds.map((id) => new ObjectID(id))}
-      }
+        _id: { $in: item.tagIds.map(id => new ObjectID(id)) },
+      },
     })
   }
 
@@ -23,19 +22,19 @@ export class ItemResolver {
   async relatedItemIds(@Root() item: Item) {
     const relations1 = await ItemRelation.find({
       where: {
-        firstItemId: item.id
-      }
+        firstItemId: item.id,
+      },
     })
 
     const relations2 = await ItemRelation.find({
       where: {
-        secondItemId: item.id
-      }
+        secondItemId: item.id,
+      },
     })
 
     return [
       ...relations1.map(relation => new ObjectID(relation.secondItemId)),
-      ...relations2.map(relation => new ObjectID(relation.firstItemId))
+      ...relations2.map(relation => new ObjectID(relation.firstItemId)),
     ]
   }
 
@@ -43,25 +42,25 @@ export class ItemResolver {
   async relatedItems(@Root() item: Item) {
     const relations1 = await ItemRelation.find({
       where: {
-        firstItemId: item.id
-      }
-    });
+        firstItemId: item.id,
+      },
+    })
 
     const relations2 = await ItemRelation.find({
       where: {
-        secondItemId: item.id
-      }
-    });
+        secondItemId: item.id,
+      },
+    })
 
     return Item.find({
       where: {
         _id: {
           $in: [
             ...relations1!.map(relation => new ObjectID(relation.secondItemId)),
-            ...relations2!.map(relation => new ObjectID(relation.firstItemId))
-          ]
-        }
-      }
+            ...relations2!.map(relation => new ObjectID(relation.firstItemId)),
+          ],
+        },
+      },
     })
   }
 
@@ -75,7 +74,7 @@ export class ItemResolver {
       state: 'notDefined',
       dayRestrictions: {
         mon: {
-          state: 'open'
+          state: 'open',
         },
         tue: {
           state: 'open',
@@ -94,13 +93,13 @@ export class ItemResolver {
         },
         sun: {
           state: 'open',
-        }
-      }
+        },
+      },
     }
   }
 
   @Query(() => Item)
-  fetchItem(@Arg("id", {nullable: false}) id: string) {
+  fetchItem(@Arg('id', { nullable: false }) id: string) {
     return Item.findOne(id)
   }
 
@@ -110,19 +109,19 @@ export class ItemResolver {
   }
 
   @Mutation(() => Item)
-  async updateItem(@Arg("data") data: ItemInput) {
+  async updateItem(@Arg('data') data: ItemInput) {
     const item = data.id ? Item.update(data.id, data) : Item.create(data)
     const promises = data.relatedItemIds.map((relatedItemId: string) => {
       return ItemRelation.find()
         .or([
           {
             firstItemId: relatedItemId,
-            secondItemId: data.id
+            secondItemId: data.id,
           },
           {
             firstItemId: data.id,
-            secondItemId: relatedItemId
-          }
+            secondItemId: relatedItemId,
+          },
         ])
         .then(relations => {
           console.log(relations)
@@ -130,13 +129,13 @@ export class ItemResolver {
           if (relations.length === 0) {
             ItemRelation.create({
               firstItemId: data.id,
-              secondItemId: relatedItemId
+              secondItemId: relatedItemId,
             })
           }
         })
     })
 
-    await  Promise.all(promises)
+    await Promise.all(promises)
     return item
   }
 }

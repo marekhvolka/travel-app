@@ -1,9 +1,8 @@
-import {Field, InputType} from "type-graphql";
-import {DayRestrictionInput} from "./DayRestrictionInput";
+import { Field, InputType } from 'type-graphql'
+import { DayRestrictionInput } from './DayRestrictionInput'
 
 @InputType()
 export class DayRestrictionsInput {
-
   @Field(() => DayRestrictionInput)
   mon: DayRestrictionInput
 

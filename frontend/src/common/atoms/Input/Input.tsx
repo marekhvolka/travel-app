@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Input as BaseInput} from 'antd'
+import { Form, Input as BaseInput } from 'antd'
 
 type Props = {
   helperText?: string
@@ -17,12 +17,13 @@ export const Input = (props: Props) => (
       type={props.type || 'text'}
       value={props.value || ''}
       placeholder={props.placeholder}
-      onChange={event => props.onChange && props.onChange({
-        [props.name]: event.target.value
-      })}
+      onChange={event =>
+        props.onChange &&
+        props.onChange({
+          [props.name]: event.target.value,
+        })
+      }
     />
-    {props.helperText && (
-      <p>{props.helperText}</p>
-    )}
+    {props.helperText && <p>{props.helperText}</p>}
   </Form.Item>
 )

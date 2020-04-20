@@ -13,10 +13,8 @@ export const Home = () => (
     <Box>
       <MainHeading>Explore cities with our guides</MainHeading>
       <p>
-        On vacation in foreign city? Find the most beautiful places according to
-        your preferences. Explore facts about historic buildings, navigate with
-        the app to find the right way and spend a romantic walk with your
-        partner.
+        On vacation in foreign city? Find the most beautiful places according to your preferences. Explore facts about
+        historic buildings, navigate with the app to find the right way and spend a romantic walk with your partner.
       </p>
       <p>
         <Button primary>Learn more</Button>
@@ -28,8 +26,7 @@ export const Home = () => (
         {
           icon: <FaShoppingCart size={60} className={'pr-3'} />,
           title: 'Buy a guide',
-          text:
-            'Choose from guides in our site and pay for it with your credit card',
+          text: 'Choose from guides in our site and pay for it with your credit card',
         },
         {
           icon: <FaSearch size={60} className={'pr-3'} />,

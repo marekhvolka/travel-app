@@ -1,5 +1,5 @@
-import {RestrictionState} from "./RestrictionState";
-import {DayRestriction} from "./DayRestriction";
+import { RestrictionState } from './RestrictionState'
+import { DayRestriction } from './DayRestriction'
 
 export type Restrictions = {
   state: RestrictionState

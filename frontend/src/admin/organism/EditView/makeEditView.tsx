@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { compose, graphql } from 'react-apollo'
 import isNil from 'lodash/isNil'
 import { removeKeys } from '../../../common/common'
@@ -23,11 +23,12 @@ export const makeEditView = (WrappedComponent, options) => {
     const [model, setModel] = useState(props.fetch[options.queryName])
 
     useEffect(() => {
-      setModel(props.fetch[options.queryName]);
+      setModel(props.fetch[options.queryName])
     }, [props])
 
     const handleSubmit = () => {
-      props.update({
+      props
+        .update({
           variables: {
             data: removeKeys({ ...model }),
           },
@@ -51,10 +52,12 @@ export const makeEditView = (WrappedComponent, options) => {
     return (
       <WrappedComponent
         model={model}
-        modelChanged={updatedFields => setModel({
-          ...model,
-          ...updatedFields
-        })}
+        modelChanged={updatedFields =>
+          setModel({
+            ...model,
+            ...updatedFields,
+          })
+        }
         handleSubmit={handleSubmit}
       />
     )

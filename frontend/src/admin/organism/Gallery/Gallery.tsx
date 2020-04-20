@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
 import enablePreview from '../../../common/atoms/ImagePreview/enablePreview'
 import { IMAGE_SIZES } from '../../../common/common'
-import {MainHeading} from "../../../common/atoms/MainHeading/MainHeading";
-import {GalleryToolbar} from "./GalleryToolbar";
+import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
+import { GalleryToolbar } from './GalleryToolbar'
 
 const PreviewImage = enablePreview(ImageWrapper)
 
@@ -27,18 +27,10 @@ const GalleryItem = styled.div`
   width: 200px;
 `
 
-export const Gallery = ({
-  path,
-  files,
-  subdirectories,
-  dirClicked,
-  directoryName,
-  goBack,
-  onRefresh,
-}) => (
+export const Gallery = ({ path, files, subdirectories, dirClicked, directoryName, goBack, onRefresh }) => (
   <div>
     <MainHeading>Gallery</MainHeading>
-    <GalleryToolbar path={path} onGoBack={goBack} onRefresh={onRefresh}/>
+    <GalleryToolbar path={path} onGoBack={goBack} onRefresh={onRefresh} />
     <div>
       {subdirectories.map(item => (
         <GalleryItem key={Math.random()} onClick={() => dirClicked(item.name)}>
@@ -49,17 +41,12 @@ export const Gallery = ({
 
       {files.map(item => {
         const [fileName, fileExtension] = item.name.split('.')
-        const fileNameAbbreviation =
-          fileName.length > 18 ? `${fileName.substring(0, 15)}...` : fileName
+        const fileNameAbbreviation = fileName.length > 18 ? `${fileName.substring(0, 15)}...` : fileName
 
         return (
           <GalleryItem key={Math.random()}>
             <ItemPreview>
-              <PreviewImage
-                size={IMAGE_SIZES.MEDIUM}
-                url={item.path}
-                style={{ height: '150px' }}
-              />
+              <PreviewImage size={IMAGE_SIZES.MEDIUM} url={item.path} style={{ height: '150px' }} />
             </ItemPreview>
             <p className={'text-center'}>
               <span title={item.name}>
@@ -69,7 +56,7 @@ export const Gallery = ({
               {`${Math.floor(item.stats.size / 1024)} KB`}
               <br />
               <span
-                // onClick={() => onImageSelected && onImageSelected(item.path)}
+              // onClick={() => onImageSelected && onImageSelected(item.path)}
               >
                 Copy
               </span>

@@ -23,7 +23,7 @@ const AppWrapper = styled.div`
   // background-image: linear-gradient(rgba(121, 96, 76, 0.15), rgba(121, 96, 76, 0.15)), url('/img/dust_scratches.png');
 `
 
-const App = () => (
+export const App = () => (
   <ThemeProvider theme={theme}>
     <AppWrapper>
       <BrowserRouter>
@@ -36,21 +36,13 @@ const App = () => (
               overflow: 'scroll',
             }}
           >
-            <div
-              className={'wrapper container'}
-              style={{
-              }}
-            >
+            <div className={'wrapper container'} style={{}}>
               <Switch>
                 <Route path={'/'} exact component={Home} />
                 <Route path={'/register'} component={RegisterContainer} />
                 <Route path={'/login'} component={LoginContainer} />
 
-                <Route
-                  path={'/guides/:url'}
-                  exact
-                  component={GuideDetailContainer}
-                />
+                <Route path={'/guides/:url'} exact component={GuideDetailContainer} />
                 <Route path={'/guides/:url/explore'} component={GuideExplore} />
               </Switch>
             </div>
@@ -61,5 +53,3 @@ const App = () => (
     </AppWrapper>
   </ThemeProvider>
 )
-
-export default App

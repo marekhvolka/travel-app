@@ -6,11 +6,10 @@ import React from 'react'
 // }
 
 export const makeForm = WrappedForm => (props: any) => {
-
-  const onChange = (newValues) => {
+  const onChange = newValues => {
     props.modelChanged({
       ...props.model,
-      ...newValues
+      ...newValues,
     })
   }
 

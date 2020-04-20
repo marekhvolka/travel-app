@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Select as BaseSelect} from 'antd'
+import { Form, Select as BaseSelect } from 'antd'
 
 type Props = {
   helperText?: string
@@ -11,13 +11,7 @@ type Props = {
 }
 
 export const Select = (props: Props) => {
-  const {
-    label,
-    name,
-    value,
-    onChange,
-    helperText,
-  } = props
+  const { label, name, value, onChange, helperText } = props
 
   return (
     <Form.Item label={label}>
@@ -25,9 +19,10 @@ export const Select = (props: Props) => {
         placeholder="Not selected"
         style={{ width: 120 }}
         value={value}
-        onChange={(value) => onChange({
-          [name]: value,
-        })
+        onChange={value =>
+          onChange({
+            [name]: value,
+          })
         }
       >
         <BaseSelect.Option value={null}>Not selected</BaseSelect.Option>

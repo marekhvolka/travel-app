@@ -1,9 +1,9 @@
 import fs from 'fs-extra'
 import path from 'path'
-import {Directory} from "../models/Directory";
-import {File} from "../models/File";
+import { Directory } from '../models/Directory'
+import { File } from '../models/File'
 
-class FileLoader {
+export class FileLoader {
   static baseDir = __dirname + '/../../resources/large'
 
   static makeFullPath(partialPath: string) {
@@ -44,7 +44,7 @@ class FileLoader {
     }
   }
 
-  static async contents({ path, includeFiles = false, includeDirs = false }) {
+  static async contents(path: string, { includeFiles = false, includeDirs = false }) {
     const dirFullPath = FileLoader.makeFullPath(path)
 
     try {
@@ -66,12 +66,9 @@ class FileLoader {
       const values = await Promise.all(promises)
 
       return values.filter(v => v !== undefined)
-
     } catch (err) {
       console.error(err)
       console.error('cannot list dir contents')
     }
   }
 }
-
-export { FileLoader }

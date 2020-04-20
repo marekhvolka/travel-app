@@ -12,7 +12,9 @@ const Component = ({ items }: Props) => (
   <div>
     <h1>
       List of all cities
-      <Link className={'float-right'} to={'/cities/edit'}>+</Link>
+      <Link className={'float-right'} to={'/cities/edit'}>
+        +
+      </Link>
     </h1>
     <DataTable
       fields={[

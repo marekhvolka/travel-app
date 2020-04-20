@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import spinnerGif from './spinner.gif';
+import spinnerGif from './spinner.gif'
 
 const SpinnerItem = styled.div`
   position: absolute
@@ -17,6 +17,4 @@ const SpinnerItem = styled.div`
   background-position: center;
 `
 
-export const Spinner = () => (
-  <SpinnerItem />
-)
+export const Spinner = () => <SpinnerItem />

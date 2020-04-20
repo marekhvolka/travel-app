@@ -16,8 +16,6 @@ const FooterWrapper = styled.div`
 
 export const Footer = () => (
   <FooterWrapper>
-    <p>
-      &copy; 2018 Marco&apos;sGuide.com All rights reserved
-    </p>
+    <p>&copy; 2018 Marco&apos;sGuide.com All rights reserved</p>
   </FooterWrapper>
 )

@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const pino = require('pino');
+const pino = require('pino')
 
 module.exports = pino({
-    name: 'Backend',
-});
+  name: 'Backend',
+})

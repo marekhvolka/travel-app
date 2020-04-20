@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import 'reflect-metadata'
 import * as multiparty from 'multiparty'
 import bodyParser from 'body-parser'
 import compression from 'compression'
@@ -7,41 +7,38 @@ import https from 'https'
 import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
-import {apolloUploadExpress} from 'apollo-upload-server'
+import { apolloUploadExpress } from 'apollo-upload-server'
 import config from '../config/config'
 
-import {saveFile} from './utils/file-functions'
+import { saveFile } from './utils/file-functions'
 import log from './utils/logger'
 
 // import {executableSchema} from './graphql'
 
-import * as bcrypt from "bcrypt";
-import {User} from "./models/User";
-import {generateToken} from "./utils/auth-functions";
-import {createConnection} from "typeorm";
-import {buildSchema} from "type-graphql";
-import {ApolloServer} from "apollo-server-express";
+import * as bcrypt from 'bcrypt'
+import { User } from './models/User'
+import { generateToken } from './utils/auth-functions'
+import { createConnection } from 'typeorm'
+import { buildSchema } from 'type-graphql'
+import { ApolloServer } from 'apollo-server-express'
 
 createConnection({
   useUnifiedTopology: true,
-  type: "mongodb",
+  type: 'mongodb',
   host: config.mongodb.host,
   port: 27017,
   logging: true,
   database: config.mongodb.database,
   username: config.mongodb.username,
   password: config.mongodb.password,
-  entities: [
-    __dirname + "/models/*.ts"
-  ],
+  entities: [__dirname + '/models/*.ts'],
 })
 
 const main = async () => {
-
   const app = express()
 
-  app.use(bodyParser.urlencoded({extended: false}));
-  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(bodyParser.json())
 
   app.use(compression())
   app.use(cors())
@@ -51,18 +48,17 @@ const main = async () => {
 
   try {
     const schema = await buildSchema({
-      resolvers: [__dirname + "/resolvers/*.ts"],
-    });
+      resolvers: [__dirname + '/resolvers/*.ts'],
+    })
 
     const apolloServer = new ApolloServer({
-      schema
-    });
+      schema,
+    })
 
-    apolloServer.applyMiddleware({app})
+    apolloServer.applyMiddleware({ app })
   } catch (e) {
     console.log(e)
   }
-
 
   // app.listen(3001, () => {
   //   console.log('Server started on http://localhost/graphql')
@@ -92,7 +88,7 @@ const main = async () => {
 
       await saveFile(file.path, targetPath, targetFileName, crop)
 
-      res.json({status: 'ok'})
+      res.json({ status: 'ok' })
     })
   })
 
@@ -101,19 +97,19 @@ const main = async () => {
     const password = req.body.password
 
     if (!email || !password) {
-      return res.status(400).send({message: 'Please enter both id and password'});
+      return res.status(400).send({ message: 'Please enter both id and password' })
     }
 
-    const user = await User.findOne({email})
+    const user = await User.findOne({ email })
 
     if (!user) {
-      return res.status(400).send({message: 'Invalid credentials!'});
+      return res.status(400).send({ message: 'Invalid credentials!' })
     }
 
     const valid = await bcrypt.compare(password, user.passwordHash)
 
     if (!valid) {
-      return res.status(400).send({message: 'Invalid credentials!'});
+      return res.status(400).send({ message: 'Invalid credentials!' })
     }
 
     // if (restricted && user.role !== 'admin') {
@@ -125,7 +121,7 @@ const main = async () => {
     res.json({
       user,
       token: generateToken(user),
-      error: undefined
+      error: undefined,
     })
   })
 
@@ -134,19 +130,19 @@ const main = async () => {
     const password = req.body.password
 
     if (!email || !password) {
-      return res.status(400).send({message: 'Please enter both id and password'});
+      return res.status(400).send({ message: 'Please enter both id and password' })
     }
 
-    const existedUser = await User.findOne({email})
+    const existedUser = await User.findOne({ email })
 
     if (existedUser) {
-      return res.status(400).send({message: 'User already existed'});
+      return res.status(400).send({ message: 'User already existed' })
     }
 
     const user = await User.create({
       email,
       role: 'player',
-      passwordHash: await bcrypt.hash(password.trim(), 10)
+      passwordHash: await bcrypt.hash(password.trim(), 10),
     })
 
     // if (restricted && user.role !== 'admin') {
@@ -158,11 +154,11 @@ const main = async () => {
     res.json({
       user,
       token: generateToken(user),
-      error: undefined
+      error: undefined,
     })
   })
 
-  app.get('*.js', function (req, res, next) {
+  app.get('*.js', function(req, res, next) {
     req.url = req.url + '.gz'
     res.set('Content-Encoding', 'gzip')
     next()
@@ -178,11 +174,7 @@ const main = async () => {
         if (process.env.NODE_ENV === 'production') {
           log.info('Server successfully running')
         } else {
-          log.info(
-            `GraphiQL is now running on http://localhost:${
-              config.server.port
-              }/graphiql`
-          )
+          log.info(`GraphiQL is now running on http://localhost:${config.server.port}/graphiql`)
         }
 
         resolve(listen)
@@ -193,14 +185,12 @@ const main = async () => {
       const options = {
         key: await fs.readFile(config.https.keyFile),
         cert: await fs.readFile(config.https.certFile),
-        dhparam: await fs.readFile(config.https.dhParam)
+        dhparam: await fs.readFile(config.https.dhParam),
       }
 
-      https
-        .createServer(options, services.server)
-        .listen(config.server.httpsPort, () => {
-          log.info('HTTPS active')
-        })
+      https.createServer(options, services.server).listen(config.server.httpsPort, () => {
+        log.info('HTTPS active')
+      })
     }
   }
 
@@ -212,10 +202,10 @@ const main = async () => {
   process.once('SIGINT', () => app.stop())
   process.once('SIGTERM', () => app.stop())
 
-  app.start()
+  app
+    .start()
     .then(() => log.info('App is running'))
-    .catch((err) => log.error(err))
-
+    .catch(err => log.error(err))
 }
 
 main()

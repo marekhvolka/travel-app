@@ -18,12 +18,7 @@ const enablePreview = <ChildProps extends object>(WrappedComponent: ComponentTyp
     return (
       <div onClick={() => setIsOpen(true)}>
         <WrappedComponent {...props} />
-        {isOpen && (
-          <Lightbox
-            large={getImageUrl(IMAGE_SIZES.LARGE, props.url)}
-            onClose={closeLightBox}
-          />
-        )}
+        {isOpen && <Lightbox large={getImageUrl(IMAGE_SIZES.LARGE, props.url)} onClose={closeLightBox} />}
       </div>
     )
   }

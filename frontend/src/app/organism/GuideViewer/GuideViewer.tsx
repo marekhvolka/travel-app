@@ -28,7 +28,7 @@ const GuideViewer = (props: Props) => {
   return (
     <GuideViewerWrapper>
       <MainContent>
-        <MapViewer model={props.model}/>
+        <MapViewer model={props.model} />
       </MainContent>
     </GuideViewerWrapper>
   )

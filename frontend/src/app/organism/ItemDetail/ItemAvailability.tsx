@@ -1,15 +1,15 @@
 import React from 'react'
-import {Restrictions} from "../../../models/Restrictions";
-import {RestrictionState} from "../../../models/RestrictionState";
-import {ItemDayAvailability} from "./ItemDayAvailability";
+import { Restrictions } from '../../../models/Restrictions'
+import { RestrictionState } from '../../../models/RestrictionState'
+import { ItemDayAvailability } from './ItemDayAvailability'
 
 type Props = {
   restrictions: Restrictions
 }
 
-export const ItemAvailability = ({restrictions}: Props) => {
+export const ItemAvailability = ({ restrictions }: Props) => {
   if (restrictions.state === RestrictionState.NOT_DEFINED || restrictions.state === RestrictionState.OPEN) {
-    return (<></>)
+    return <></>
   }
 
   if (restrictions.state === RestrictionState.CLOSED) {
@@ -22,13 +22,13 @@ export const ItemAvailability = ({restrictions}: Props) => {
 
   return (
     <div>
-      <ItemDayAvailability dayId="mon" dayRestriction={restrictions.dayRestrictions.mon}/>
-      <ItemDayAvailability dayId="tue" dayRestriction={restrictions.dayRestrictions.tue}/>
-      <ItemDayAvailability dayId="wed" dayRestriction={restrictions.dayRestrictions.wed}/>
-      <ItemDayAvailability dayId="thu" dayRestriction={restrictions.dayRestrictions.thu}/>
-      <ItemDayAvailability dayId="fri" dayRestriction={restrictions.dayRestrictions.fri}/>
-      <ItemDayAvailability dayId="sat" dayRestriction={restrictions.dayRestrictions.sat}/>
-      <ItemDayAvailability dayId="sun" dayRestriction={restrictions.dayRestrictions.sun}/>
+      <ItemDayAvailability dayId="mon" dayRestriction={restrictions.dayRestrictions.mon} />
+      <ItemDayAvailability dayId="tue" dayRestriction={restrictions.dayRestrictions.tue} />
+      <ItemDayAvailability dayId="wed" dayRestriction={restrictions.dayRestrictions.wed} />
+      <ItemDayAvailability dayId="thu" dayRestriction={restrictions.dayRestrictions.thu} />
+      <ItemDayAvailability dayId="fri" dayRestriction={restrictions.dayRestrictions.fri} />
+      <ItemDayAvailability dayId="sat" dayRestriction={restrictions.dayRestrictions.sat} />
+      <ItemDayAvailability dayId="sun" dayRestriction={restrictions.dayRestrictions.sun} />
     </div>
   )
 }

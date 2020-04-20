@@ -1,15 +1,14 @@
-import {Entity, ObjectID, ObjectIdColumn, Column, BaseEntity} from "typeorm";
-import {Restrictions} from "./Restrictions";
-import {Field, ID, ObjectType} from "type-graphql";
-import {Tag} from "./Tag";
+import { Entity, ObjectID, ObjectIdColumn, Column, BaseEntity } from 'typeorm'
+import { Restrictions } from './Restrictions'
+import { Field, ID, ObjectType } from 'type-graphql'
+import { Tag } from './Tag'
 
 @Entity()
 @ObjectType()
 export class Item extends BaseEntity {
-
   @Field(() => ID)
   @ObjectIdColumn()
-  id: ObjectID;
+  id: ObjectID
 
   @Field(() => String)
   @Column()
@@ -42,11 +41,11 @@ export class Item extends BaseEntity {
   @Field(() => [Tag])
   tags: Tag[]
 
-  @Field({nullable: true})
+  @Field({ nullable: true })
   @Column()
   latitude: number
 
-  @Field({nullable: true})
+  @Field({ nullable: true })
   @Column()
   longitude: number
 

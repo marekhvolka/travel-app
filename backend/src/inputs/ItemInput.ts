@@ -1,12 +1,11 @@
-import {ObjectID} from "typeorm";
-import {RestrictionsInput} from "./RestrictionsInput";
-import {Field, ID, InputType} from "type-graphql";
+import { Field, ID, InputType } from 'type-graphql'
+import { ObjectID } from 'typeorm'
+import { RestrictionsInput } from './RestrictionsInput'
 
 @InputType()
 export class ItemInput {
-
   @Field(() => ID)
-  id: ObjectID;
+  id: ObjectID
 
   @Field(() => String)
   name: string
@@ -29,10 +28,10 @@ export class ItemInput {
   @Field(() => [String])
   tagIds: string[]
 
-  @Field({nullable: true})
+  @Field({ nullable: true })
   latitude: number
 
-  @Field({nullable: true})
+  @Field({ nullable: true })
   longitude: number
 
   @Field(() => Number)

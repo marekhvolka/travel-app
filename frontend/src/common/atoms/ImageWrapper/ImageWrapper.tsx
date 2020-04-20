@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {getImageUrl, IMAGE_SIZES} from '../../common'
+import { getImageUrl, IMAGE_SIZES } from '../../common'
 
 const Img = styled.img`
   width: 100%;

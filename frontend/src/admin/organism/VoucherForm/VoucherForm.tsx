@@ -5,19 +5,8 @@ import { makeForm } from '../../../common/organism/Form/makeForm'
 
 export const VoucherForm = makeForm(({ onChange, model }) => (
   <Fragment>
-    <Input
-      name="code"
-      label="Voucher code"
-      value={model.code}
-      onChange={onChange}
-    />
-    <Input
-      name="price"
-      type="number"
-      label="Voucher price"
-      value={model.price}
-      onChange={onChange}
-    />
+    <Input name="code" label="Voucher code" value={model.code} onChange={onChange} />
+    <Input name="price" type="number" label="Voucher price" value={model.price} onChange={onChange} />
     <TextArea
       label="Description"
       placeholder="Description"

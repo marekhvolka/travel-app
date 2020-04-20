@@ -4,10 +4,10 @@ import { compose, graphql } from 'react-apollo'
 import isNil from 'lodash/isNil'
 import GuideViewer from '../../organism/GuideViewer/GuideViewer'
 import CheckUser from '../../organism/CheckUser/CheckUser'
-import {RouteComponentProps} from "react-router";
-import {State} from "../../../store";
+import { RouteComponentProps } from 'react-router'
+import { State } from '../../../store'
 import { connect, ConnectedProps } from 'react-redux'
-import {Spinner} from "../../../common/atoms/Spinner/Spinner";
+import { Spinner } from '../../../common/atoms/Spinner/Spinner'
 
 const GUIDE_QUERY = gql`
   fragment dayRestrictionFields on DayRestriction {
@@ -31,13 +31,27 @@ const GUIDE_QUERY = gql`
     restrictions {
       state
       dayRestrictions {
-        mon { ...dayRestrictionFields }
-        tue { ...dayRestrictionFields }
-        wed { ...dayRestrictionFields }
-        thu { ...dayRestrictionFields }
-        fri { ...dayRestrictionFields }
-        sat { ...dayRestrictionFields }
-        sun { ...dayRestrictionFields }
+        mon {
+          ...dayRestrictionFields
+        }
+        tue {
+          ...dayRestrictionFields
+        }
+        wed {
+          ...dayRestrictionFields
+        }
+        thu {
+          ...dayRestrictionFields
+        }
+        fri {
+          ...dayRestrictionFields
+        }
+        sat {
+          ...dayRestrictionFields
+        }
+        sun {
+          ...dayRestrictionFields
+        }
       }
     }
   }
@@ -64,12 +78,10 @@ const GUIDE_QUERY = gql`
 `
 
 const mapState = (state: State) => ({
-  userData: state.userData
+  userData: state.userData,
 })
 
-const connector = connect(
-  mapState
-)
+const connector = connect(mapState)
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
@@ -100,10 +112,12 @@ type MatchParams = {
   url: string
 }
 
-export default connector(compose(
-  graphql(GUIDE_QUERY, {
-    name: 'fetch',
-    skip: (props: RouteComponentProps<MatchParams>) => isNil(props.match.params.url),
-    options: (props: RouteComponentProps<MatchParams>) => ({ variables: { url: props.match.params.url } }),
-  }),
-)(GuideExplore))
+export default connector(
+  compose(
+    graphql(GUIDE_QUERY, {
+      name: 'fetch',
+      skip: (props: RouteComponentProps<MatchParams>) => isNil(props.match.params.url),
+      options: (props: RouteComponentProps<MatchParams>) => ({ variables: { url: props.match.params.url } }),
+    })
+  )(GuideExplore)
+)

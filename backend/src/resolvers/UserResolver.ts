@@ -1,6 +1,6 @@
-import {Mutation, Query, Resolver} from "type-graphql";
-import {User} from "../models/User";
-import * as bcrypt from "bcrypt";
+import { Mutation, Query, Resolver } from 'type-graphql'
+import { User } from '../models/User'
+import * as bcrypt from 'bcrypt'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -16,7 +16,7 @@ export class UserResolver {
       lastName,
       email,
       role,
-      passwordHash: bcrypt.hash(password, 10)
+      passwordHash: bcrypt.hash(password, 10),
     })
   }
 }

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { space, width, fontSize, color } from 'styled-system';
-import {StyledSystemProps} from "../../../theme";
+import { space, width, fontSize, color } from 'styled-system'
+import { StyledSystemProps } from '../../../theme'
 
 type Props = StyledSystemProps & {
   flex?: number
