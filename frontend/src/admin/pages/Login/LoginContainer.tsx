@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { FormWithState } from '../../../common/organism/Form/FormWithState'
 import { Login } from '../../../common/organism/LoginForm/Login'
 import { RouteComponentProps } from 'react-router'
+import { AUTH_TOKEN } from '../../../constants'
 import { LoadUserAction, State } from '../../../store'
 import config from '../../../config'
 import axios from 'axios'
@@ -42,6 +43,7 @@ class LoginContainer extends FormWithState<Props> {
             ...result.data.user,
             token: result.data.token,
           })
+          localStorage.setItem(AUTH_TOKEN, result.data.token)
           this.props.history.push('/')
         },
         error => {

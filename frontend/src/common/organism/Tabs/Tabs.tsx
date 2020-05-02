@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 type TabButtonProps = {
@@ -26,13 +26,13 @@ export const Tabs = ({ children, defaultActiveIndex }: Props) => {
   const activeTabContent = children[activeIndex] ? children[activeIndex].props.children : ''
 
   return (
-    <Fragment>
+    <>
       {children.map((child, index) => (
         <TabButton key={index} active={activeIndex === index} onClick={() => setActiveIndex(index)}>
           {child.props.title}
         </TabButton>
       ))}
       {activeTabContent}
-    </Fragment>
+    </>
   )
 }

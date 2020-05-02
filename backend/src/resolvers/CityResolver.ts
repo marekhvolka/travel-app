@@ -1,6 +1,8 @@
-import { City } from '../models/City'
-import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { CityInput } from '../inputs/CityInput'
+import { City } from '../models/City'
+import { Context } from '../models/Context'
+import { AuthorizationError } from '../utils/errors'
 
 @Resolver(() => City)
 export class CityResolver {
@@ -15,7 +17,16 @@ export class CityResolver {
   }
 
   @Mutation(() => City)
-  updateCity(@Arg('data') data: CityInput) {
-    return data.id ? City.update(data.id, data) : City.create(data)
+  async updateCity(@Arg('data') data: CityInput, @Ctx() context: Context) {
+    if (!context.user) {
+      throw new AuthorizationError('User not authorized')
+    }
+
+    if (data.id) {
+      await City.update(data.id, data)
+      return City.findOne(data.id)
+    } else {
+      return City.create(data)
+    }
   }
 }

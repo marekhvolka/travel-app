@@ -2,7 +2,7 @@ import { BaseEntity, ObjectID } from 'typeorm'
 import { Field, ID, InputType } from 'type-graphql'
 
 @InputType()
-export class TagInput extends BaseEntity {
+export class TagInput {
   @Field(() => ID)
   id: ObjectID
 

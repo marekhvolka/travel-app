@@ -1,11 +1,12 @@
-import { Item } from '../models/Item'
-import { Tag } from '../models/Tag'
-import { ItemRelation } from '../models/ItemRelation'
-import { Arg, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
-// import {Restrictions} from "../models/Restrictions";
 import { ObjectID } from 'mongodb'
-import { Restrictions } from '../models/Restrictions'
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { ItemInput } from '../inputs/ItemInput'
+import { Context } from '../models/Context'
+import { Item } from '../models/Item'
+import { ItemRelation } from '../models/ItemRelation'
+import { Restrictions } from '../models/Restrictions'
+import { Tag } from '../models/Tag'
+import { AuthorizationError } from '../utils/errors'
 
 @Resolver(() => Item)
 export class ItemResolver {
@@ -109,8 +110,19 @@ export class ItemResolver {
   }
 
   @Mutation(() => Item)
-  async updateItem(@Arg('data') data: ItemInput) {
-    const item = data.id ? Item.update(data.id, data) : Item.create(data)
+  async updateItem(@Arg('data') data: ItemInput, @Ctx() context: Context) {
+    if (!context.user) {
+      throw new AuthorizationError('User not authorized')
+    }
+
+    let item;
+
+    if (data.id) {
+      await Item.update(data.id, data)
+      item = Item.findOne(data.id)
+    } else {
+      item = Item.create(data)
+    }
     const promises = data.relatedItemIds.map((relatedItemId: string) => {
       return ItemRelation.find()
         .or([

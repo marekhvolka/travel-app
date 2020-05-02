@@ -1,26 +1,26 @@
-import 'reflect-metadata'
-import * as multiparty from 'multiparty'
+import { ApolloServer } from 'apollo-server-express'
+import { apolloUploadExpress } from 'apollo-upload-server'
+import { compare } from 'bcrypt'
 import bodyParser from 'body-parser'
 import compression from 'compression'
-import fs from 'fs'
-import https from 'https'
 import cors from 'cors'
 import express from 'express'
+import fs from 'fs'
 import helmet from 'helmet'
-import { apolloUploadExpress } from 'apollo-upload-server'
+import https from 'https'
+import { Form } from 'multiparty'
+import 'reflect-metadata'
+import { buildSchema } from 'type-graphql'
+import { createConnection } from 'typeorm'
 import config from '../config/config'
-
-import { saveFile } from './utils/file-functions'
-import log from './utils/logger'
-
-// import {executableSchema} from './graphql'
-
-import * as bcrypt from 'bcrypt'
 import { User } from './models/User'
 import { generateToken } from './utils/auth-functions'
-import { createConnection } from 'typeorm'
-import { buildSchema } from 'type-graphql'
-import { ApolloServer } from 'apollo-server-express'
+import { handleErrors, handleNotFound } from './utils/errors'
+
+import { saveFile } from './utils/file-functions'
+import { logger } from './utils/logger'
+
+// import {executableSchema} from './graphql'
 
 createConnection({
   useUnifiedTopology: true,
@@ -45,6 +45,7 @@ const main = async () => {
   app.use(helmet())
 
   app.use(express.static(config.resourcesDir))
+  app.use(handleErrors)
 
   try {
     const schema = await buildSchema({
@@ -53,6 +54,18 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
       schema,
+      context: async ({ req }) => {
+
+        // get the user token from the headers
+        const token = req.headers.authorization || ''
+        console.log('Token is' + token)
+
+        // try to retrieve a user with the token
+        const user = (await User.findOne({ token }))
+
+        // add the user to the context
+        return { user, token }
+      },
     })
 
     apolloServer.applyMiddleware({ app })
@@ -79,7 +92,7 @@ const main = async () => {
   // }
 
   app.post('/upload', (req, res, next) => {
-    const form = new multiparty.Form()
+    const form = new Form()
     form.parse(req, async (err, fields, files) => {
       const targetFileName = fields['filename'][0]
       const targetPath = fields['path'][0]
@@ -106,7 +119,7 @@ const main = async () => {
       return res.status(400).send({ message: 'Invalid credentials!' })
     }
 
-    const valid = await bcrypt.compare(password, user.passwordHash)
+    const valid = await compare(password, user.passwordHash)
 
     if (!valid) {
       return res.status(400).send({ message: 'Invalid credentials!' })
@@ -118,14 +131,18 @@ const main = async () => {
     //   }
     // }
 
+    const token = generateToken(user)
+
+    User.update({ email }, { token })
+
     res.json({
       user,
-      token: generateToken(user),
+      token,
       error: undefined,
     })
   })
 
-  app.post('/register', async (req, res, next) => {
+  app.post('/register', async (req, res) => {
     const email = req.body.email
     const password = req.body.password
 
@@ -158,11 +175,13 @@ const main = async () => {
     })
   })
 
-  app.get('*.js', function(req, res, next) {
+  app.get('*.js', (req, res, next) => {
     req.url = req.url + '.gz'
     res.set('Content-Encoding', 'gzip')
     next()
   })
+
+  app.use(handleNotFound)
 
   const services = {
     server: undefined,
@@ -172,9 +191,9 @@ const main = async () => {
     services.server = await new Promise((resolve, reject) => {
       const listen = app.listen(config.server.port, () => {
         if (process.env.NODE_ENV === 'production') {
-          log.info('Server successfully running')
+          logger.info('Server successfully running')
         } else {
-          log.info(`GraphiQL is now running on http://localhost:${config.server.port}/graphiql`)
+          logger.info(`GraphiQL is now running on http://localhost:${config.server.port}/graphiql`)
         }
 
         resolve(listen)
@@ -189,13 +208,13 @@ const main = async () => {
       }
 
       https.createServer(options, services.server).listen(config.server.httpsPort, () => {
-        log.info('HTTPS active')
+        logger.info('HTTPS active')
       })
     }
   }
 
   app.stop = () => {
-    log.info('Shutting down server')
+    logger.info('Shutting down server')
     services.server.close()
   }
 
@@ -204,8 +223,8 @@ const main = async () => {
 
   app
     .start()
-    .then(() => log.info('App is running'))
-    .catch(err => log.error(err))
+    .then(() => logger.info('App is running'))
+    .catch((err: any) => logger.error(err))
 }
 
 main()

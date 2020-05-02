@@ -33,7 +33,7 @@ const FETCH_QUERY = gql`
 `
 
 const UPDATE_MUTATION = gql`
-  mutation($data: TagData!) {
+  mutation($data: TagInput!) {
     updateTag(data: $data) {
       id
     }

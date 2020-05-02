@@ -1,6 +1,8 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql'
-import { Tag } from '../models/Tag'
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { TagInput } from '../inputs/TagInput'
+import { Context } from '../models/Context'
+import { Tag } from '../models/Tag'
+import { AuthorizationError } from '../utils/errors'
 
 @Resolver(() => Tag)
 export class TagResolver {
@@ -15,7 +17,16 @@ export class TagResolver {
   }
 
   @Mutation(() => Tag)
-  updateTag(@Arg('data') data: TagInput) {
-    return data.id ? Tag.update(data.id, data) : Tag.create(data)
+  async updateTag(@Arg('data') data: TagInput, @Ctx() context: Context) {
+    if (!context.user) {
+      throw new AuthorizationError('User not authorized')
+    }
+
+    if (data.id) {
+      await Tag.update(data.id, data)
+      return Tag.findOne(data.id)
+    } else {
+      return Tag.create(data)
+    }
   }
 }

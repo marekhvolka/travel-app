@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react'
+import React  from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import withRouter from 'react-router-dom/withRouter'
 import Link from 'react-router-dom/Link'
 import { Dropdown, Icon, Menu } from 'antd'
+import { AUTH_TOKEN } from '../../../constants'
 import { LogoutUserAction, State } from '../../../store'
 import { RouteComponentProps } from 'react-router'
 
@@ -22,6 +23,7 @@ type Props = RouteComponentProps & PropsFromRedux & {}
 const UserAuthentication = ({ history, logout, userData }: Props) => {
   const onLogout = () => {
     logout()
+    localStorage.removeItem(AUTH_TOKEN)
     history.push('/')
   }
 
@@ -40,14 +42,14 @@ const UserAuthentication = ({ history, logout, userData }: Props) => {
           <span>{userData.email}</span>
         </Dropdown.Button>
       ) : (
-        <Fragment>
+        <>
           <Link className="link" to={'/register'}>
             Register
           </Link>
           <Link className="link" to={'/login'}>
             Login
           </Link>
-        </Fragment>
+        </>
       )}
     </span>
   )

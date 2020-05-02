@@ -28,7 +28,7 @@ export const resourcesSizes = [
 
 const relativePath = __dirname + `/../../${config.resourcesDir}/`
 
-export async function saveFile(sourcePath: string, targetPath: string, targetFileName: string, cropData) {
+export const saveFile = async (sourcePath: string, targetPath: string, targetFileName: string, cropData: any) => {
   const info = await sharp(sourcePath).metadata()
 
   const cropped = sharp(sourcePath).extract({
@@ -49,15 +49,15 @@ export async function saveFile(sourcePath: string, targetPath: string, targetFil
   })
 }
 
-export function directoryExists(path: string): boolean {
+export const directoryExists = (path: string): boolean => {
   return fs.existsSync(relativePath + path)
 }
 
-export function createDirectory(path: string) {
+export const createDirectory = (path: string) => {
   console.log(relativePath + path)
   return shell.mkdir('-p', relativePath + path)
 }
 
-function calculateSize(fullSize: number, percentage: number): number {
+const calculateSize = (fullSize: number, percentage: number): number => {
   return Math.floor((fullSize * percentage) / 100.0)
 }

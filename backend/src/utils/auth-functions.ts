@@ -1,10 +1,11 @@
 import jwt from 'jsonwebtoken'
 import config from '../../config/config'
+import { User } from '../models/User'
 
-export function generateToken(user) {
+export function generateToken(user: User) {
   const u = {
-    username: user.username,
-    _id: user._id.toString(),
+    email: user.email,
+    _id: user.id.toString(),
   }
   return jwt.sign(u, config.jwt_secret, {
     expiresIn: 60 * 60 * 24, // expires in 24 hours

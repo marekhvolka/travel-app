@@ -96,7 +96,7 @@ const defaultState: State = {
   _persist: undefined,
 }
 
-function baseReducer(state: State, action: Actions): State {
+const baseReducer = (state: State, action: Actions): State => {
   switch (action.type) {
     case ActionTypes.LOAD_USER: {
       return {

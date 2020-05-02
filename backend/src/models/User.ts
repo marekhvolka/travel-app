@@ -22,4 +22,7 @@ export class User extends BaseEntity {
 
   @Column(() => GuideData)
   guidesData: GuideData
+
+  @Column()
+  token: string
 }

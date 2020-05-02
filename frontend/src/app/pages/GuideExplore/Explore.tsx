@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React  from 'react'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import isNil from 'lodash/isNil'
@@ -101,10 +101,10 @@ const GuideExplore = (props: Props) => {
   const { fetchGuide: guide } = props.fetch
 
   return (
-    <Fragment>
+    <>
       <GuideViewer model={guide} />
       {!props.userData && <CheckUser />}
-    </Fragment>
+    </>
   )
 }
 

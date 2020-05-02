@@ -1,7 +1,7 @@
 'use strict'
 
-const pino = require('pino')
+import pino from 'pino'
 
-module.exports = pino({
+export const logger = pino({
   name: 'Backend',
 })
