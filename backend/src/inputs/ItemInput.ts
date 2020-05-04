@@ -1,4 +1,4 @@
-import { Field, ID, InputType, Int } from 'type-graphql'
+import { Field, Float, ID, InputType } from 'type-graphql'
 import { ObjectID } from 'typeorm'
 import { RestrictionsInput } from './RestrictionsInput'
 
@@ -28,13 +28,13 @@ export class ItemInput {
   @Field(() => [String])
   tagIds: string[]
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => Float, { nullable: true })
   latitude: number
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => Float, { nullable: true })
   longitude: number
 
-  @Field(() => Int)
+  @Field(() => Float)
   zoomLevel: number
 
   @Field(() => RestrictionsInput)

@@ -1,32 +1,28 @@
 import React from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Route } from 'react-router-dom'
 import { State } from '../../../store'
 import { Redirect } from 'react-router'
 
-const mapState = (state: State) => ({
-  userData: state.userData,
-})
-
-const connector = connect(mapState)
-
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-type Props = PropsFromRedux & {
+type Props = {
   component: any
+  path: string
+  exact?: any
 }
 
-const ProtectedRoute = ({ userData, component: Component, ...rest }: Props) => (
-  <Route
-    {...rest}
-    render={props => {
-      // if (userData) {
-      return <Component {...props} />
-      // }
+export const ProtectedRoute = ({ component: Component, ...rest }: Props) => {
+  const userData = useSelector((state: State) => state.userData)
 
-      // return <Redirect to={'/login'}/>
-    }}
-  />
-)
+  return (
+    <Route
+      {...rest}
+      render={props => {
+        // if (userData) {
+        return <Component {...props} />
+        // }
 
-export default connector(ProtectedRoute)
+        // return <Redirect to={'/login'}/>
+      }}
+    />
+  )
+}

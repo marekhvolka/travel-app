@@ -1,50 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
-import withRouter from 'react-router-dom/withRouter'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormWithState } from '../../../common/organism/Form/FormWithState'
+import { useDispatch } from 'react-redux'
 import { Login } from '../../../common/organism/LoginForm/Login'
-import { RouteComponentProps } from 'react-router'
+import { useHistory } from 'react-router-dom'
 import { AUTH_TOKEN } from '../../../constants'
-import { LoadUserAction, State } from '../../../store'
+import { LoadUserAction } from '../../../store'
 import config from '../../../config'
 
-const mapState = (state: State) => ({})
-const mapDispatch = {
-  loadUser: userData => ({ ...new LoadUserAction(userData) }),
-}
+export const LoginContainer = () => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const [model, setModel] = useState({email: '', password: ''})
 
-const connector = connect(mapState, mapDispatch)
-
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-type Props = RouteComponentProps &
-  PropsFromRedux & {
-    login: any
-  }
-
-class LoginContainer extends FormWithState<Props> {
-  state = {
-    model: {
-      email: '',
-      password: '',
-    },
-  }
-
-  onLogin = () => {
+  const onLogin = () => {
     axios
-      .post(config.backendUrl + '/login', {
-        email: this.state.model.email,
-        password: this.state.model.password,
-      })
+      .post(config.backendUrl + '/login', model)
       .then(
         result => {
-          this.props.loadUser({
+          dispatch({...new LoadUserAction({
             ...result.data.user,
             token: result.data.token,
-          })
+            })})
           localStorage.setItem(AUTH_TOKEN, result.data.token)
-          this.props.history.push('/')
+          history.push('/')
         },
         error => {
           console.log(error)
@@ -52,20 +30,19 @@ class LoginContainer extends FormWithState<Props> {
       )
   }
 
-  onFacebookLogin = () => {
+  const onFacebookLogin = () => {
     // console.log(response);
   }
 
-  render() {
-    return (
-      <Login
-        model={this.state.model}
-        onChange={this.onChange}
-        onLogin={this.onLogin}
-        onFacebookLogin={this.onFacebookLogin}
-      />
-    )
-  }
+  return (
+    <Login
+      model={model}
+      onChange={(changed) => setModel({
+        ...model,
+        ...changed
+      })}
+      onLogin={onLogin}
+      onFacebookLogin={onFacebookLogin}
+    />
+  )
 }
-
-export default connector(withRouter(LoginContainer))

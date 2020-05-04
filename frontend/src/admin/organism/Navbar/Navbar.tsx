@@ -3,7 +3,7 @@ import Link from 'react-router-dom/Link'
 import FaUser from 'react-icons/lib/fa/user'
 import FaImage from 'react-icons/lib/fa/image'
 import styled from 'styled-components'
-import UserAuthentication from '../../../common/organism/UserAuthentication/UserAuthentication'
+import { UserAuthentication } from '../../../common/organism/UserAuthentication/UserAuthentication'
 
 const NavbarItem = styled.li`
   border-right: 1px solid #e7e7e7;

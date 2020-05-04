@@ -16,7 +16,7 @@ import { AllVouchers } from '../../pages/VoucherAll/AllVouchers'
 import VoucherForm from '../../pages/VoucherEdit/Edit'
 import { Home } from '../../pages/Home/Home'
 import GalleryContainer from '../Gallery/GalleryContainer'
-import ProtectedRoute from '../../../common/atoms/ProtectedRoute/ProtectedRoute'
+import { ProtectedRoute } from '../../../common/atoms/ProtectedRoute/ProtectedRoute'
 import { Navbar } from '../Navbar/Navbar'
 import { Sidebar } from '../Sidebar/Sidebar'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'react-router-dom/Link'
 import styled from 'styled-components'
-import UserAuthentication from '../../../common/organism/UserAuthentication/UserAuthentication'
+import { UserAuthentication } from '../../../common/organism/UserAuthentication/UserAuthentication'
 
 const NavbarContainer = styled.div`
   height: 50px;

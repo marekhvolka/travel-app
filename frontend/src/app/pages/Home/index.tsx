@@ -5,7 +5,7 @@ import FaSearch from 'react-icons/lib/fa/search'
 import { Button } from '../../../common/atoms/Button/Button'
 import { Box } from '../../../common/atoms/Box/Box'
 import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
-import { GuidesContainer } from './GuidesContainer'
+import { Guides } from './Guides'
 import { Steps } from './Steps'
 
 export const Home = () => (
@@ -42,6 +42,6 @@ export const Home = () => (
         },
       ]}
     />
-    <GuidesContainer />
+    <Guides />
   </div>
 )

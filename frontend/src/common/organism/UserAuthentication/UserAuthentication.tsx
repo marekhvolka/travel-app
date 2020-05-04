@@ -1,28 +1,17 @@
-import React  from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import withRouter from 'react-router-dom/withRouter'
-import Link from 'react-router-dom/Link'
 import { Dropdown, Icon, Menu } from 'antd'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory, Link } from 'react-router-dom'
 import { AUTH_TOKEN } from '../../../constants'
 import { LogoutUserAction, State } from '../../../store'
-import { RouteComponentProps } from 'react-router'
 
-const mapState = (state: State) => ({
-  userData: state.userData,
-})
-const mapDispatch = {
-  logout: () => ({ ...new LogoutUserAction() }),
-}
+export const UserAuthentication = () => {
+  const history = useHistory()
+  const userData = useSelector((state: State) => state.userData)
+  const dispatch = useDispatch()
 
-const connector = connect(mapState, mapDispatch)
-
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-type Props = RouteComponentProps & PropsFromRedux & {}
-
-const UserAuthentication = ({ history, logout, userData }: Props) => {
   const onLogout = () => {
-    logout()
+    dispatch({ ...new LogoutUserAction() })
     localStorage.removeItem(AUTH_TOKEN)
     history.push('/')
   }
@@ -30,7 +19,7 @@ const UserAuthentication = ({ history, logout, userData }: Props) => {
   const menu = (
     <Menu>
       <Menu.Item key="2">Details</Menu.Item>
-      <Menu.Divider />
+      <Menu.Divider/>
       <Menu.Item onClick={onLogout}>Log out</Menu.Item>
     </Menu>
   )
@@ -38,7 +27,7 @@ const UserAuthentication = ({ history, logout, userData }: Props) => {
   return (
     <span>
       {userData ? (
-        <Dropdown.Button overlay={menu} placement="bottomLeft" icon={<Icon type="user" />}>
+        <Dropdown.Button overlay={menu} placement="bottomLeft" icon={<Icon type="user"/>}>
           <span>{userData.email}</span>
         </Dropdown.Button>
       ) : (
@@ -54,5 +43,3 @@ const UserAuthentication = ({ history, logout, userData }: Props) => {
     </span>
   )
 }
-
-export default withRouter(connector(UserAuthentication))

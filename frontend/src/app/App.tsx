@@ -1,17 +1,17 @@
 import React from 'react'
-import styled, { ThemeProvider } from 'styled-components'
 import BrowserRouter from 'react-router-dom/BrowserRouter'
 import Route from 'react-router-dom/Route'
 import Switch from 'react-router-dom/Switch'
+import styled, { ThemeProvider } from 'styled-components'
 import theme from '../theme'
-import RegisterContainer from './pages/Register/RegisterContainer'
-import LoginContainer from './pages/Login/LoginContainer'
-import GuideDetailContainer from './pages/GuideDetail/DetailContainer'
-import { Home } from './pages/Home'
-import GuideExplore from './pages/GuideExplore/Explore'
-import { Navbar } from './organism/Navbar/Navbar'
-import { Footer } from './organism/Footer/Footer'
 import './App.css'
+import { Footer } from './organism/Footer/Footer'
+import { Navbar } from './organism/Navbar/Navbar'
+import { GuideDetail} from './pages/GuideDetail/Detail'
+import { GuideExplore } from './pages/GuideExplore/Explore'
+import { Home } from './pages/Home'
+import { LoginContainer } from './pages/Login/LoginContainer'
+import { Register } from './pages/Register/Register'
 
 const AppWrapper = styled.div`
   margin: 0;
@@ -28,7 +28,7 @@ export const App = () => (
     <AppWrapper>
       <BrowserRouter>
         <div>
-          <Navbar />
+          <Navbar/>
           <div
             style={{
               paddingBottom: '70px',
@@ -38,16 +38,16 @@ export const App = () => (
           >
             <div className={'wrapper container'} style={{}}>
               <Switch>
-                <Route path={'/'} exact component={Home} />
-                <Route path={'/register'} component={RegisterContainer} />
-                <Route path={'/login'} component={LoginContainer} />
+                <Route path={'/'} exact component={Home}/>
+                <Route path={'/register'} component={Register}/>
+                <Route path={'/login'} component={LoginContainer}/>
 
-                <Route path={'/guides/:url'} exact component={GuideDetailContainer} />
-                <Route path={'/guides/:url/explore'} component={GuideExplore} />
+                <Route path={'/guides/:url'} exact component={GuideDetail}/>
+                <Route path={'/guides/:url/explore'} component={GuideExplore}/>
               </Switch>
             </div>
           </div>
-          <Footer />
+          <Footer/>
         </div>
       </BrowserRouter>
     </AppWrapper>
