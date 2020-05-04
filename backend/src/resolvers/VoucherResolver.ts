@@ -1,5 +1,6 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { VoucherInput } from '../inputs/VoucherInput'
+import { City } from '../models/City'
 import { Context } from '../models/Context'
 import { Voucher } from '../models/Voucher'
 import { AuthorizationError } from '../utils/errors'
@@ -28,5 +29,15 @@ export class VoucherResolver {
     } else {
       return Voucher.create(data).save()
     }
+  }
+
+  @Mutation(() => Boolean)
+  deleteVoucher(@Arg('id') id: string, @Ctx() context: Context) {
+    if (!context.user) {
+      throw new AuthorizationError('User not authorized')
+    }
+
+    Voucher.delete(id)
+    return true
   }
 }

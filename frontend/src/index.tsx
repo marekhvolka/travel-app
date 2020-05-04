@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ApolloProvider from 'react-apollo/ApolloProvider'
+import { ApolloProvider as ApolloProvider2 } from '@apollo/react-hooks'
 import Switch from 'react-router-dom/Switch'
 import Route from 'react-router-dom/Route'
 import BrowserRouter from 'react-router-dom/BrowserRouter'
@@ -14,18 +15,20 @@ import { store, persistor } from './store'
 import { registerServiceWorker } from './serviceWorker'
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <Provider store={store}>
-      <FlashMessage/>
-      <PersistGate loading={null} persistor={persistor} />
-      <BrowserRouter>
-        <Switch>
-          <Route path={'/admin'} component={Admin} />
-          <Route path={'/'} component={App} />
-        </Switch>
-      </BrowserRouter>
-    </Provider>
-  </ApolloProvider>,
+  <ApolloProvider2 client={client}>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <FlashMessage/>
+        <PersistGate loading={null} persistor={persistor} />
+        <BrowserRouter>
+          <Switch>
+            <Route path={'/admin'} component={Admin} />
+            <Route path={'/'} component={App} />
+          </Switch>
+        </BrowserRouter>
+      </Provider>
+    </ApolloProvider>,
+  </ApolloProvider2>,
   document.getElementById('root')
 )
 

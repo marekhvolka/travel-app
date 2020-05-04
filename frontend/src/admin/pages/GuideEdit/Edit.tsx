@@ -4,13 +4,9 @@ import { Tabs } from '../../../common/organism/Tabs/Tabs'
 import { Button } from '../../../common/atoms/Button/Button'
 import { GuideForm } from '../../organism/GuideForm/GuideForm'
 import { makeEditView } from '../../organism/EditView/makeEditView'
-import GuideViewer from '../../../app/organism/GuideViewer/GuideViewer'
-import { deviceContainer } from '../../organism/DeviceContainer/DeviceContainer'
 import { AssignForm } from '../../../common/organism/AssignForm/AssignForm'
 import { Flex } from '../../../common/atoms/Flex/Flex'
 import { Box } from '../../../common/atoms/Box/Box'
-
-// const DeviceContainer = deviceContainer(GuideViewer)
 
 const Edit = ({ model, modelChanged, handleSubmit }) => (
   <Flex>
@@ -34,12 +30,6 @@ const Edit = ({ model, modelChanged, handleSubmit }) => (
           />
         </div>
       </Tabs>
-    </Box>
-    <Box flex={3}>
-      {/* <DeviceSimulator>*/}
-      {/* <GuideViewer model={model}/>*/}
-      {/* </DeviceSimulator>*/}
-      {/*<DeviceContainer model={model} />*/}
     </Box>
   </Flex>
 )

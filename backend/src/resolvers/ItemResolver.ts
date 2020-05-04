@@ -1,6 +1,7 @@
 import { ObjectID } from 'mongodb'
 import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { ItemInput } from '../inputs/ItemInput'
+import { City } from '../models/City'
 import { Context } from '../models/Context'
 import { Item } from '../models/Item'
 import { ItemRelation } from '../models/ItemRelation'
@@ -149,5 +150,15 @@ export class ItemResolver {
 
     await Promise.all(promises)
     return item
+  }
+
+  @Mutation(() => Boolean)
+  deleteItem(@Arg('id') id: string, @Ctx() context: Context) {
+    if (!context.user) {
+      throw new AuthorizationError('User not authorized')
+    }
+
+    Item.delete(id)
+    return true
   }
 }

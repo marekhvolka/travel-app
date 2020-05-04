@@ -1,5 +1,6 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { TagInput } from '../inputs/TagInput'
+import { City } from '../models/City'
 import { Context } from '../models/Context'
 import { Tag } from '../models/Tag'
 import { AuthorizationError } from '../utils/errors'
@@ -28,5 +29,15 @@ export class TagResolver {
     } else {
       return Tag.create(data).save()
     }
+  }
+
+  @Mutation(() => Boolean)
+  deleteTag(@Arg('id') id: string, @Ctx() context: Context) {
+    if (!context.user) {
+      throw new AuthorizationError('User not authorized')
+    }
+
+    Tag.delete(id)
+    return true
   }
 }

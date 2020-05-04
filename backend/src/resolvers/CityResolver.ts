@@ -29,4 +29,14 @@ export class CityResolver {
       return City.create(data).save()
     }
   }
+
+  @Mutation(() => Boolean)
+  deleteCity(@Arg('id') id: string, @Ctx() context: Context) {
+    if (!context.user) {
+      throw new AuthorizationError('User not authorized')
+    }
+
+    City.delete(id)
+    return true
+  }
 }
