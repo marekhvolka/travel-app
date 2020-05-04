@@ -9,12 +9,14 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { Admin } from './admin/Admin'
 import { App } from './app/App'
 import { client } from './ApolloClient'
+import { FlashMessage } from './common/atoms/FlashMessage/FlashMessage'
 import { store, persistor } from './store'
 import { registerServiceWorker } from './serviceWorker'
 
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
+      <FlashMessage/>
       <PersistGate loading={null} persistor={persistor} />
       <BrowserRouter>
         <Switch>

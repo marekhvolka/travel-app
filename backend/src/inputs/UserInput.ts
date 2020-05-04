@@ -3,7 +3,7 @@ import { ObjectID } from 'typeorm'
 
 @InputType()
 export class UserInput {
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   id: ObjectID
 
   @Field(() => String)
@@ -15,6 +15,6 @@ export class UserInput {
   @Field(() => String)
   role: string
 
-  @Field()
+  @Field(() => String)
   token: string
 }

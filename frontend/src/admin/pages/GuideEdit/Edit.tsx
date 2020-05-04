@@ -10,14 +10,14 @@ import { AssignForm } from '../../../common/organism/AssignForm/AssignForm'
 import { Flex } from '../../../common/atoms/Flex/Flex'
 import { Box } from '../../../common/atoms/Box/Box'
 
-const DeviceContainer = deviceContainer(GuideViewer)
+// const DeviceContainer = deviceContainer(GuideViewer)
 
 const Edit = ({ model, modelChanged, handleSubmit }) => (
   <Flex>
     <Box flex={7}>
       <h1>
         {model.id ? `Edit guide ${model.name}` : 'Add guide'}
-        <Button onClick={handleSubmit}>Save</Button>
+        <Button float={'right'} onClick={handleSubmit}>Save</Button>
       </h1>
       <Tabs defaultActiveIndex={0}>
         <div title="Basic settings">
@@ -39,7 +39,7 @@ const Edit = ({ model, modelChanged, handleSubmit }) => (
       {/* <DeviceSimulator>*/}
       {/* <GuideViewer model={model}/>*/}
       {/* </DeviceSimulator>*/}
-      <DeviceContainer model={model} />
+      {/*<DeviceContainer model={model} />*/}
     </Box>
   </Flex>
 )

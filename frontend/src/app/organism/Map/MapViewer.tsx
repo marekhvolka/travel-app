@@ -68,7 +68,7 @@ class MapViewer extends Component<Props> {
       onItemClicked,
       onLatLngChanged,
     } = this.props
-    const selectedItem = model.items.find(item => userData && item.id === userData.selectedItemId)
+    const selectedItem = model.items && model.items.find(item => userData && item.id === userData.selectedItemId)
 
     return (
       <LoadScript id="script-loader" googleMapsApiKey={config.googleMapsApiKey}>

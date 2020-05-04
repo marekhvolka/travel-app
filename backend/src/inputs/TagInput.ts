@@ -1,23 +1,23 @@
-import { BaseEntity, ObjectID } from 'typeorm'
+import { ObjectID } from 'typeorm'
 import { Field, ID, InputType } from 'type-graphql'
 
 @InputType()
 export class TagInput {
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   id: ObjectID
 
   @Field(() => String)
   name: string
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   description: string
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   color: string
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   icon: string
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, { nullable: true, defaultValue: false})
   published: boolean
 }

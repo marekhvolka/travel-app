@@ -14,7 +14,7 @@ export const Toggle = (props: Props) => (
     <Switch
       checkedChildren="On"
       unCheckedChildren="Off"
-      defaultChecked
+      defaultChecked={props.value}
       onChange={value =>
         props.onChange({
           [props.name]: value,

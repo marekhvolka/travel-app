@@ -60,7 +60,7 @@ class Edit extends EditView<Props, State> {
         <Box flex={1}>
           <h1>
             {this.props.match.params.id ? `Edit item ${model.name}` : 'Add item'}
-            <Button style={{ float: 'right' }} onClick={this.handleSubmit}>
+            <Button float={'right'} onClick={this.handleSubmit}>
               Save
             </Button>
           </h1>

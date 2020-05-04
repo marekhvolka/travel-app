@@ -1,9 +1,10 @@
-import { Field, ID, InputType } from 'type-graphql'
+import { Field, ID, InputType, Int } from 'type-graphql'
+import { ObjectID } from 'typeorm'
 
 @InputType()
 export class GuideInput {
-  @Field(() => ID)
-  id: string
+  @Field(() => ID, { nullable: true })
+  id: ObjectID
 
   @Field(() => String)
   name: string
@@ -14,13 +15,13 @@ export class GuideInput {
   @Field(() => String)
   description: string
 
-  @Field(() => Number)
+  @Field(() => Int)
   latitude: number
 
-  @Field(() => Number)
+  @Field(() => Int)
   longitude: number
 
-  @Field(() => Number)
+  @Field(() => Int)
   zoomLevel: number
 
   @Field(() => Boolean)
@@ -35,7 +36,7 @@ export class GuideInput {
   @Field(() => [String])
   itemIds: string[]
 
-  @Field(() => Number)
+  @Field(() => Int)
   price: number
 
   @Field(() => String)

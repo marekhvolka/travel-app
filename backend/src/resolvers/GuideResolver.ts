@@ -37,7 +37,7 @@ export class GuideResolver {
       await Guide.update(data.id, data)
       return Guide.findOne(data.id)
     } else {
-      return Guide.create(data)
+      return Guide.create(data).save()
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Column, ObjectID, ObjectIdColumn } from 'typeorm'
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ID, Int, ObjectType } from 'type-graphql'
 
 @ObjectType()
 export class GuideData {
@@ -11,15 +11,15 @@ export class GuideData {
   @Column()
   guideId: string
 
-  @Field(() => Number)
+  @Field(() => Int)
   @Column()
   mapZoomLevel: number
 
-  @Field(() => Number)
+  @Field(() => Int)
   @Column()
   mapLatitude: number
 
-  @Field(() => Number)
+  @Field(() => Int)
   @Column()
   mapLongitude: number
 

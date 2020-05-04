@@ -5,9 +5,9 @@ export class DayRestrictionInput {
   @Field(() => String)
   state: string
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   from: string
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   to: string
 }

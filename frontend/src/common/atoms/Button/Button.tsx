@@ -5,6 +5,7 @@ import { color, fontSize, space, width } from 'styled-system'
 type Props = StyledSystemProps & {
   primary?: boolean
   small?: boolean
+  float?: string
 }
 
 export const Button = styled.button<Props>`
@@ -12,6 +13,7 @@ export const Button = styled.button<Props>`
   ${width}
   ${fontSize}
   ${color}
+  float: ${props => props.float || 'left'}
   border: 2px solid;
   border-color: ${props => props.theme.primaryColor};
   border-radius: ${props => props.theme.border.radius};

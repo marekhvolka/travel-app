@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { compose, graphql } from 'react-apollo'
 import isNil from 'lodash/isNil'
+import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
 import { removeKeys } from '../../../common/common'
 
 // const optionsStructure = {
@@ -20,10 +21,10 @@ type Props = {
 
 export const makeEditView = (WrappedComponent, options) => {
   const FinalComponent = (props: Props) => {
-    const [model, setModel] = useState(props.fetch[options.queryName])
+    const [model, setModel] = useState(props.fetch ? props.fetch[options.queryName] : {})
 
     useEffect(() => {
-      setModel(props.fetch[options.queryName])
+      setModel(props.fetch ? props.fetch[options.queryName] : {})
     }, [props])
 
     const handleSubmit = () => {
@@ -35,8 +36,11 @@ export const makeEditView = (WrappedComponent, options) => {
         })
         .then(data => {
           if (!model.id) {
+            showFlashMessage('Item successfully created', FlashMessageType.SUCCESS)
             const redirectUrl = `/${options.slug}/edit/${data.data[options.mutationName].id}`
             props.history.push(redirectUrl)
+          } else {
+            showFlashMessage('Item successfully changed', FlashMessageType.SUCCESS)
           }
         })
     }

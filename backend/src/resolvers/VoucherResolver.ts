@@ -26,7 +26,7 @@ export class VoucherResolver {
       await Voucher.update(data.id, data)
       return Voucher.findOne(data.id)
     } else {
-      return Voucher.create(data)
+      return Voucher.create(data).save()
     }
   }
 }

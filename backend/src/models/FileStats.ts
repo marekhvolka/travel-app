@@ -1,8 +1,8 @@
 import { BaseEntity } from 'typeorm'
-import { Field, ObjectType } from 'type-graphql'
+import { Field, Int, ObjectType } from 'type-graphql'
 
 @ObjectType()
 export class FileStats extends BaseEntity {
-  @Field(() => Number)
+  @Field(() => Int)
   size: Number
 }

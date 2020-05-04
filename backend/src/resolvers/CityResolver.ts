@@ -26,7 +26,7 @@ export class CityResolver {
       await City.update(data.id, data)
       return City.findOne(data.id)
     } else {
-      return City.create(data)
+      return City.create(data).save()
     }
   }
 }

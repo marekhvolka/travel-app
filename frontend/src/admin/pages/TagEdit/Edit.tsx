@@ -11,7 +11,7 @@ const Edit = ({ model, modelChanged, handleSubmit }) => (
     <Box flex={7}>
       <h1>
         {model.id ? `Edit tag ${model.name}` : 'Add tag'}
-        <Button onClick={handleSubmit}>Save</Button>
+        <Button float={'right'} onClick={handleSubmit}>Save</Button>
       </h1>
       <TagForm modelChanged={modelChanged} model={model} />
     </Box>

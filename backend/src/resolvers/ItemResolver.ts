@@ -121,7 +121,7 @@ export class ItemResolver {
       await Item.update(data.id, data)
       item = Item.findOne(data.id)
     } else {
-      item = Item.create(data)
+      item = Item.create(data).save()
     }
     const promises = data.relatedItemIds.map((relatedItemId: string) => {
       return ItemRelation.find()

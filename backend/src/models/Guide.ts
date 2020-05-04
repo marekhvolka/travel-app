@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ID, Int, ObjectType } from 'type-graphql'
 import { Item } from './Item'
 
 @Entity()
@@ -21,15 +21,15 @@ export class Guide extends BaseEntity {
   @Column()
   description: string
 
-  @Field(() => Number)
+  @Field(() => Int)
   @Column()
   latitude: number
 
-  @Field(() => Number)
+  @Field(() => Int)
   @Column()
   longitude: number
 
-  @Field(() => Number)
+  @Field(() => Int)
   @Column()
   zoomLevel: number
 
@@ -52,7 +52,7 @@ export class Guide extends BaseEntity {
   @Field(() => [Item])
   items: Item[]
 
-  @Field(() => Number)
+  @Field(() => Int)
   @Column()
   price: number
 

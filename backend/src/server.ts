@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server-express'
 import { apolloUploadExpress } from 'apollo-upload-server'
-import { compare } from 'bcrypt'
+import { compare, hash } from 'bcrypt'
 import bodyParser from 'body-parser'
 import compression from 'compression'
 import cors from 'cors'
@@ -58,7 +58,6 @@ const main = async () => {
 
         // get the user token from the headers
         const token = req.headers.authorization || ''
-        console.log('Token is' + token)
 
         // try to retrieve a user with the token
         const user = (await User.findOne({ token }))
@@ -159,8 +158,8 @@ const main = async () => {
     const user = await User.create({
       email,
       role: 'player',
-      passwordHash: await bcrypt.hash(password.trim(), 10),
-    })
+      passwordHash: await hash(password.trim(), 10),
+    }).save()
 
     // if (restricted && user.role !== 'admin') {
     //   return {

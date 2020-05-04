@@ -1,6 +1,6 @@
-import { Entity, ObjectID, ObjectIdColumn, Column, BaseEntity } from 'typeorm'
+import { Field, ID, Int, ObjectType } from 'type-graphql'
+import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 import { Restrictions } from './Restrictions'
-import { Field, ID, ObjectType } from 'type-graphql'
 import { Tag } from './Tag'
 
 @Entity()
@@ -41,15 +41,15 @@ export class Item extends BaseEntity {
   @Field(() => [Tag])
   tags: Tag[]
 
-  @Field({ nullable: true })
+  @Field(() => Int, { nullable: true })
   @Column()
   latitude: number
 
-  @Field({ nullable: true })
+  @Field(() => Int, { nullable: true })
   @Column()
   longitude: number
 
-  @Field(() => Number)
+  @Field(() => Int)
   @Column()
   zoomLevel: number
 

@@ -8,7 +8,7 @@ const Edit = ({ model, modelChanged, handleSubmit }) => (
   <div>
     <h1>
       {model.id ? `Edit voucher ${model.code}` : 'Add voucher'}
-      <Button onClick={handleSubmit}>Save</Button>
+      <Button float={'right'} onClick={handleSubmit}>Save</Button>
     </h1>
     <VoucherForm modelChanged={modelChanged} model={model} />
   </div>

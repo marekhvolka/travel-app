@@ -1,15 +1,15 @@
-import { BaseEntity, ObjectID } from 'typeorm'
-import { Field, ID, InputType } from 'type-graphql'
+import { Field, ID, InputType, Int } from 'type-graphql'
+import { ObjectID } from 'typeorm'
 
 @InputType()
 export class VoucherInput {
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   id: ObjectID
 
   @Field(() => String)
   code: string
 
-  @Field(() => Number)
+  @Field(() => Int)
   price: number
 
   @Field(() => String)

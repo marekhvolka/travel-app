@@ -26,7 +26,7 @@ export class TagResolver {
       await Tag.update(data.id, data)
       return Tag.findOne(data.id)
     } else {
-      return Tag.create(data)
+      return Tag.create(data).save()
     }
   }
 }
