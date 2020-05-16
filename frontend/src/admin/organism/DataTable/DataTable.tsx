@@ -1,6 +1,6 @@
 import { Table } from 'antd'
 import React from 'react'
-import Link from 'react-router-dom/Link'
+import { Link } from 'react-router-dom'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
 import { IMAGE_SIZES } from '../../../common/common'
 
@@ -46,7 +46,7 @@ export const DataTable = ({ fields, items, rowActions }: Props) => {
               {rowAction.label}
             </Link>
           ) : (
-            <span onClick={() => rowAction.action(item)}>{rowAction.label}</span>
+            <span style={{margin: '0 5px'}} onClick={() => rowAction.action(item)}>{rowAction.label}</span>
           ))
         ))}
       </>

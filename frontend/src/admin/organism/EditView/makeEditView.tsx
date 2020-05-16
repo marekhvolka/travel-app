@@ -1,55 +1,66 @@
-import React, { useEffect, useState } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { useMutation, useQuery } from '@apollo/react-hooks'
+import { DocumentNode } from 'graphql'
 import isNil from 'lodash/isNil'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
 import { removeKeys } from '../../../common/common'
 
-// const optionsStructure = {
-//   query: 'SOME GQL QUERY',
-//   queryName: 'fetchCity',
-//   mutation: 'SOME GQL MUTATION',
-//   mutationName: 'updateCity',
-//   slug: 'cities'
-// }
-
-type Props = {
-  update: any
-  history: any
-  match: any
-  fetch: any
+type EditViewOptions = {
+  query: DocumentNode
+  queryName: string
+  mutation: DocumentNode
+  mutationName: string
+  slug: string,
+  initialModel?: any
 }
 
-export const makeEditView = (WrappedComponent, options) => {
-  const FinalComponent = (props: Props) => {
-    const [model, setModel] = useState(props.fetch ? props.fetch[options.queryName] : {})
+type MatchParams = {
+  id: string
+}
+
+export type EditViewProps = {
+  model: any
+  modelChanged: any
+  handleSubmit: any
+}
+
+export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
+  const FinalComponent = (props) => {
+    const params = useParams<MatchParams>()
+    const history = useHistory()
+    const { loading, error, data } = useQuery(options.query, {
+      skip: isNil(params.id),
+      variables: { id: params.id }
+    })
+    const [updateMutation] = useMutation(options.mutation)
+    const [model, setModel] = useState(data ? data[options.queryName] : options.initialModel || {})
 
     useEffect(() => {
-      setModel(props.fetch ? props.fetch[options.queryName] : {})
-    }, [props])
+      setModel(data ? data[options.queryName] : {})
+    }, [data])
 
-    const handleSubmit = () => {
-      props
-        .update({
-          variables: {
-            data: removeKeys({ ...model }),
-          },
-        })
-        .then(data => {
-          if (!model.id) {
-            showFlashMessage('Item successfully created', FlashMessageType.SUCCESS)
-            const redirectUrl = `/${options.slug}/edit/${data.data[options.mutationName].id}`
-            props.history.push(redirectUrl)
-          } else {
-            showFlashMessage('Item successfully changed', FlashMessageType.SUCCESS)
-          }
-        })
+    const handleSubmit = async () => {
+      const data = await updateMutation({
+        variables: {
+          data: removeKeys({ ...model }),
+        },
+      })
+
+      if (!model.id) {
+        showFlashMessage('Item successfully created', FlashMessageType.SUCCESS)
+        const redirectUrl = `/${options.slug}/edit/${data.data[options.mutationName].id}`
+        history.push(redirectUrl)
+      } else {
+        showFlashMessage('Item successfully changed', FlashMessageType.SUCCESS)
+      }
     }
 
-    if (props.fetch && (props.fetch.loading || !model)) {
+    if (loading || !model) {
       return <div>Loading</div>
     }
 
-    if (props.fetch && props.fetch.error) {
+    if (error) {
       return <div>Error</div>
     }
 
@@ -67,14 +78,5 @@ export const makeEditView = (WrappedComponent, options) => {
     )
   }
 
-  return compose(
-    graphql(options.query, {
-      name: 'fetch',
-      skip: (props: Props) => isNil(props.match.params.id),
-      options: (props: Props) => ({ variables: { id: props.match.params.id } }),
-    }),
-    graphql(options.mutation, {
-      name: 'update',
-    })
-  )(FinalComponent)
+  return FinalComponent
 }

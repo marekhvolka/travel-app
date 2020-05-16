@@ -7,7 +7,7 @@ type Props = {
 }
 
 /* eslint react/display-name: 0 */
-const enablePreview = <ChildProps extends object>(WrappedComponent: ComponentType<ChildProps>) => {
+export const enablePreview = <ChildProps extends object>(WrappedComponent: ComponentType<ChildProps>) => {
   return (props: ChildProps & Props) => {
     const [isOpen, setIsOpen] = useState(false)
 
@@ -23,5 +23,3 @@ const enablePreview = <ChildProps extends object>(WrappedComponent: ComponentTyp
     )
   }
 }
-
-export default enablePreview

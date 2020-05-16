@@ -1,12 +1,12 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { TagForm } from '../../organism/TagForm/TagForm'
-import { makeEditView } from '../../organism/EditView/makeEditView'
+import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditView'
 import { Button } from '../../../common/atoms/Button/Button'
 import { Flex } from '../../../common/atoms/Flex/Flex'
 import { Box } from '../../../common/atoms/Box/Box'
 
-const Edit = ({ model, modelChanged, handleSubmit }) => (
+const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => (
   <Flex>
     <Box flex={7}>
       <h1>

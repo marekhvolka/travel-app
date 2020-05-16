@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import React from 'react'
-import Link from 'react-router-dom/Link'
+import { Link } from 'react-router-dom'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
 import { ColumnTypes, DataTable } from '../../organism/DataTable/DataTable'
 

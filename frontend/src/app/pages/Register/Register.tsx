@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { Button } from '../../../common/atoms/Button/Button'
 import { Input } from '../../../common/atoms/Input/Input'
 import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
-import config from '../../../config'
+import { config } from '../../../config'
 import { LoadUserAction } from '../../../store'
 
 export const Register = () => {

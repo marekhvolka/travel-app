@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Login } from '../../../common/organism/LoginForm/Login'
-import config from '../../../config'
+import { config } from '../../../config'
 import { AUTH_TOKEN } from '../../../constants'
 import { LoadUserAction } from '../../../store'
 
@@ -21,7 +21,7 @@ export const LoginContainer = () => {
       .then(
         result => {
           dispatch({
-            ... new LoadUserAction({
+            ...new LoadUserAction({
               ...result.data.user,
               token: result.data.token,
             })

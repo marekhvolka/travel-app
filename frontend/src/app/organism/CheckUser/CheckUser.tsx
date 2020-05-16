@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Modal from 'react-modal'
-import Link from 'react-router-dom/Link'
+import { Link } from 'react-router-dom'
 import { Button } from '../../../common/atoms/Button/Button'
 import { makeModal } from '../../molecules/ModalWindow/ModalWindow'
 

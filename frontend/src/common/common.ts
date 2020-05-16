@@ -1,4 +1,4 @@
-import config from '../config'
+import { config } from '../config'
 
 const IMAGE_SIZES = {
   THUMBNAIL: 'thumbnail',

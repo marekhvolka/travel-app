@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import MapViewer from '../Map/MapViewer'
+import { MapViewer } from '../Map/MapViewer'
 
 const GuideViewerWrapper = styled.div`
   width: 100%;

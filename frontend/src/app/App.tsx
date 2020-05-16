@@ -1,7 +1,5 @@
 import React from 'react'
-import BrowserRouter from 'react-router-dom/BrowserRouter'
-import Route from 'react-router-dom/Route'
-import Switch from 'react-router-dom/Switch'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import theme from '../theme'
 import './App.css'
@@ -31,6 +29,7 @@ export const App = () => (
           <Navbar/>
           <div
             style={{
+              marginTop: '50px',
               paddingBottom: '70px',
               maxHeight: '835px',
               overflow: 'scroll',

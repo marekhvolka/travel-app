@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import { Button } from '../../../common/atoms/Button/Button'
 import { UploadFile } from './UploadFile'
-import CreateDirectory from './CreateDirectory'
+import { CreateDirectory } from './CreateDirectory'
 
 export const GalleryToolbar = ({ path, onGoBack, onRefresh }) => {
   const [showUpload, setShowUpload] = useState(false)

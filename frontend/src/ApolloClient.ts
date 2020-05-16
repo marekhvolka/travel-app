@@ -3,7 +3,7 @@ import ApolloClient from 'apollo-client'
 import { setContext } from 'apollo-link-context';
 import { HttpLink } from 'apollo-link-http'
 
-import config from './config'
+import { config } from './config'
 import { AUTH_TOKEN } from './constants'
 // import { store } from './store'
 

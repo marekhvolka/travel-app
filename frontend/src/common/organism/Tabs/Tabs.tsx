@@ -1,18 +1,22 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 type TabButtonProps = {
   active?: boolean
 }
 
 const TabButton = styled.div<TabButtonProps>`
-  border: 1px solid ${props => props.theme.border.color};
-  border-radius: ${props => props.theme.border.radius};
-  padding: 10px 20px;
+  ${props => props.active && css`
+    border-bottom: 2px solid ${props => props.theme.primaryColor};
+  `}
+  padding: 5px 20px;
   display: inline-block;
   cursor: pointer;
-  background: ${props => (props.active ? props.theme.primaryColor : props.theme.secondaryColor)};
-  color: ${props => (props.active ? props.theme.secondaryColor : props.theme.primaryColor)};
+  color: ${props => props.theme.primaryColor};
+`
+
+const ContentWrapper = styled.div`
+  padding: 20px
 `
 
 type Props = {
@@ -26,13 +30,18 @@ export const Tabs = ({ children, defaultActiveIndex }: Props) => {
   const activeTabContent = children[activeIndex] ? children[activeIndex].props.children : ''
 
   return (
-    <>
-      {children.map((child, index) => (
-        <TabButton key={index} active={activeIndex === index} onClick={() => setActiveIndex(index)}>
-          {child.props.title}
-        </TabButton>
-      ))}
-      {activeTabContent}
-    </>
+    <div>
+
+      <div>
+        {children.map((child, index) => (
+          <TabButton key={index} active={activeIndex === index} onClick={() => setActiveIndex(index)}>
+            {child.props.title}
+          </TabButton>
+        ))}
+      </div>
+      <ContentWrapper>
+        {activeTabContent}
+      </ContentWrapper>
+    </div>
   )
 }

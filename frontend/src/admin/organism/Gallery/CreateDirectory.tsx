@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
-import { WithApolloClient } from 'react-apollo'
-import withApollo from 'react-apollo/withApollo'
+import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import { Input } from '../../../common/atoms/Input/Input'
+import React, { useState } from 'react'
 import { Button } from '../../../common/atoms/Button/Button'
+import { Input } from '../../../common/atoms/Input/Input'
 
 const CREATE_DIR = gql`
   mutation($name: String!, $path: String!) {
@@ -20,18 +19,17 @@ type Props = {
   onClose: any
 }
 
-const CreateDirectory = (props: WithApolloClient<Props>) => {
+export const CreateDirectory = (props: Props) => {
   const [directoryName, setDirectoryName] = useState('')
+  const [createDirectoryMutation] = useMutation(CREATE_DIR)
 
   const createDirectory = () => {
-    props.client
-      .mutate({
-        mutation: CREATE_DIR,
-        variables: {
-          name: directoryName,
-          path: props.path.join('/'),
-        },
-      })
+    createDirectoryMutation({
+      variables: {
+        name: directoryName,
+        path: props.path.join('/'),
+      },
+    })
       .then(() => {
         props.onSuccess()
       })
@@ -40,10 +38,8 @@ const CreateDirectory = (props: WithApolloClient<Props>) => {
   return (
     <div>
       <Button onClick={props.onClose}>Close</Button>
-      <Input value={directoryName} onChange={input => setDirectoryName(input.value)} />
+      <Input value={directoryName} onChange={input => setDirectoryName(input.value)}/>
       <Button onClick={createDirectory}>Create</Button>
     </div>
   )
 }
-
-export default withApollo(CreateDirectory)

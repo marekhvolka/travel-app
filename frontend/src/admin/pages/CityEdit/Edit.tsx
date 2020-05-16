@@ -2,9 +2,9 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { Button } from '../../../common/atoms/Button/Button'
 import { CityForm } from '../../organism/CityForm/CityForm'
-import { makeEditView } from '../../organism/EditView/makeEditView'
+import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditView'
 
-const Edit = ({ model, modelChanged, handleSubmit }) => (
+const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => (
   <div>
     <h1>
       {model.id ? `Edit city ${model.name}` : 'Add city'}

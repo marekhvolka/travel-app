@@ -1,8 +1,10 @@
 import React from 'react'
-import Link from 'react-router-dom/Link'
+import { Link } from 'react-router-dom'
 import FaUser from 'react-icons/lib/fa/user'
 import FaImage from 'react-icons/lib/fa/image'
+import FaTags from 'react-icons/lib/fa/tags'
 import styled from 'styled-components'
+import { Container } from '../../../common/atoms/Container/Container'
 import { UserAuthentication } from '../../../common/organism/UserAuthentication/UserAuthentication'
 
 const NavbarItem = styled.li`
@@ -26,7 +28,7 @@ export const Navbar = () => {
     },
     {
       slug: '/tags',
-      label: 'Tags',
+      label: <FaTags />,
     },
     {
       slug: '/cities',
@@ -54,23 +56,25 @@ export const Navbar = () => {
         minHeight: '50px',
       }}
     >
-      <ul
-        style={{
-          listStyle: 'none',
-          paddingLeft: '0px',
-          lineHeight: '50px',
-          marginBottom: '0px',
-        }}
-      >
-        {links.map(link => (
-          <NavbarItem key={link.slug}>
-            <Link to={link.slug}>{link.label}</Link>
+      <Container withoutPadding>
+        <ul
+          style={{
+            listStyle: 'none',
+            paddingLeft: '0px',
+            lineHeight: '50px',
+            marginBottom: '0px',
+          }}
+        >
+          {links.map(link => (
+            <NavbarItem key={link.slug}>
+              <Link to={link.slug}>{link.label}</Link>
+            </NavbarItem>
+          ))}
+          <NavbarItem className={'float-right'}>
+            <UserAuthentication />
           </NavbarItem>
-        ))}
-        <NavbarItem className={'float-right'}>
-          <UserAuthentication />
-        </NavbarItem>
-      </ul>
+        </ul>
+      </Container>
     </div>
   )
 }

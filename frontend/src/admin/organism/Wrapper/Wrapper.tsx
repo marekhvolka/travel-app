@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import withRouter from 'react-router-dom/withRouter'
-import Switch from 'react-router-dom/Switch'
+import { Switch, withRouter } from 'react-router-dom'
+import { Container } from '../../../common/atoms/Container/Container'
 import { AllItems } from '../../pages/ItemAll/AllItems'
 import ItemForm from '../../pages/ItemEdit/Edit'
 import { AllCities } from '../../pages/CityAll/AllCities'
@@ -15,7 +15,7 @@ import { UserProgress } from '../../pages/User/Progress/index'
 import { AllVouchers } from '../../pages/VoucherAll/AllVouchers'
 import VoucherForm from '../../pages/VoucherEdit/Edit'
 import { Home } from '../../pages/Home/Home'
-import GalleryContainer from '../Gallery/GalleryContainer'
+import { GalleryContainer } from '../Gallery/GalleryContainer'
 import { ProtectedRoute } from '../../../common/atoms/ProtectedRoute/ProtectedRoute'
 import { Navbar } from '../Navbar/Navbar'
 import { Sidebar } from '../Sidebar/Sidebar'
@@ -40,34 +40,36 @@ const Wrapper = () => (
     <Navbar />
     <Sidebar />
     <Main>
-      <Switch>
-        <ProtectedRoute path={'/'} exact component={Home} />
+      <Container>
+        <Switch>
+          <ProtectedRoute path={'/'} exact component={Home} />
 
-        <ProtectedRoute path={'/items'} exact component={AllItems} />
-        <ProtectedRoute path={'/items/edit/:id'} component={ItemForm} />
-        <ProtectedRoute path={'/items/edit'} component={ItemForm} />
+          <ProtectedRoute path={'/items'} exact component={AllItems} />
+          <ProtectedRoute path={'/items/edit/:id'} component={ItemForm} />
+          <ProtectedRoute path={'/items/edit'} component={ItemForm} />
 
-        <ProtectedRoute path={'/cities'} exact component={AllCities} />
-        <ProtectedRoute path={'/cities/edit/:id'} component={CityForm} />
-        <ProtectedRoute path={'/cities/edit'} component={CityForm} />
+          <ProtectedRoute path={'/cities'} exact component={AllCities} />
+          <ProtectedRoute path={'/cities/edit/:id'} component={CityForm} />
+          <ProtectedRoute path={'/cities/edit'} component={CityForm} />
 
-        <ProtectedRoute path={'/guides'} exact component={AllGuides} />
-        <ProtectedRoute path={'/guides/edit/:id'} component={GuideForm} />
-        <ProtectedRoute path={'/guides/edit'} component={GuideForm} />
+          <ProtectedRoute path={'/guides'} exact component={AllGuides} />
+          <ProtectedRoute path={'/guides/edit/:id'} component={GuideForm} />
+          <ProtectedRoute path={'/guides/edit'} component={GuideForm} />
 
-        <ProtectedRoute path={'/tags'} exact component={AllTags} />
-        <ProtectedRoute path={'/tags/edit/:id'} component={TagForm} />
-        <ProtectedRoute path={'/tags/edit'} component={TagForm} />
+          <ProtectedRoute path={'/tags'} exact component={AllTags} />
+          <ProtectedRoute path={'/tags/edit/:id'} component={TagForm} />
+          <ProtectedRoute path={'/tags/edit'} component={TagForm} />
 
-        <ProtectedRoute path={'/vouchers'} exact component={AllVouchers} />
-        <ProtectedRoute path={'/vouchers/edit/:id'} component={VoucherForm} />
-        <ProtectedRoute path={'/vouchers/edit'} exact component={VoucherForm} />
+          <ProtectedRoute path={'/vouchers'} exact component={AllVouchers} />
+          <ProtectedRoute path={'/vouchers/edit/:id'} component={VoucherForm} />
+          <ProtectedRoute path={'/vouchers/edit'} exact component={VoucherForm} />
 
-        <ProtectedRoute path={'/users'} exact component={AllUsers} />
-        <ProtectedRoute path={'/users/progress/:id'} component={UserProgress} />
+          <ProtectedRoute path={'/users'} exact component={AllUsers} />
+          <ProtectedRoute path={'/users/progress/:id'} component={UserProgress} />
 
-        <ProtectedRoute path={'/gallery'} component={GalleryContainer} />
-      </Switch>
+          <ProtectedRoute path={'/gallery'} component={GalleryContainer} />
+        </Switch>
+      </Container>
     </Main>
   </WrapperContainer>
 )

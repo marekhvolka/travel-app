@@ -11,10 +11,10 @@ export const Steps = ({ steps }: Props) => (
     {steps.map(step => (
       <Col xs={24} sm={8} className={'p-0 mb-4'} key={Math.random()}>
         <Box>
-          <h4>
+          <h5>
             {step.icon}
             {step.title}
-          </h4>
+          </h5>
           <p>{step.text}</p>
         </Box>
       </Col>

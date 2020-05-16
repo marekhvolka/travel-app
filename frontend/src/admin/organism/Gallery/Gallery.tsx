@@ -1,19 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
+import { enablePreview } from '../../../common/atoms/ImagePreview/enablePreview'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
-import enablePreview from '../../../common/atoms/ImagePreview/enablePreview'
-import { IMAGE_SIZES } from '../../../common/common'
 import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
+import { IMAGE_SIZES } from '../../../common/common'
 import { GalleryToolbar } from './GalleryToolbar'
+import dirImage from './dir.jpg'
 
 const PreviewImage = enablePreview(ImageWrapper)
 
-type Props = {
+type ItemPreviewProps = {
   directory?: boolean
 }
 
-const ItemPreview = styled.div<Props>`
-  background-image: ${props => (props.directory ? "url('/img/dir.jpeg')" : '')};
+const ItemPreview = styled.div<ItemPreviewProps>`
+  background-image: ${props => (props.directory ? `url(${dirImage})` : '')};
   background-position: center;
   background-repeat: no-repeat;
   background-size: 80%;
@@ -21,20 +22,20 @@ const ItemPreview = styled.div<Props>`
   width: 200px;
 `
 const GalleryItem = styled.div`
-  border: 1px solid #000;
+  // border: 1px solid #000;
   float: left;
   height: 220px;
   width: 200px;
 `
 
-export const Gallery = ({ path, files, subdirectories, dirClicked, directoryName, goBack, onRefresh }) => (
+export const Gallery = ({ path, files, subdirectories, dirClicked, directoryName, goBack, onRefresh, onImageSelected }) => (
   <div>
     <MainHeading>Gallery</MainHeading>
-    <GalleryToolbar path={path} onGoBack={goBack} onRefresh={onRefresh} />
+    <GalleryToolbar path={path} onGoBack={goBack} onRefresh={onRefresh}/>
     <div>
       {subdirectories.map(item => (
         <GalleryItem key={Math.random()} onClick={() => dirClicked(item.name)}>
-          <ItemPreview directory />
+          <ItemPreview directory/>
           <p className={'text-center'}>{item.name}</p>
         </GalleryItem>
       ))}
@@ -46,25 +47,21 @@ export const Gallery = ({ path, files, subdirectories, dirClicked, directoryName
         return (
           <GalleryItem key={Math.random()}>
             <ItemPreview>
-              <PreviewImage size={IMAGE_SIZES.MEDIUM} url={item.path} style={{ height: '150px' }} />
+              <PreviewImage size={IMAGE_SIZES.MEDIUM} url={item.path} style={{ height: '150px' }}/>
             </ItemPreview>
             <p className={'text-center'}>
               <span title={item.name}>
                 {fileNameAbbreviation}.{fileExtension}
               </span>
-              <br />
+              <br/>
               {`${Math.floor(item.stats.size / 1024)} KB`}
-              <br />
-              <span
-              // onClick={() => onImageSelected && onImageSelected(item.path)}
-              >
-                Copy
-              </span>
+              <br/>
+              <span onClick={() => onImageSelected && onImageSelected(item.path)}>Copy</span>
             </p>
           </GalleryItem>
         )
       })}
-      <div style={{ clear: 'both' }} />
+      <div style={{ clear: 'both' }}/>
     </div>
   </div>
 )

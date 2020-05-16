@@ -1,10 +1,10 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { VoucherForm } from '../../organism/VoucherForm/VoucherForm'
-import { makeEditView } from '../../organism/EditView/makeEditView'
+import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditView'
 import { Button } from '../../../common/atoms/Button/Button'
 
-const Edit = ({ model, modelChanged, handleSubmit }) => (
+const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => (
   <div>
     <h1>
       {model.id ? `Edit voucher ${model.code}` : 'Add voucher'}

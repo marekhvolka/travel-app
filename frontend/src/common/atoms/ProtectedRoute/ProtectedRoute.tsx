@@ -17,11 +17,11 @@ export const ProtectedRoute = ({ component: Component, ...rest }: Props) => {
     <Route
       {...rest}
       render={props => {
-        // if (userData) {
-        return <Component {...props} />
-        // }
+        if (userData) {
+          return <Component {...props} />
+        }
 
-        // return <Redirect to={'/login'}/>
+        return <Redirect to={'/login'}/>
       }}
     />
   )

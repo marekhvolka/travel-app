@@ -3,12 +3,12 @@ import gql from 'graphql-tag'
 import { Tabs } from '../../../common/organism/Tabs/Tabs'
 import { Button } from '../../../common/atoms/Button/Button'
 import { GuideForm } from '../../organism/GuideForm/GuideForm'
-import { makeEditView } from '../../organism/EditView/makeEditView'
+import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditView'
 import { AssignForm } from '../../../common/organism/AssignForm/AssignForm'
 import { Flex } from '../../../common/atoms/Flex/Flex'
 import { Box } from '../../../common/atoms/Box/Box'
 
-const Edit = ({ model, modelChanged, handleSubmit }) => (
+const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => (
   <Flex>
     <Box flex={7}>
       <h1>
