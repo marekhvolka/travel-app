@@ -11,7 +11,6 @@ type Props = {
 
 export const CustomMarker = ({ item, onClick, isSelected }: Props) => (
   <Marker
-    // className={'marker' + (isSelected ? 'selected' : '')}
     key={item.id}
     // icon={{
     //   url: getImageUrl(IMAGE_SIZES.THUMBNAIL, item.previewImageUrl),

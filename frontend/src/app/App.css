@@ -3873,13 +3873,6 @@ a.text-dark:focus {
   visibility: hidden !important;
 }
 
-.wrapper,
-.nav-bar,
-.footer {
-  max-width: 1200px;
-  margin: auto;
-}
-
 a {
   color: #000;
   cursor: pointer;

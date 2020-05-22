@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Text } from '../../../common/atoms/Text/Text'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
 import { IMAGE_SIZES } from '../../../common/common'
@@ -10,6 +11,10 @@ type Props = {
   onRelatedItemClicked: (string) => void
 }
 
+const ItemName = styled.h5`
+  font-weight: bold
+`
+
 export const ItemsList = ({ items, onRelatedItemClicked }: Props) => (
   <div>
     {items.map(item => (
@@ -19,7 +24,7 @@ export const ItemsList = ({ items, onRelatedItemClicked }: Props) => (
             <ImageWrapper size={IMAGE_SIZES.SMALL} url={item.previewImageUrl} />
           </Box>
           <Box flex={3} style={{ padding: '13px 10px' }}>
-            <h5 className={'font-weight-bold'}>{item.name}</h5>
+            <ItemName>{item.name}</ItemName>
             <Text value={item.title} />
           </Box>
         </Flex>

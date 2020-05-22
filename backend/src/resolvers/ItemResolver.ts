@@ -1,7 +1,6 @@
 import { ObjectID } from 'mongodb'
 import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { ItemInput } from '../inputs/ItemInput'
-import { City } from '../models/City'
 import { Context } from '../models/Context'
 import { Item } from '../models/Item'
 import { ItemRelation } from '../models/ItemRelation'
@@ -24,13 +23,13 @@ export class ItemResolver {
   async relatedItemIds(@Root() item: Item) {
     const relations1 = await ItemRelation.find({
       where: {
-        firstItemId: item.id,
+        firstItemId: item.id.toString(),
       },
     })
 
     const relations2 = await ItemRelation.find({
       where: {
-        secondItemId: item.id,
+        secondItemId: item.id.toString(),
       },
     })
 
@@ -44,13 +43,13 @@ export class ItemResolver {
   async relatedItems(@Root() item: Item) {
     const relations1 = await ItemRelation.find({
       where: {
-        firstItemId: item.id,
+        firstItemId: item.id.toString(),
       },
     })
 
     const relations2 = await ItemRelation.find({
       where: {
-        secondItemId: item.id,
+        secondItemId: item.id.toString(),
       },
     })
 
@@ -136,13 +135,13 @@ export class ItemResolver {
             secondItemId: relatedItemId,
           },
         ])
-        .then(relations => {
+        .then((relations: ItemRelation[]) => {
           console.log(relations)
 
           if (relations.length === 0) {
             ItemRelation.create({
-              firstItemId: data.id,
-              secondItemId: relatedItemId,
+              firstItemId: new ObjectID(data.id),
+              secondItemId: new ObjectID(relatedItemId),
             })
           }
         })

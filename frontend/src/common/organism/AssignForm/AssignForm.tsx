@@ -1,45 +1,65 @@
-import React from 'react'
+import React  from 'react'
+import styled from 'styled-components'
 import { Label } from '../../atoms/Label/Label'
-import { CollectionForm } from '../../../admin/organism/DynamicForm/CollectionForm'
 import { Select } from 'antd'
 
 type Props = {
   items?: any
+  itemIdsArrayName: string
+  model: any
+  modelChanged: any
 }
 
-export class AssignForm extends CollectionForm<Props> {
-  render() {
-    const { model, items, collectionName, itemIdsArrayName } = this.props
+const AssignedItem = styled(Label)`
+  margin-left: 5px
+  margin-bottom: 4px
+  float: left
+  line-height: 20px
+`
 
-    return (
-      <div>
-        {model[collectionName].map(item => (
-          <Label
-            key={item.id}
-            style={{
-              marginLeft: '5px',
-              float: 'left',
-              lineHeight: '20px',
-              marginBottom: '4px',
-            }}
-          >
-            {item.name} <span onClick={() => this.remove(item)}>x</span>
-          </Label>
-        ))}
-        <Select
-          placeholder="Assign an item"
-          style={{ width: 200 }}
-          onChange={value => this.add(items.find(item => item.id === value))}
-        >
-          {items
-            .filter(item => !model[itemIdsArrayName].includes(item.id))
-            .map(item => (
-              <Select.Option key={item.id} value={item}>
-                {item.name}
-              </Select.Option>
-            ))}
-        </Select>
-      </div>
-    )
+export const AssignForm = ({model, items, itemIdsArrayName, modelChanged} : Props) => {
+  const add = (itemId: string) => {
+    modelChanged({
+      [itemIdsArrayName]: [...model[itemIdsArrayName], itemId]
+    })
   }
+
+  const remove = (itemId: string) => {
+    modelChanged({
+      ...model,
+      [itemIdsArrayName]: model[itemIdsArrayName].filter((currentItemId) => currentItemId !== itemId)
+    })
+  }
+
+  return (
+    <div>
+      {model[itemIdsArrayName].map(itemId => {
+        const item = items.find((currentItem) => currentItem.id === itemId)
+
+        if (!item) {
+          console.log(itemId)
+          return <></>
+        }
+
+        return (
+          <AssignedItem key={itemId}>
+            {item.name} <span onClick={() => remove(itemId)}>x</span>
+          </AssignedItem>
+        )
+      })}
+      <Select
+        placeholder="Assign an item"
+        style={{ width: 200 }}
+        onChange={add}
+      >
+        {items
+          .filter(item => !model[itemIdsArrayName].includes(item.id))
+          .map(item => (
+            <Select.Option key={item.id} value={item.id}>
+              {item.name}
+            </Select.Option>
+          ))}
+      </Select>
+    </div>
+  )
 }

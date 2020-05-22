@@ -1,13 +1,14 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
+import { Container } from '../common/atoms/Container/Container'
 import theme from '../theme'
 import './App.css'
 import { Footer } from './organism/Footer/Footer'
 import { Navbar } from './organism/Navbar/Navbar'
 import { GuideDetail} from './pages/GuideDetail/Detail'
 import { GuideExplore } from './pages/GuideExplore/Explore'
-import { Home } from './pages/Home'
+import { Home } from './pages/Home/Home'
 import { LoginContainer } from './pages/Login/LoginContainer'
 import { Register } from './pages/Register/Register'
 
@@ -35,7 +36,7 @@ export const App = () => (
               overflow: 'scroll',
             }}
           >
-            <div className={'wrapper container'} style={{}}>
+            <Container>
               <Switch>
                 <Route path={'/'} exact component={Home}/>
                 <Route path={'/register'} component={Register}/>
@@ -44,7 +45,7 @@ export const App = () => (
                 <Route path={'/guides/:url'} exact component={GuideDetail}/>
                 <Route path={'/guides/:url/explore'} component={GuideExplore}/>
               </Switch>
-            </div>
+            </Container>
           </div>
           <Footer/>
         </div>

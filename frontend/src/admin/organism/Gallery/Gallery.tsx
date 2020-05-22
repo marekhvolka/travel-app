@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { enablePreview } from '../../../common/atoms/ImagePreview/enablePreview'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
 import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
+import { Text } from '../../../common/atoms/Text/Text'
 import { IMAGE_SIZES } from '../../../common/common'
 import { GalleryToolbar } from './GalleryToolbar'
 import dirImage from './dir.jpg'
@@ -36,7 +37,7 @@ export const Gallery = ({ path, files, subdirectories, dirClicked, directoryName
       {subdirectories.map(item => (
         <GalleryItem key={Math.random()} onClick={() => dirClicked(item.name)}>
           <ItemPreview directory/>
-          <p className={'text-center'}>{item.name}</p>
+          <Text textAlign={'left'} value={item.name} />
         </GalleryItem>
       ))}
 
@@ -49,7 +50,7 @@ export const Gallery = ({ path, files, subdirectories, dirClicked, directoryName
             <ItemPreview>
               <PreviewImage size={IMAGE_SIZES.MEDIUM} url={item.path} style={{ height: '150px' }}/>
             </ItemPreview>
-            <p className={'text-center'}>
+            <p style={{textAlign: 'center'}}>
               <span title={item.name}>
                 {fileNameAbbreviation}.{fileExtension}
               </span>

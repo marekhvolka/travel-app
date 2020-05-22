@@ -40,11 +40,9 @@ export const ImageInput = (props: Props) => {
       </Flex>
       <ImageWrapper size={IMAGE_SIZES.MEDIUM} url={props.value} style={{ maxWidth: '500px' }} />
 
-      <div className="Gallery">
-        <Modal isOpen={isGalleryOpen} onRequestClose={() => setIsGalleryOpen(false)} contentLabel="Example Modal">
-          <GalleryContainer onImageSelected={onImageSelected} />
-        </Modal>
-      </div>
+      <Modal isOpen={isGalleryOpen} onRequestClose={() => setIsGalleryOpen(false)} contentLabel="Example Modal">
+        <GalleryContainer onImageSelected={onImageSelected} />
+      </Modal>
     </div>
   )
 }

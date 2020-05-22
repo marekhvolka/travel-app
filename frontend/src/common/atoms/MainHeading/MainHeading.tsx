@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { width } from 'styled-system'
 
 type Props = {
   center?: boolean
@@ -8,6 +9,7 @@ type Props = {
 }
 
 export const MainHeading = styled.h1<Props>`
+  ${width}
   text-align: ${props => {
     if (props.center) {
       return 'center'

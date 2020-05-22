@@ -1,7 +1,6 @@
 import { ObjectID } from 'mongodb'
 import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { GuideInput } from '../inputs/GuideInput'
-import { City } from '../models/City'
 import { Context } from '../models/Context'
 import { Guide } from '../models/Guide'
 import { Item } from '../models/Item'

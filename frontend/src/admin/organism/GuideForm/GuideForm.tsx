@@ -1,12 +1,13 @@
 import React from 'react'
 import { Input } from '../../../common/atoms/Input/Input'
 import { ImageInput } from '../../../common/atoms/ImageInput/ImageInput'
+import { Select } from '../../../common/atoms/Select/Select'
 import { makeForm } from '../../../common/organism/Form/makeForm'
 import { WysiwygInput } from '../../../common/atoms/WysiwygInput/WysiwygInput'
 import { Toggle } from '../../../common/atoms/Toggle/Toggle'
 import { LocationInput } from '../../../common/atoms/LocationInput/LocationInput'
 
-export const GuideForm = makeForm(({ model, onChange }) => (
+export const GuideForm = makeForm(({ model, onChange, cities }) => (
   <div>
     <Input name="name" label="Guide name" value={model.name} onChange={onChange} />
     <Input name="url" label="Guide url" value={model.url} onChange={onChange} />
@@ -24,5 +25,6 @@ export const GuideForm = makeForm(({ model, onChange }) => (
       zoomLevel={model.zoomLevel}
       onChange={onChange}
     />
+    <Select label="City" name="cityId" onChange={onChange} options={cities} value={model.cityId}/>
   </div>
 ))

@@ -5,14 +5,14 @@ type TabButtonProps = {
   active?: boolean
 }
 
-const TabButton = styled.div<TabButtonProps>`
+const TabButton = styled.div < TabButtonProps > `
   ${props => props.active && css`
     border-bottom: 2px solid ${props => props.theme.primaryColor};
   `}
   padding: 5px 20px;
   display: inline-block;
   cursor: pointer;
-  color: ${props => props.theme.primaryColor};
+  color: ${props => props.active ? props.theme.primaryColor : props.theme.mutedColor};
 `
 
 const ContentWrapper = styled.div`

@@ -8,6 +8,7 @@ import { Button } from '../../../common/atoms/Button/Button'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
 import { Text } from '../../../common/atoms/Text/Text'
 import { IMAGE_SIZES } from '../../../common/common'
+import theme from '../../../theme'
 
 const QUERY = gql`
   {
@@ -28,13 +29,19 @@ const QUERY = gql`
 
 const GuideWrapper = styled.div`
   border: 1px solid ${props => props.theme.border.color};
-  border-radius: 5px
+  border-radius: 2px
   margin-bottom: 20px
+  box-shadow: 0 0 2px rgba(0,0,0,.2);
+  padding: 10px;
+  
+  :hover {
+    box-shadow: 0 0 8px rgba(0,0,0,.35)
+  }
 `
 
 const GuideInfoWrapper = styled.div`
   text-align: center
-  padding: 5px 10px
+  padding: 5px 20px
 `
 
 export const Guides = () => {
@@ -59,13 +66,12 @@ export const Guides = () => {
                   <ImageWrapper
                     size={IMAGE_SIZES.MEDIUM}
                     url={guide.previewImageUrl}
-                    className="full-width padding-bottom"
                   />
                 </Col>
                 <Col xs={24} md={16}>
                   <GuideInfoWrapper>
-                    <h3 className={'m-2'}>{guide.name}</h3>
-                    <Text value={guide.description}/>
+                    <h4 className={'m-2'}>{guide.name}</h4>
+                    <Text value={guide.description} color={theme.mutedColor} textAlign={'justify'}/>
                     <span>Price: {`${guide.price} ${guide.currency}`}</span>
                     &nbsp;
                     <Button>Detail</Button>

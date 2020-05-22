@@ -29,16 +29,8 @@ const FETCH_QUERY = gql`
       longitude
       zoomLevel
       previewImageUrl
-      tags {
-        id
-        name
-      }
       tagIds
       relatedItemIds
-      relatedItems {
-        id
-        name
-      }
       restrictions {
         state
         dayRestrictions {
@@ -132,7 +124,6 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
               model={model}
               modelChanged={modelChanged}
               items={tagsData.tags}
-              collectionName={'tags'}
               itemIdsArrayName={'tagIds'}
             />
           </div>
@@ -142,7 +133,6 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
               model={model}
               modelChanged={modelChanged}
               items={itemsData.items}
-              collectionName={'relatedItems'}
               itemIdsArrayName={'relatedItemIds'}
             />
           </div>

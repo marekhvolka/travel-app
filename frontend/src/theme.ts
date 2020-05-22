@@ -31,6 +31,7 @@ export type StyledSystemProps =
 const theme = {
   primaryColor: '#aa4439',
   secondaryColor: 'white',
+  mutedColor: '#6d7688',
   border: {
     radius: '5px',
     color: '#ccc',

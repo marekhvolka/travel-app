@@ -28,6 +28,7 @@ const Container = styled.div < FlashMessageProps > `
   right: 50px
   padding: 10px 20px
   z-index: 1000
+  background: #fff
   color: ${(props) => ColorMap[props.type]}
 `
 
