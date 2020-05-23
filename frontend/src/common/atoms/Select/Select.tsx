@@ -1,12 +1,17 @@
 import React from 'react'
 import { Form, Select as BaseSelect } from 'antd'
 
+type SelectOptionData = {
+  id: string
+  name: string
+}
+
 type Props = {
   helperText?: string
   label: string
   name: string
   onChange: any
-  options: any
+  options: SelectOptionData[]
   value: string
 }
 

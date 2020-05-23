@@ -30,8 +30,8 @@ class AppError extends Error {
 }
 
 export class InternalServerError extends AppError {
-  constructor() {
-    super('', '', 500)
+  constructor(message: string = '') {
+    super(message, '', 500)
   }
 }
 

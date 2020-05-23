@@ -16,6 +16,9 @@ const QUERY = gql`
       code
       price
       description
+      guide {
+        name
+      }
     }
   }
 `
@@ -55,6 +58,10 @@ export const AllVouchers = () => {
           {
             name: 'price',
             label: 'Price',
+          },
+          {
+            name: 'guide.name',
+            label: 'Guide'
           },
           {
             name: 'description',

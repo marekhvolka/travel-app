@@ -28,9 +28,7 @@ export const DataTable = ({ fields, items, rowActions }: Props) => {
       title: field.label,
       dataIndex: field.name,
       key: field.name,
-      render: (value, row) => {
-        return getTableCell(value, field, '')
-      },
+      render: (value, row) => getTableCell(value, field, '')
     }
   })
 

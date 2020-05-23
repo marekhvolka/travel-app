@@ -16,5 +16,8 @@ export class VoucherInput {
   description: string
 
   @Field(() => String)
+  guideId: string
+
+  @Field(() => String, { nullable: true })
   partnerId: string
 }

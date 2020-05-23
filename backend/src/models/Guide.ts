@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 import { Field, Float, ID, Int, ObjectType } from 'type-graphql'
 import { Item } from './Item'
+import { Voucher } from './Voucher'
 
 @Entity()
 @ObjectType()
@@ -59,4 +60,7 @@ export class Guide extends BaseEntity {
   @Field(() => String)
   @Column()
   currency: string
+
+  @Field(() => [Voucher])
+  vouchers: Voucher[]
 }

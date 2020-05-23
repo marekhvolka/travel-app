@@ -4,6 +4,7 @@ import { GuideInput } from '../inputs/GuideInput'
 import { Context } from '../models/Context'
 import { Guide } from '../models/Guide'
 import { Item } from '../models/Item'
+import { Voucher } from '../models/Voucher'
 import { AuthorizationError } from '../utils/errors'
 
 @Resolver(() => Guide)
@@ -13,6 +14,15 @@ export class GuideResolver {
     return Item.find({
       where: {
         _id: { $in: guide.itemIds.map(id => new ObjectID(id)) },
+      },
+    })
+  }
+
+  @FieldResolver(() => [Voucher])
+  vouchers(@Root() guide: Guide) {
+    return Voucher.find({
+      where: {
+        guideId: guide.id,
       },
     })
   }
