@@ -19,7 +19,6 @@ export const ItemTags = ({ item }: Props) => (
 
       <Tag
         key={tag.id}
-        className={'p-1 m-1'}
         style={{
           borderColor: tag.color ? tag.color : '#000',
           color: tag.color ? tag.color : '#000',

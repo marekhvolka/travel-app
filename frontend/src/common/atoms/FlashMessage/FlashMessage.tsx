@@ -46,7 +46,7 @@ export const FlashMessage = () => {
       setType(type)
       setVisibility(true)
 
-      setTimeoutHandler(setTimeout(() => {
+      setTimeoutHandler(window.setTimeout(() => {
         setVisibility(false)
       }, 5000))
     })

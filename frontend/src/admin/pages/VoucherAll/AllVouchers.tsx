@@ -45,7 +45,7 @@ export const AllVouchers = () => {
     <div>
       <MainHeading>
         List of all vouchers
-        <Link className={'float-right'} to={'/vouchers/edit'}>
+        <Link style={{ float: 'right' }} to={'/vouchers/edit'}>
           +
         </Link>
       </MainHeading>

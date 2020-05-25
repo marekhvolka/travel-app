@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import Modal from 'react-modal'
 import { Button } from '../../../common/atoms/Button/Button'
-import { UploadFile } from './UploadFile'
+import { UploadForm } from '../UploadForm/UploadForm'
 import { CreateDirectory } from './CreateDirectory'
 
 export const GalleryToolbar = ({ path, onGoBack, onRefresh }) => {
@@ -11,21 +10,21 @@ export const GalleryToolbar = ({ path, onGoBack, onRefresh }) => {
   return (
     <div>
       <h2>
-        Path: /{path.join('/')} {path.length > 0 && <Button onClick={onGoBack}>Back</Button>}
+        Path: /{path.join('/')} {path.length > 0 && (<Button onClick={onGoBack}>Back</Button>)}
         <Button onClick={() => setShowUpload(true)}>Upload</Button>
         <Button onClick={() => setShowCreateDirectory(true)}>Create directory</Button>
       </h2>
-      <Modal isOpen={showUpload}>
-        <UploadFile
+      {showUpload && (
+        <UploadForm
           path={path}
           onClose={() => {
             setShowUpload(false)
             onRefresh()
           }}
         />
-      </Modal>
+      )}
 
-      <Modal isOpen={showCreateDirectory}>
+      {showCreateDirectory && (
         <CreateDirectory
           path={path}
           onSuccess={() => {
@@ -34,7 +33,7 @@ export const GalleryToolbar = ({ path, onGoBack, onRefresh }) => {
           }}
           onClose={() => setShowCreateDirectory(false)}
         />
-      </Modal>
+      )}
     </div>
   )
 }

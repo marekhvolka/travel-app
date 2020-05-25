@@ -1,5 +1,5 @@
-import React from 'react'
 import { Col, Row } from 'antd'
+import React from 'react'
 import styled from 'styled-components'
 
 type Props = {
@@ -11,13 +11,13 @@ const StepWrapper = styled.div`
 `
 
 const StepDescription = styled.p`
-  color: ${props => props.theme.mutedColor}
+  color: ${props => props.theme.color.muted}
 `
 
 export const Steps = ({ steps }: Props) => (
   <Row>
     {steps.map(step => (
-      <Col xs={24} sm={8} className={'p-0 mb-4'} key={Math.random()}>
+      <Col xs={24} sm={8} style={{ padding: '10px' }} key={Math.random()}>
         <StepWrapper>
           <h5>
             {step.icon}

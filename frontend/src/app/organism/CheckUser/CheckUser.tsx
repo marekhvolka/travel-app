@@ -11,7 +11,7 @@ const CheckUser = () => {
     <Modal isOpen={isOpen}>
       <div>
         <h3 style={{textAlign: 'center'}}>Do you want to login or play without an account?</h3>
-        <div className={'p-5'}>
+        <div>
           <Link to={'/login'}>
             <Button primary>Login</Button>
           </Link>

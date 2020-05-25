@@ -16,17 +16,17 @@ export const Button = styled.button<Props> `
   float: ${props => props.float || 'none'}
   border: 2px solid;
   margin: 0 24px;
-  border-color: ${props => props.theme.primaryColor};
+  border-color: ${props => props.theme.color.primary};
   border-radius: ${props => props.theme.border.radius};
   padding: 10px 30px;
   font-weight: bold;
   font-size: 20px;
   ${props => props.primary ? css`
-    color: ${props.theme.secondaryColor}
-    background: ${props.theme.primaryColor}
+    color: ${props.theme.color.secondary}
+    background: ${props.theme.color.primary}
   ` : css`
-    color: ${props.theme.primaryColor}
-    background: ${props.theme.secondaryColor}
+    color: ${props.theme.color.primary}
+    background: ${props.theme.color.secondary}
   `}
 
 `

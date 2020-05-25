@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
+import { Modal } from 'antd'
 import gql from 'graphql-tag'
 import React, { useState } from 'react'
-import { Button } from '../../../common/atoms/Button/Button'
 import { Input } from '../../../common/atoms/Input/Input'
 
 const CREATE_DIR = gql`
@@ -23,23 +23,30 @@ export const CreateDirectory = (props: Props) => {
   const [directoryName, setDirectoryName] = useState('')
   const [createDirectoryMutation] = useMutation(CREATE_DIR)
 
-  const createDirectory = () => {
-    createDirectoryMutation({
+  const createDirectory = async () => {
+    await createDirectoryMutation({
       variables: {
         name: directoryName,
         path: props.path.join('/'),
       },
     })
-      .then(() => {
-        props.onSuccess()
-      })
+
+    props.onSuccess()
   }
 
   return (
-    <div>
-      <Button onClick={props.onClose}>Close</Button>
-      <Input value={directoryName} onChange={input => setDirectoryName(input.value)}/>
-      <Button onClick={createDirectory}>Create</Button>
-    </div>
+    <Modal
+      title="Create directory form"
+      visible={true}
+      okText="Create directory"
+      onOk={createDirectory}
+      onCancel={props.onClose}
+    >
+      <Input
+        value={directoryName}
+        name="dirInput"
+        onChange={input => setDirectoryName(input.dirInput)}
+      />
+    </Modal>
   )
 }

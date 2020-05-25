@@ -70,8 +70,8 @@ export const Guides = () => {
                 </Col>
                 <Col xs={24} md={16}>
                   <GuideInfoWrapper>
-                    <h4 className={'m-2'}>{guide.name}</h4>
-                    <Text value={guide.description} color={theme.mutedColor} textAlign={'justify'}/>
+                    <h4>{guide.name}</h4>
+                    <Text value={guide.description} color={theme.color.muted} textAlign={'justify'}/>
                     <span>Price: {`${guide.price} ${guide.currency}`}</span>
                     &nbsp;
                     <Button>Detail</Button>

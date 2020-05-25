@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { Container } from '../../../common/atoms/Container/Container'
 import { UserAuthentication } from '../../../common/organism/UserAuthentication/UserAuthentication'
 
 const NavbarContainer = styled.div`
@@ -28,13 +29,13 @@ const NavbarContainer = styled.div`
 
 export const Navbar = () => (
   <NavbarContainer>
-    <div className="nav-bar container">
+    <Container withoutPadding>
       <Link className="link" to={'/'}>
         Home
       </Link>
-      <div className={'float-right'}>
+      <div style={{float: 'right'}}>
         <UserAuthentication />
       </div>
-    </div>
+    </Container>
   </NavbarContainer>
 )

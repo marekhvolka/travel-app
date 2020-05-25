@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { ProtectedRoute } from '../common/atoms/ProtectedRoute/ProtectedRoute'
 import theme from '../theme'
-import './Admin.css'
 import Wrapper from './organism/Wrapper/Wrapper'
 import { LoginContainer } from './pages/Login/LoginContainer'
 

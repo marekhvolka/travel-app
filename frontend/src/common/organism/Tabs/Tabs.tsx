@@ -7,12 +7,12 @@ type TabButtonProps = {
 
 const TabButton = styled.div < TabButtonProps > `
   ${props => props.active && css`
-    border-bottom: 2px solid ${props => props.theme.primaryColor};
+    border-bottom: 2px solid ${props => props.theme.color.primary};
   `}
   padding: 5px 20px;
   display: inline-block;
   cursor: pointer;
-  color: ${props => props.active ? props.theme.primaryColor : props.theme.mutedColor};
+  color: ${props => props.active ? props.theme.color.primary : props.theme.color.muted};
 `
 
 const ContentWrapper = styled.div`

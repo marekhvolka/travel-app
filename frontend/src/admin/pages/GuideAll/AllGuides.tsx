@@ -37,7 +37,7 @@ export const AllGuides = () => {
     <div>
       <h1>
         List of all guides
-        <Link className={'float-right'} to={'/guides/edit'}>
+        <Link style={{ float: 'right' }} to={'/guides/edit'}>
           +
         </Link>
       </h1>

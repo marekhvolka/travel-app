@@ -1,14 +1,12 @@
+import { Modal } from 'antd'
 import React, { Component } from 'react'
 import axios from 'axios'
 import ReactCrop, { makeAspectCrop, ArrayBuffer } from 'react-image-crop'
-import { Button } from '../../../common/atoms/Button/Button'
 import 'react-image-crop/dist/ReactCrop.css'
 
 type Props = {
   onClose: any
-  onUploadSuccess: any
   path: string
-  model: any
 }
 
 type State = {
@@ -111,7 +109,7 @@ export class UploadForm extends Component<Props, State> {
       .then(response => {
         // eslint-disable-next-line no-console
         console.log(response)
-        this.props.onUploadSuccess && this.props.onUploadSuccess()
+        this.props.onClose()
       })
       .catch(error => {
         // eslint-disable-next-line no-console
@@ -126,11 +124,13 @@ export class UploadForm extends Component<Props, State> {
 
   render() {
     return (
-      <div>
-        <h2>
-          Upload form
-          <Button onClick={this.props.onClose}>Close</Button>
-        </h2>
+      <Modal
+        visible={true}
+        title="Upload file form"
+        onCancel={this.props.onClose}
+        onOk={this.submit}
+        okText="Upload"
+      >
         <input type="text" ref={this.setNameInputRef} />
         <input type="file" ref={this.setFileInputRef} onChange={data => this.updateFile && this.updateFile()} />
         {(this.state.width < 1200 || this.state.height < 800) && (
@@ -149,8 +149,7 @@ export class UploadForm extends Component<Props, State> {
             onChange={this.onCropChange}
           />
         )}
-        <Button onClick={this.submit}>Upload</Button>
-      </div>
+      </Modal>
     )
   }
 }

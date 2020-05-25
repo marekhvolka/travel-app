@@ -29,7 +29,7 @@ export const AllUsers = () => {
     <div>
       <h1>
         List of all users
-        <Link className={'float-right'} to={'/users/edit'}>
+        <Link style={{ float: 'right' }} to={'/users/edit'}>
           +
         </Link>
       </h1>

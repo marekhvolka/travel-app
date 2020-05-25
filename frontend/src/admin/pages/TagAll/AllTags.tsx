@@ -40,7 +40,7 @@ export const AllTags = () => {
     <div>
       <h1>
         List of all tags
-        <Link className={'float-right'} to={'/tags/edit'}>
+        <Link style={{ float: 'right' }} to={'/tags/edit'}>
           +
         </Link>
       </h1>

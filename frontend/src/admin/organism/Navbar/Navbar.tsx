@@ -70,7 +70,7 @@ export const Navbar = () => {
               <Link to={link.slug}>{link.label}</Link>
             </NavbarItem>
           ))}
-          <NavbarItem className={'float-right'}>
+          <NavbarItem style={{float: 'right'}}>
             <UserAuthentication />
           </NavbarItem>
         </ul>

@@ -40,7 +40,7 @@ export const AllItems = () => {
     <div>
       <h1>
         List of all items
-        <Link className={'float-right'} to={'/items/edit'}>
+        <Link style={{ float: 'right' }} to={'/items/edit'}>
           +
         </Link>
       </h1>

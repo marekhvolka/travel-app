@@ -36,7 +36,7 @@ export const AllCities = () => {
     <div>
       <h1>
         List of all cities
-        <Link className={'float-right'} to={'/cities/edit'}>
+        <Link style={{ float: 'right' }} to={'/cities/edit'}>
           +
         </Link>
       </h1>

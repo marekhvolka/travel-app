@@ -1,3 +1,4 @@
+import { DefaultTheme } from "styled-components"
 import {
   BorderRadiusProps,
   FontFamilyProps,
@@ -9,7 +10,7 @@ import {
   SizeProps,
   SpaceProps,
   TextAlignProps,
-  TextStyleProps,
+  TextStyleProps
 } from 'styled-system'
 
 export type StyledSystemProps =
@@ -28,10 +29,12 @@ export type StyledSystemProps =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | { color: string; as?: keyof JSX.IntrinsicElements | React.ComponentType<any> }
 
-const theme = {
-  primaryColor: '#aa4439',
-  secondaryColor: 'white',
-  mutedColor: '#6d7688',
+const theme: DefaultTheme = {
+  color: {
+    primary: '#aa4439',
+    secondary: 'white',
+    muted: '#6d7688',
+  },
   border: {
     radius: '5px',
     color: '#ccc',

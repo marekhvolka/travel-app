@@ -37,18 +37,18 @@ export const Home = () => (
       <Steps
         steps={[
           {
-            icon: <FaShoppingCart size={60} className={'pr-3'}/>,
+            icon: <FaShoppingCart size={60}/>,
             title: 'Buy a guide',
             text: 'Choose from guides in our site and pay for it with your credit card',
           },
           {
-            icon: <FaSearch size={60} className={'pr-3'}/>,
+            icon: <FaSearch size={60}/>,
             title: 'Plan your journey',
             text: `Log in to the app and explore all the places. Save them to the favourites
                           list. Use your PC or mobile device.`,
           },
           {
-            icon: <FaMap size={60} className={'pr-3'}/>,
+            icon: <FaMap size={60}/>,
             title: 'Explore the city',
             text: `Use the guide in the city, navigate to the places or read the facts and
                           photos about the places`,
