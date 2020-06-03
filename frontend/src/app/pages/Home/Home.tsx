@@ -4,18 +4,37 @@ import FaSearch from 'react-icons/lib/fa/search'
 import FaShoppingCart from 'react-icons/lib/fa/shopping-cart'
 import styled from 'styled-components'
 import { Button } from '../../../common/atoms/Button/Button'
-import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
 import { Guides } from './Guides'
 import { Steps } from './Steps'
 import headerImage from './header.jpg'
 
 const HeaderWrapper = styled.div`
-  padding: 20px 40px 70px
-  margin-bottom: 50px
+  padding: 20px 20px 70px
+  margin-bottom: 80px
   background-image: url(${headerImage});
   background-size: 50%;
   background-repeat: no-repeat;
   background-position: right;
+`
+
+const StepsHeadline = styled.h2`
+  text-align: center
+  font-weight: bold
+  text-transform: uppercase
+  font-size: 25px
+`
+
+const MainHeading = styled.h1`
+  text-transform: uppercase
+  font-weight: bold
+  line-height: 29px
+  font-size: 30px
+`
+
+const HeaderText = styled.p`
+  margin-bottom: 20px
+  font-size: 18px;
+  line-height: 30px;  
 `
 
 export const Home = () => (
@@ -23,35 +42,33 @@ export const Home = () => (
     <HeaderWrapper>
       <div style={{width: '50%'}}>
         <MainHeading>Explore cities with our guides</MainHeading>
-        <p style={{textAlign: 'justify', marginBottom: '20px'}}>
+        <HeaderText>
           On vacation in foreign city? Find the most beautiful places according to your preferences. Explore facts about
           historic buildings, navigate with the app to find the right way and spend a romantic walk with your partner.
-        </p>
+        </HeaderText>
         <div>
           <Button primary>Learn more</Button>
         </div>
       </div>
     </HeaderWrapper>
     <div>
-      <h2 style={{ textAlign: 'center' }}>How does it work?</h2>
+      <StepsHeadline>How does it work?</StepsHeadline>
       <Steps
         steps={[
           {
             icon: <FaShoppingCart size={60}/>,
             title: 'Buy a guide',
-            text: 'Choose from guides in our site and pay for it with your credit card',
+            text: 'Pay for your chosen guide with your credit card',
           },
           {
             icon: <FaSearch size={60}/>,
             title: 'Plan your journey',
-            text: `Log in to the app and explore all the places. Save them to the favourites
-                          list. Use your PC or mobile device.`,
+            text: `Explore the guide content, bookmark places and events.`,
           },
           {
             icon: <FaMap size={60}/>,
             title: 'Explore the city',
-            text: `Use the guide in the city, navigate to the places or read the facts and
-                          photos about the places`,
+            text: `Navigate to the places with your phone and explore details.`,
           },
         ]}
       />

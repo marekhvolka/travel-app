@@ -4,6 +4,7 @@ import isNil from 'lodash/isNil'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
+import { Spinner } from '../../../common/atoms/Spinner/Spinner'
 import { removeKeys } from '../../../common/common'
 
 type EditViewOptions = {
@@ -33,7 +34,7 @@ export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
       skip: isNil(params.id),
       variables: { id: params.id }
     })
-    const [updateMutation] = useMutation(options.mutation)
+    const [updateMutation, { loading: mutationLoading }] = useMutation(options.mutation)
     const [model, setModel] = useState(data ? data[options.queryName] : options.initialModel || {})
 
     useEffect(() => {
@@ -57,7 +58,7 @@ export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
     }
 
     if (loading || !model) {
-      return <div>Loading</div>
+      return <Spinner/>
     }
 
     if (error) {
@@ -65,16 +66,19 @@ export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
     }
 
     return (
-      <WrappedComponent
-        model={model}
-        modelChanged={updatedFields =>
-          setModel({
-            ...model,
-            ...updatedFields,
-          })
-        }
-        handleSubmit={handleSubmit}
-      />
+      <>
+        {mutationLoading && <Spinner />}
+        <WrappedComponent
+          model={model}
+          modelChanged={updatedFields =>
+            setModel({
+              ...model,
+              ...updatedFields,
+            })
+          }
+          handleSubmit={handleSubmit}
+        />
+      </>
     )
   }
 

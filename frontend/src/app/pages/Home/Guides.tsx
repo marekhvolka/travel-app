@@ -44,6 +44,12 @@ const GuideInfoWrapper = styled.div`
   padding: 5px 20px
 `
 
+const GuideHeading = styled.h4`
+  font-size: 20px
+  font-weight: bold
+  text-transform: uppercase
+`
+
 export const Guides = () => {
   const { loading, error, data } = useQuery(QUERY)
 
@@ -70,8 +76,8 @@ export const Guides = () => {
                 </Col>
                 <Col xs={24} md={16}>
                   <GuideInfoWrapper>
-                    <h4>{guide.name}</h4>
-                    <Text value={guide.description} color={theme.color.muted} textAlign={'justify'}/>
+                    <GuideHeading>{guide.name}</GuideHeading>
+                    <Text lineHeight="25px" value={guide.description} color={theme.color.muted} textAlign={'justify'}/>
                     <span>Price: {`${guide.price} ${guide.currency}`}</span>
                     &nbsp;
                     <Button>Detail</Button>

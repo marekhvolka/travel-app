@@ -11,7 +11,7 @@ const SpinnerItem = styled.div`
   bottom: 0
   margin-left: auto
   margin-right: auto
-  background: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.6);
   background-image: url(${spinnerGif});
   background-repeat: no-repeat;
   background-position: center;

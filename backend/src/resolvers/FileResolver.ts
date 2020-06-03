@@ -14,18 +14,22 @@ export class FileResolver {
 
   @FieldResolver(() => String)
   async content(@Root() file: File) {
-    const fileHandler = await fs.open(file.path, 'r+')
+    const fullPath = FileLoader.makeFullPath(file.path)
+    const fileHandler = await fs.open(fullPath, 'r+')
     return fs.readFile(fileHandler)
   }
 
   @FieldResolver(() => FileStats)
   async stats(@Root() file: File) {
-    const fileHandler = await fs.open(file.path, 'r+')
-    return fs.fstat(fileHandler).catch(err => {
-      console.error('error getting file stats')
-      console.error(err)
+    const fullPath = FileLoader.makeFullPath(file.path)
+    try {
+      const fileHandler = await fs.open(fullPath, 'r+')
+      return fs.fstat(fileHandler)
+    } catch (err) {
+      console.log("Ups")
+      console.log(err)
       return null
-    })
+    }
   }
 
   @Query(() => File)

@@ -5,11 +5,13 @@ import { useHistory } from 'react-router-dom'
 import { Button } from '../../../common/atoms/Button/Button'
 import { Input } from '../../../common/atoms/Input/Input'
 import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
+import { Spinner } from '../../../common/atoms/Spinner/Spinner'
 import { config } from '../../../config'
 import { LoadUserAction } from '../../../store'
 
 export const Register = () => {
   const history = useHistory()
+  const [isLoading, setIsLoading] = useState(false)
   const [model, setModel] = useState({ email: '', password: '', passwordCheck: '' })
   const dispatch = useDispatch()
 
@@ -18,6 +20,7 @@ export const Register = () => {
       return alert('Password don\'t match')
     }
 
+    setIsLoading(true)
     delete model.passwordCheck
 
     axios
@@ -25,21 +28,20 @@ export const Register = () => {
         email: model.email,
         password: model.password,
       })
-      .then(
-        result => {
-          dispatch({
-            ...new LoadUserAction({
-              ...result.data.user,
-              token: result.data.token,
-            })
+      .then((result) => {
+        setIsLoading(false)
+        dispatch({
+          ...new LoadUserAction({
+            ...result.data.user,
+            token: result.data.token,
           })
+        })
 
-          history.push('/')
-        },
-        error => {
-          console.log(error)
-        }
-      )
+        history.push('/')
+      }, (error) => {
+        setIsLoading(false)
+        console.log(error)
+      })
   }
 
   const onChange = (changed) => {
@@ -48,6 +50,7 @@ export const Register = () => {
 
   return (
     <>
+      {isLoading && <Spinner />}
       <MainHeading>Register form</MainHeading>
       <Input
         onChange={onChange}

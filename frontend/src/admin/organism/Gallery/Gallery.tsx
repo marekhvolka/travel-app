@@ -48,7 +48,7 @@ export const Gallery = ({ path, files, subdirectories, dirClicked, directoryName
         return (
           <GalleryItem key={Math.random()}>
             <ItemPreview>
-              <PreviewImage size={IMAGE_SIZES.MEDIUM} url={item.path} style={{ height: '150px' }}/>
+              <PreviewImage size={IMAGE_SIZES.MEDIUM} url={item.path} style={{ height: '150px', padding: '5px' }}/>
             </ItemPreview>
             <p style={{ textAlign: 'center' }}>
               <span title={item.name}>

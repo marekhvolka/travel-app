@@ -1,8 +1,9 @@
 import { Modal } from 'antd'
-import React, { Component } from 'react'
 import axios from 'axios'
-import ReactCrop, { makeAspectCrop, ArrayBuffer } from 'react-image-crop'
+import React, { Component } from 'react'
+import ReactCrop, { ArrayBuffer, makeAspectCrop } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
+import { config } from '../../../config'
 
 type Props = {
   onClose: any
@@ -83,12 +84,9 @@ export class UploadForm extends Component<Props, State> {
       })
 
       const reader = new FileReader()
-      reader.addEventListener(
-        'load',
-        () =>
-          this.setState({
-            src: reader.result,
-          }),
+      reader.addEventListener('load', () => this.setState({
+          src: reader.result,
+        }),
         false
       )
       reader.readAsDataURL(file)
@@ -103,7 +101,7 @@ export class UploadForm extends Component<Props, State> {
     data.append('crop', JSON.stringify(this.state.crop))
 
     axios
-      .post('http://localhost:3000/upload', data, {
+      .post(config.backendUrl + '/upload', data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then(response => {
@@ -131,10 +129,10 @@ export class UploadForm extends Component<Props, State> {
         onOk={this.submit}
         okText="Upload"
       >
-        <input type="text" ref={this.setNameInputRef} />
-        <input type="file" ref={this.setFileInputRef} onChange={data => this.updateFile && this.updateFile()} />
-        {(this.state.width < 1200 || this.state.height < 800) && (
-          <div style={{ border: '2px solid red' }}>
+        <input type="text" ref={this.setNameInputRef}/>
+        <input type="file" ref={this.setFileInputRef} onChange={data => this.updateFile && this.updateFile()}/>
+        {this.state.width && this.state.height && (this.state.width < 1200 || this.state.height < 800) && (
+          <div style={{ padding: '10px 20px' }}>
             <h3>
               Warning - image is too small - {this.state.width} px / {this.state.height} px
             </h3>

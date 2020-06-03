@@ -16,7 +16,7 @@ export const GalleryToolbar = ({ path, onGoBack, onRefresh }) => {
       </h2>
       {showUpload && (
         <UploadForm
-          path={path}
+          path={path.join('/')}
           onClose={() => {
             setShowUpload(false)
             onRefresh()

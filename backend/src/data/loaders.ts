@@ -11,14 +11,12 @@ export class FileLoader {
   }
 
   static async openFile(filePath: string) {
-    const fullPath = FileLoader.makeFullPath(filePath)
-
     try {
       const file = new File()
-      file.path = fullPath
+      file.path = filePath
       return file
     } catch (err) {
-      console.error('cannot open file', fullPath)
+      console.error('cannot open file', filePath)
       return err
     }
   }
@@ -54,7 +52,7 @@ export class FileLoader {
 
         const res = await fs.stat(FileLoader.makeFullPath(fullPath))
 
-        if (includeFiles && res.isFile()) {
+        if (includeFiles && res.isFile() && fileName !== '.DS_Store') {
           return FileLoader.openFile(fullPath)
         }
 

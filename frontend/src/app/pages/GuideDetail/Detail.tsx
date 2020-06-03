@@ -6,13 +6,25 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 import { Button } from '../../../common/atoms/Button/Button'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
-import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
 import { Text } from '../../../common/atoms/Text/Text'
 import { IMAGE_SIZES } from '../../../common/common'
 import { State } from '../../../store'
 import { UseVoucherButton } from '../../organism/UseVoucherButton/UseVoucherButton'
+
+const GuideTitle = styled.h1`
+  font-weight: bold
+  text-transform: uppercase
+  margin-top: 0px
+`
+
+const GuideDescription = styled(Text)`
+  font-size: 14px
+  line-height: 25px
+  text-align: justify
+`
 
 const GUIDE_QUERY = gql`
   query fetchGuide($id: String, $url: String) {
@@ -59,7 +71,7 @@ export const GuideDetail = (props: RouteComponentProps<MatchParams>) => {
   }
 
   const guide = data.fetchGuide
-  const isBought = userData.unlockedGuides && userData.unlockedGuides.includes((unlockedGuideData) => unlockedGuideData.guideId === guide.id)
+  const isBought = userData.unlockedGuides && userData.unlockedGuides.find((unlockedGuideData) => unlockedGuideData.guideId === guide.id)
 
   return (
     <div style={{ marginTop: '20px' }}>
@@ -68,11 +80,11 @@ export const GuideDetail = (props: RouteComponentProps<MatchParams>) => {
           <ImageWrapper size={IMAGE_SIZES.MEDIUM} url={guide.previewImageUrl}/>
         </Col>
         <Col xs={24} sm={16} style={{ padding: '0 20px 20px' }}>
-          <h3>{guide.name}</h3>
-          <Text value={guide.description} textAlign={'justify'}/>
+          <GuideTitle>{guide.name}</GuideTitle>
+          <GuideDescription value={guide.description}/>
           {isBought ? (
             <Button m={'10px'}>
-              <Link to={`/guides/${guide.url}/explore`}>Try it for free</Link>
+              <Link to={`/guides/${guide.url}/explore`}>Open</Link>
             </Button>
           ) : (
             <>
