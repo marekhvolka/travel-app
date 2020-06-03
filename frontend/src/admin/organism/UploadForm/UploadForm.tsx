@@ -1,6 +1,6 @@
 import { Modal } from 'antd'
 import axios from 'axios'
-import React, { Component } from 'react'
+import React, { useRef, useState } from 'react'
 import ReactCrop, { ArrayBuffer, makeAspectCrop } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import { config } from '../../../config'
@@ -15,76 +15,66 @@ type State = {
   width: number
   fileUrl?: string
   src: ArrayBuffer
-  crop?: any
+  crop: any
 }
 
-export class UploadForm extends Component<Props, State> {
-  nameInput: any
-  fileInput: any
-  setFileInputRef: any
-  setNameInputRef: any
-
-  aspect = 3 / 2
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
+export const UploadForm = ({onClose, path}: Props) => {
+  const [fileName, setFileName] = useState('')
+  const [state, setState] = useState<State>({
       src: null,
       width: null,
       height: null,
       crop: {
         width: 100,
       },
-    }
-    this.nameInput = null
-    this.fileInput = null
+  })
+  const fileRef = useRef(undefined)
 
-    this.setFileInputRef = element => {
-      this.fileInput = element
-    }
-    this.setNameInputRef = element => {
-      this.nameInput = element
-    }
+  const aspect = 3 / 2
+
+  const onCropChange = crop => {
+    setState({
+      ...state,
+      crop
+    })
   }
 
-  onCropChange = crop => {
-    this.setState({ crop })
-  }
-
-  returnCrop = image => {
-    const crop = image.width / image.height > this.aspect ? { height: 100 } : { width: 100 }
+  const returnCrop = image => {
+    const crop = image.width / image.height > aspect ? { height: 100 } : { width: 100 }
 
     return makeAspectCrop(
       {
         x: 0,
         y: 0,
-        aspect: this.aspect,
+        aspect,
         ...crop,
       },
       image.width / image.height
     )
   }
 
-  onImageLoaded = image => {
-    this.setState({
-      crop: this.returnCrop(image),
+  const onImageLoaded = image => {
+    setState({
+      ...state,
+      crop: returnCrop(image),
       width: image.width,
       height: image.height,
     })
   }
 
-  updateFile = () => {
-    const file = this.fileInput.files[0]
+  const updateFile = () => {
+    const file = fileRef.current.files[0]
 
     if (file) {
-      this.nameInput.value = file.name
-      this.setState({
+      setFileName(file.name)
+      setState({
+        ...state,
         fileUrl: URL.createObjectURL(file),
       })
 
       const reader = new FileReader()
-      reader.addEventListener('load', () => this.setState({
+      reader.addEventListener('load', () => setState({
+          ...state,
           src: reader.result,
         }),
         false
@@ -93,12 +83,12 @@ export class UploadForm extends Component<Props, State> {
     }
   }
 
-  submit = () => {
+  const submit = () => {
     const data = new FormData()
-    data.append('file', this.fileInput.files[0])
-    data.append('filename', this.nameInput.value)
-    data.append('path', this.props.path)
-    data.append('crop', JSON.stringify(this.state.crop))
+    data.append('file', fileRef.current.files[0])
+    data.append('filename', fileName)
+    data.append('path', path)
+    data.append('crop', JSON.stringify(state.crop))
 
     axios
       .post(config.backendUrl + '/upload', data, {
@@ -107,7 +97,7 @@ export class UploadForm extends Component<Props, State> {
       .then(response => {
         // eslint-disable-next-line no-console
         console.log(response)
-        this.props.onClose()
+        onClose()
       })
       .catch(error => {
         // eslint-disable-next-line no-console
@@ -115,39 +105,37 @@ export class UploadForm extends Component<Props, State> {
       })
   }
 
-  onCropComplete = crop => {
+  const onCropComplete = crop => {
     // eslint-disable-next-line no-console
     console.log('onCropComplete', crop)
   }
 
-  render() {
-    return (
-      <Modal
-        visible={true}
-        title="Upload file form"
-        onCancel={this.props.onClose}
-        onOk={this.submit}
-        okText="Upload"
-      >
-        <input type="text" ref={this.setNameInputRef}/>
-        <input type="file" ref={this.setFileInputRef} onChange={data => this.updateFile && this.updateFile()}/>
-        {this.state.width && this.state.height && (this.state.width < 1200 || this.state.height < 800) && (
-          <div style={{ padding: '10px 20px' }}>
-            <h3>
-              Warning - image is too small - {this.state.width} px / {this.state.height} px
-            </h3>
-          </div>
-        )}
-        {this.state.src && (
-          <ReactCrop
-            src={this.state.src}
-            onImageLoaded={this.onImageLoaded}
-            onComplete={this.onCropComplete}
-            crop={this.state.crop}
-            onChange={this.onCropChange}
-          />
-        )}
-      </Modal>
-    )
-  }
+  return (
+    <Modal
+      visible={true}
+      title="Upload file form"
+      onCancel={onClose}
+      onOk={submit}
+      okText="Upload"
+    >
+      <input type="text" value={fileName} onChange={(event) => setFileName(event.target.value)} />
+      <input type="file" ref={fileRef} onChange={data => updateFile()}/>
+      {state.width && state.height && (state.width < 1200 || state.height < 800) && (
+        <div style={{ padding: '10px 20px' }}>
+          <h3>
+            Warning - image is too small - {state.width} px / {state.height} px
+          </h3>
+        </div>
+      )}
+      {state.src && (
+        <ReactCrop
+          src={state.src}
+          onImageLoaded={onImageLoaded}
+          onComplete={onCropComplete}
+          crop={state.crop}
+          onChange={onCropChange}
+        />
+      )}
+    </Modal>
+  )
 }
