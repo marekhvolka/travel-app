@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { DataTable } from '../../organism/DataTable/DataTable'
+import { getUserUrl } from '../../urlMaker'
 
 const QUERY = gql`
   {
@@ -48,7 +49,7 @@ export const AllUsers = () => {
         rowActions={user => [
           {
             label: 'Edit',
-            link: `/users/edit/${user.id}`,
+            link: getUserUrl(user.id),
           },
           user.role === 'player'
             ? {

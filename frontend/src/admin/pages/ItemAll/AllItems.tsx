@@ -4,6 +4,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
 import { ColumnTypes, DataTable } from '../../organism/DataTable/DataTable'
+import { getItemUrl } from '../../urlMaker'
 
 const QUERY = gql`
   {
@@ -73,7 +74,7 @@ export const AllItems = () => {
         rowActions={item => [
           {
             label: 'Edit',
-            link: `/items/edit/${item.id}`,
+            link: getItemUrl(item.id),
           },
           {
             label: 'Delete',

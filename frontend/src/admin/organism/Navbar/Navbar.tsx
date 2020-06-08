@@ -6,6 +6,7 @@ import FaTags from 'react-icons/lib/fa/tags'
 import styled from 'styled-components'
 import { Container } from '../../../common/atoms/Container/Container'
 import { UserAuthentication } from '../../../common/organism/UserAuthentication/UserAuthentication'
+import { GlobalSearch } from '../GlobalSearch/GlobalSearch'
 
 const NavbarItem = styled.li`
   border-right: 1px solid #e7e7e7;
@@ -70,6 +71,7 @@ export const Navbar = () => {
               <Link to={link.slug}>{link.label}</Link>
             </NavbarItem>
           ))}
+          <GlobalSearch />
           <NavbarItem style={{float: 'right'}}>
             <UserAuthentication />
           </NavbarItem>

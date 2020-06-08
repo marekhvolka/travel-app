@@ -7,6 +7,7 @@ import { DataTable } from '../../organism/DataTable/DataTable'
 import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
 import FaPencil from 'react-icons/lib/fa/pencil'
 import FaTrash from 'react-icons/lib/fa/trash'
+import { getVoucherUrl } from '../../urlMaker'
 
 
 const QUERY = gql`
@@ -72,7 +73,7 @@ export const AllVouchers = () => {
         rowActions={item => [
           {
             label: <FaPencil />,
-            link: `/vouchers/edit/${item.id}`,
+            link: getVoucherUrl(item.id),
           },
           {
             label: <FaTrash />,

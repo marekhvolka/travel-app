@@ -1,9 +1,12 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import React from 'react'
-import { Link } from 'react-router-dom'
 import gql from 'graphql-tag'
+import React from 'react'
+import FaPencil from 'react-icons/lib/fa/pencil'
+import FaTrash from 'react-icons/lib/fa/trash'
+import { Link } from 'react-router-dom'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
-import { DataTable, ColumnTypes } from '../../organism/DataTable/DataTable'
+import { ColumnTypes, DataTable } from '../../organism/DataTable/DataTable'
+import { getTagUrl } from '../../urlMaker'
 
 const QUERY = gql`
   {
@@ -71,11 +74,11 @@ export const AllTags = () => {
         items={data.tags}
         rowActions={item => [
           {
-            label: 'Edit',
-            link: `/tags/edit/${item.id}`,
+            label: <FaPencil/>,
+            link: getTagUrl(item.id),
           },
           {
-            label: 'Delete',
+            label: <FaTrash/>,
             action: (item) => {
               console.log('Deleting tag' + item.id)
               showFlashMessage('Tag ' + item.name + ' successfully removed', FlashMessageType.SUCCESS)

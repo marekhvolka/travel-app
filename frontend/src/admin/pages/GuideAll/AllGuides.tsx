@@ -4,6 +4,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
 import { ColumnTypes, DataTable } from '../../organism/DataTable/DataTable'
+import { getGuideUrl } from '../../urlMaker'
 
 const QUERY = gql`
   {
@@ -62,7 +63,7 @@ export const AllGuides = () => {
         rowActions={item => [
           {
             label: 'Edit',
-            link: `/guides/edit/${item.id}`,
+            link: getGuideUrl(item.id),
           },
           {
             label: 'Routes',

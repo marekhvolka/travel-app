@@ -4,6 +4,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
 import { ColumnTypes, DataTable } from '../../organism/DataTable/DataTable'
+import { getCityUrl } from '../../urlMaker'
 
 const QUERY = gql`
   {
@@ -56,7 +57,7 @@ export const AllCities = () => {
         rowActions={item => [
           {
             label: 'Edit',
-            link: `/cities/edit/${item.id}`,
+            link: getCityUrl(item.id),
           },
           {
             label: 'Delete',
