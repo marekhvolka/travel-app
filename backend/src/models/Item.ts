@@ -49,7 +49,7 @@ export class Item extends BaseEntity {
   @Column()
   longitude: number
 
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   @Column()
   zoomLevel: number
 

@@ -5,7 +5,7 @@ import { Context } from '../models/Context'
 import { Guide } from '../models/Guide'
 import { User } from '../models/User'
 import { Voucher } from '../models/Voucher'
-import { AuthorizationError, InternalServerError } from '../utils/errors'
+import { AuthorizationError } from '../utils/errors'
 
 @Resolver(() => Voucher)
 export class VoucherResolver {

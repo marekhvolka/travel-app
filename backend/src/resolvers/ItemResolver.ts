@@ -115,36 +115,35 @@ export class ItemResolver {
       throw new AuthorizationError('User not authorized')
     }
 
-    let item;
+    let item: Item | undefined
 
     if (data.id) {
       await Item.update(data.id, data)
-      item = Item.findOne(data.id)
+      item = await Item.findOne(data.id)
     } else {
-      item = Item.create(data).save()
+      item = await Item.create(data).save()
     }
-    const promises = data.relatedItemIds.map((relatedItemId: string) => {
-      return ItemRelation.find()
-        .or([
-          {
-            firstItemId: relatedItemId,
-            secondItemId: data.id,
-          },
-          {
-            firstItemId: data.id,
-            secondItemId: relatedItemId,
-          },
-        ])
-        .then((relations: ItemRelation[]) => {
-          console.log(relations)
+    const promises = data.relatedItemIds.map(async (relatedItemId: string) => {
+      const relations1 = await ItemRelation.find({
+        where: {
+          firstItemId: relatedItemId,
+          secondItemId: data.id,
+        }
+      })
 
-          if (relations.length === 0) {
-            ItemRelation.create({
-              firstItemId: new ObjectID(data.id),
-              secondItemId: new ObjectID(relatedItemId),
-            })
-          }
-        })
+      const relations2 = await ItemRelation.find({
+        where: {
+          firstItemId: data.id,
+          secondItemId: relatedItemId,
+        }
+      })
+
+      if (relations1.length === 0 && relations2.length === 0) {
+        ItemRelation.create({
+          firstItemId: new ObjectID(data.id),
+          secondItemId: new ObjectID(relatedItemId),
+        }).save()
+      }
     })
 
     await Promise.all(promises)

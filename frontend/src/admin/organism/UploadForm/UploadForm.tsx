@@ -3,6 +3,7 @@ import axios from 'axios'
 import React, { useRef, useState } from 'react'
 import ReactCrop, { ArrayBuffer, makeAspectCrop } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
+import { Input } from '../../../common/atoms/Input/Input'
 import { config } from '../../../config'
 
 type Props = {
@@ -118,7 +119,6 @@ export const UploadForm = ({onClose, path}: Props) => {
       onOk={submit}
       okText="Upload"
     >
-      <input type="text" value={fileName} onChange={(event) => setFileName(event.target.value)} />
       <input type="file" ref={fileRef} onChange={data => updateFile()}/>
       {state.width && state.height && (state.width < 1200 || state.height < 800) && (
         <div style={{ padding: '10px 20px' }}>
@@ -128,13 +128,16 @@ export const UploadForm = ({onClose, path}: Props) => {
         </div>
       )}
       {state.src && (
-        <ReactCrop
-          src={state.src}
-          onImageLoaded={onImageLoaded}
-          onComplete={onCropComplete}
-          crop={state.crop}
-          onChange={onCropChange}
-        />
+        <>
+          <Input label="Image name" value={fileName} name="filename" onChange={(data) => setFileName(data.filename)} />
+          <ReactCrop
+            src={state.src}
+            onImageLoaded={onImageLoaded}
+            onComplete={onCropComplete}
+            crop={state.crop}
+            onChange={onCropChange}
+          />
+        </>
       )}
     </Modal>
   )

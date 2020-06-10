@@ -114,7 +114,7 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
             Save
           </Button>
         </h2>
-        <Tabs defaultActiveIndex={3}>
+        <Tabs defaultActiveIndex={0}>
           <div title="Basic settings">
             <ItemForm modelChanged={modelChanged} model={model}/>
           </div>

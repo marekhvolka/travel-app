@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import { Flex } from '../Flex/Flex'
 import { Box } from '../Box/Box'
-import { GalleryContainer } from '../../../admin/organism/Gallery/GalleryContainer'
+import { Gallery } from '../../../admin/organism/Gallery/Gallery'
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper'
 import { IMAGE_SIZES } from '../../common'
 import { Button } from '../Button/Button'
@@ -41,7 +41,7 @@ export const ImageInput = (props: Props) => {
       <ImageWrapper size={IMAGE_SIZES.MEDIUM} url={props.value} style={{ maxWidth: '500px' }} />
 
       <Modal isOpen={isGalleryOpen} onRequestClose={() => setIsGalleryOpen(false)} contentLabel="Example Modal">
-        <GalleryContainer onImageSelected={onImageSelected} />
+        <Gallery onImageSelected={onImageSelected} />
       </Modal>
     </div>
   )

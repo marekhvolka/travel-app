@@ -11,21 +11,29 @@ type Props = {
   onRelatedItemClicked: (string) => void
 }
 
-const ItemName = styled.h5`
+const ItemName = styled.h4`
   font-weight: bold
+  margin-bottom: 4px
 `
+
+const ItemText = styled.p`
+  text-align: justify
+  color: #13111196
+`
+
+const defaultTitle = 'This is default title. It\'s usually shorter than a description. Two sentences seems to be all right'
 
 export const ItemsList = ({ items, onRelatedItemClicked }: Props) => (
   <div>
     {items.map(item => (
       <Box style={{ cursor: 'pointer' }} key={item.id} onClick={() => onRelatedItemClicked(item.id)}>
         <Flex>
-          <Box flex={1}>
+          <Box flex={3}>
             <ImageWrapper size={IMAGE_SIZES.SMALL} url={item.previewImageUrl} />
           </Box>
-          <Box flex={3} style={{ padding: '13px 10px' }}>
+          <Box flex={5} style={{ padding: '0px 10px' }}>
             <ItemName>{item.name}</ItemName>
-            <Text value={item.title} />
+            <ItemText>{item.title || defaultTitle}</ItemText>
           </Box>
         </Flex>
       </Box>

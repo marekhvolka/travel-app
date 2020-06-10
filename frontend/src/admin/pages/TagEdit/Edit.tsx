@@ -1,22 +1,17 @@
-import React from 'react'
 import gql from 'graphql-tag'
-import { TagForm } from '../../organism/TagForm/TagForm'
-import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditView'
+import React from 'react'
 import { Button } from '../../../common/atoms/Button/Button'
-import { Flex } from '../../../common/atoms/Flex/Flex'
-import { Box } from '../../../common/atoms/Box/Box'
+import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditView'
+import { TagForm } from '../../organism/TagForm/TagForm'
 
 const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => (
-  <Flex>
-    <Box flex={7}>
-      <h1>
-        {model.id ? `Edit tag ${model.name}` : 'Add tag'}
-        <Button float={'right'} onClick={handleSubmit}>Save</Button>
-      </h1>
-      <TagForm modelChanged={modelChanged} model={model} />
-    </Box>
-    <Box flex={3} />
-  </Flex>
+  <>
+    <h1>
+      {model.id ? `Edit tag ${model.name}` : 'Add tag'}
+      <Button float={'right'} onClick={handleSubmit}>Save</Button>
+    </h1>
+    <TagForm modelChanged={modelChanged} model={model} />
+  </>
 )
 
 const FETCH_QUERY = gql`

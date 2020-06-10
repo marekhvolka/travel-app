@@ -43,6 +43,7 @@ export const CreateDirectory = (props: Props) => {
       onCancel={props.onClose}
     >
       <Input
+        label="Directory name"
         value={directoryName}
         name="dirInput"
         onChange={input => setDirectoryName(input.dirInput)}

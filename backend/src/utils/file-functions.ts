@@ -1,7 +1,7 @@
 import config from '../../config/config'
 import shell from 'shelljs'
 import sharp from 'sharp'
-import fs from 'fs'
+import fs from 'fs-extra'
 
 export const resourcesSizes = [
   {
@@ -46,6 +46,12 @@ export const saveFile = async (sourcePath: string, targetPath: string, targetFil
     }
 
     cropped.resize(resourceSize.width, resourceSize.height).toFile(relativePath + outputDir + targetFileName)
+  })
+}
+
+export const deleteFile = (path: string) => {
+  resourcesSizes.forEach((resourceSize) => {
+    fs.removeSync(`${relativePath}/${resourceSize}/${path}`)
   })
 }
 

@@ -17,7 +17,7 @@ import {
   MapZoomLevelChangedAction,
   State,
 } from '../../../store'
-import ItemDetail from '../ItemDetail/ItemDetail'
+import { ItemDetail } from '../ItemDetail/ItemDetail'
 import { CustomMarker } from './Marker'
 
 const SelectedItemWrapper = styled.div`
@@ -34,6 +34,8 @@ const SelectedItemWrapper = styled.div`
   background: #fff
   padding: 5px 10px
 `
+
+const defaultTitle = 'This is default title. It\'s usually shorter than a description. Two sentences seems to be all right'
 
 export const MapViewer = ({ model }) => {
   const [map, setMap] = useState()
@@ -89,7 +91,7 @@ export const MapViewer = ({ model }) => {
               <ImageWrapper size={IMAGE_SIZES.THUMBNAIL} url={selectedItem.previewImageUrl}/>
             </Box>
             <Box flex={3}>
-              <Text p={'0 20px'} value={selectedItem.title}/>
+              <Text p={'0 20px'} value={selectedItem.title || defaultTitle}/>
               <Button onClick={() => dispatch({ ...new MapShowFullItemDetailAction() })} small>
                 Detail
               </Button>

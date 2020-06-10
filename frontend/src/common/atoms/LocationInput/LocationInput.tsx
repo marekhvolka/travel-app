@@ -48,7 +48,7 @@ export const LocationInput = (props: Props) => {
         onLoad={mapRef => (map = mapRef)}
         onClick={onClick}
         onZoomChanged={onChangeZoom}
-        zoom={zoomLevel}
+        zoom={zoomLevel || 12.9}
         center={{
           lat: latitude,
           lng: longitude,

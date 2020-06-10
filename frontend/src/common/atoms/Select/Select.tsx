@@ -22,7 +22,6 @@ export const Select = (props: Props) => {
     <Form.Item label={label}>
       <BaseSelect
         placeholder="Not selected"
-        style={{ width: 120 }}
         value={value}
         onChange={value =>
           onChange({

@@ -15,7 +15,7 @@ import { UserProgress } from '../../pages/User/Progress/index'
 import { AllVouchers } from '../../pages/VoucherAll/AllVouchers'
 import VoucherForm from '../../pages/VoucherEdit/Edit'
 import { Home } from '../../pages/Home/Home'
-import { GalleryContainer } from '../Gallery/GalleryContainer'
+import { Gallery } from '../Gallery/Gallery'
 import { ProtectedRoute } from '../../../common/atoms/ProtectedRoute/ProtectedRoute'
 import { Navbar } from '../Navbar/Navbar'
 import { Sidebar } from '../Sidebar/Sidebar'
@@ -67,7 +67,7 @@ const Wrapper = () => (
           <ProtectedRoute path={'/users'} exact component={AllUsers} />
           <ProtectedRoute path={'/users/progress/:id'} component={UserProgress} />
 
-          <ProtectedRoute path={'/gallery'} component={GalleryContainer} />
+          <ProtectedRoute path={'/gallery'} component={Gallery} />
         </Switch>
       </Container>
     </Main>

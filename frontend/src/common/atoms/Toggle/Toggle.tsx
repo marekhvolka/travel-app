@@ -14,13 +14,14 @@ export const Toggle = (props: Props) => (
     <Switch
       checkedChildren="On"
       unCheckedChildren="Off"
-      defaultChecked={props.value}
+      checked={props.value}
       onChange={value =>
         props.onChange({
           [props.name]: value,
         })
       }
     />
+    {'The value is ' + props.value}
     {props.helperText && <p>{props.helperText}</p>}
   </Form.Item>
 )

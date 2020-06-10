@@ -10,6 +10,12 @@ export enum ColumnTypes {
   IMAGE,
 }
 
+type Field = {
+  label: string
+  name: string
+  type?: ColumnTypes
+}
+
 type RowAction = {
   label: any
   link?: string
@@ -17,7 +23,7 @@ type RowAction = {
 }
 
 type Props = {
-  fields: any[]
+  fields: Field[]
   items: any[]
   rowActions: (item: any) => RowAction[]
 }
@@ -27,15 +33,13 @@ export const DataTable = ({ fields, items, rowActions }: Props) => {
     return {
       title: field.label,
       dataIndex: field.name,
-      key: field.name,
-      render: (value, row) => getTableCell(value, field, '')
+      render: (value, row) => getTableCell(value, field)
     }
   })
 
   columns.push({
     title: '',
     dataIndex: '',
-    key: 'action',
     render: (item, row) => (
       <>
         {rowActions(row).map(rowAction => (
@@ -44,17 +48,17 @@ export const DataTable = ({ fields, items, rowActions }: Props) => {
               {rowAction.label}
             </Link>
           ) : (
-            <span style={{margin: '0 5px'}} onClick={() => rowAction.action(item)}>{rowAction.label}</span>
+            <span style={{ margin: '0 5px' }} onClick={() => rowAction.action(item)}>{rowAction.label}</span>
           ))
         ))}
       </>
     )
   })
 
-  return <Table columns={columns} dataSource={items}/>
+  return <Table rowKey="id" columns={columns} dataSource={items.map((item) => ({ ...item, key: item.id }))}/>
 }
 
-const getTableCell = (value: string, field, key) => {
+const getTableCell = (value: string, field: Field) => {
   let content
 
   switch (field.type) {
@@ -65,11 +69,11 @@ const getTableCell = (value: string, field, key) => {
       content = <ImageWrapper size={IMAGE_SIZES.SMALL} style={{ width: '200px' }} url={value}/>
       break
     case ColumnTypes.HTML:
-      return <td key={key} dangerouslySetInnerHTML={{ __html: content }}/>
+      return <span dangerouslySetInnerHTML={{ __html: value }}/>
 
     default:
       content = value
   }
 
-  return <td key={key}>{content}</td>
+  return <span>{content}</span>
 }
