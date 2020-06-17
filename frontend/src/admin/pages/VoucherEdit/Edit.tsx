@@ -32,6 +32,12 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
   )
 }
 
+const CREATE_NEW_OBJECT_QUERY = gql`
+  {
+    returnNewVoucher
+  }
+`
+
 const FETCH_QUERY = gql`
   query fetch($id: String!) {
     fetchVoucher(id: $id) {
@@ -57,6 +63,8 @@ const UPDATE_MUTATION = gql`
 export default makeEditView(Edit, {
   query: FETCH_QUERY,
   queryName: 'fetchVoucher',
+  queryNewObject: CREATE_NEW_OBJECT_QUERY,
+  queryNewObjectName: 'returnNewVoucher',
   mutation: UPDATE_MUTATION,
   mutationName: 'updateVoucher',
   slug: 'vouchers',

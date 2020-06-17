@@ -14,6 +14,12 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => (
   </div>
 )
 
+const CREATE_NEW_OBJECT_QUERY = gql`
+  {
+    returnNewCity
+  }
+`
+
 const FETCH_QUERY = gql`
   query fetch($id: String!) {
     fetchCity(id: $id) {
@@ -36,5 +42,7 @@ export default makeEditView(Edit, {
   queryName: 'fetchCity',
   mutation: UPDATE_MUTATION,
   mutationName: 'updateCity',
+  queryNewObject: CREATE_NEW_OBJECT_QUERY,
+  queryNewObjectName: 'returnNewCity',
   slug: 'cities',
 })

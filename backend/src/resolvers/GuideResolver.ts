@@ -1,3 +1,4 @@
+import { GraphQLJSONObject } from 'graphql-type-json'
 import { ObjectID } from 'mongodb'
 import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { GuideInput } from '../inputs/GuideInput'
@@ -10,10 +11,11 @@ import { AuthorizationError } from '../utils/errors'
 @Resolver(() => Guide)
 export class GuideResolver {
   @FieldResolver(() => [Item])
-  items(@Root() guide: Guide) {
+  items(@Root() guide: Guide, @Arg('published', { nullable: true }) published: boolean) {
     return Item.find({
       where: {
         _id: { $in: guide.itemIds.map(id => new ObjectID(id)) },
+        ...(published ? { published: true } : {})
       },
     })
   }
@@ -30,6 +32,15 @@ export class GuideResolver {
   @Query(() => Guide)
   fetchGuide(@Arg('id', { nullable: true }) id: string, @Arg('url', { nullable: true }) url: string) {
     return id ? Guide.findOne(id) : Guide.findOne({ url })
+  }
+
+  @Query(() => GraphQLJSONObject)
+  returnNewGuide(@Ctx() context: Context) {
+    if (!context.user) {
+      throw new AuthorizationError('User not authorized')
+    }
+
+    return Guide.create()
   }
 
   @Query(() => [Guide])

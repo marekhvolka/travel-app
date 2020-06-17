@@ -1,4 +1,5 @@
 import { Restrictions } from './Restrictions'
+import { Tag } from './Tag'
 
 export type Item = {
   id: string
@@ -10,7 +11,9 @@ export type Item = {
   longitude: number
   zoomLevel: number
   published: boolean
+  showOnMap: boolean
   previewImageUrl: string
   restrictions: Restrictions
   relatedItems: Item[]
+  tags: Tag[]
 }

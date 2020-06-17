@@ -1,3 +1,4 @@
+import { GraphQLJSONObject } from 'graphql-type-json'
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { CityInput } from '../inputs/CityInput'
 import { City } from '../models/City'
@@ -9,6 +10,15 @@ export class CityResolver {
   @Query(() => City)
   fetchCity(@Arg('id', { nullable: false }) id: string) {
     return City.findOne(id)
+  }
+
+  @Query(() => GraphQLJSONObject)
+  returnNewCity(@Ctx() context: Context) {
+    if (!context.user) {
+      throw new AuthorizationError('User not authorized')
+    }
+
+    return City.create()
   }
 
   @Query(() => [City])

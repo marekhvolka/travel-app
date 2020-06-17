@@ -9,9 +9,9 @@ export class DayRestriction {
 
   @Field(() => String, { nullable: true })
   @Column()
-  from: string
+  from?: string
 
   @Field(() => String, { nullable: true })
   @Column()
-  to: string
+  to?: string
 }

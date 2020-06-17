@@ -1,5 +1,6 @@
 import { Field, Float, ID, InputType } from 'type-graphql'
 import { ObjectID } from 'typeorm'
+import { ItemType } from '../models/ItemType'
 import { RestrictionsInput } from './RestrictionsInput'
 
 @InputType()
@@ -16,11 +17,14 @@ export class ItemInput {
   @Field(() => String)
   description: string
 
-  @Field(() => String)
-  type: string
+  @Field(() => ItemType)
+  type: ItemType
 
   @Field(() => Boolean)
   published: boolean
+
+  @Field(() => Boolean)
+  showOnMap: boolean
 
   @Field(() => String)
   previewImageUrl: string
@@ -34,7 +38,7 @@ export class ItemInput {
   @Field(() => Float, { nullable: true })
   longitude: number
 
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   zoomLevel: number
 
   @Field(() => RestrictionsInput)

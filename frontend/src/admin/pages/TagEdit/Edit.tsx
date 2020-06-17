@@ -14,6 +14,12 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => (
   </>
 )
 
+const CREATE_NEW_OBJECT_QUERY = gql`
+  {
+    returnNewTag
+  }
+`
+
 const FETCH_QUERY = gql`
   query fetch($id: String!) {
     fetchTag(id: $id) {
@@ -38,6 +44,8 @@ const UPDATE_MUTATION = gql`
 export default makeEditView(Edit, {
   query: FETCH_QUERY,
   queryName: 'fetchTag',
+  queryNewObject: CREATE_NEW_OBJECT_QUERY,
+  queryNewObjectName: 'returnNewTag',
   mutation: UPDATE_MUTATION,
   mutationName: 'updateTag',
   slug: 'tags',

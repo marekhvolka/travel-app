@@ -1,8 +1,9 @@
+import { GraphQLJSONObject } from 'graphql-type-json'
 import { ObjectID } from 'mongodb'
 import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { ItemInput } from '../inputs/ItemInput'
 import { Context } from '../models/Context'
-import { Item } from '../models/Item'
+import { defaultRestrictions, Item } from '../models/Item'
 import { ItemRelation } from '../models/ItemRelation'
 import { Restrictions } from '../models/Restrictions'
 import { Tag } from '../models/Tag'
@@ -40,7 +41,7 @@ export class ItemResolver {
   }
 
   @FieldResolver(() => [Item])
-  async relatedItems(@Root() item: Item) {
+  async relatedItems(@Root() item: Item, @Arg('published', { nullable: true }) published: boolean) {
     const relations1 = await ItemRelation.find({
       where: {
         firstItemId: item.id.toString(),
@@ -61,6 +62,7 @@ export class ItemResolver {
             ...relations2!.map(relation => new ObjectID(relation.firstItemId)),
           ],
         },
+        ...(published ? { published: true } : {})
       },
     })
   }
@@ -71,37 +73,21 @@ export class ItemResolver {
       return item.restrictions
     }
 
-    return {
-      state: 'notDefined',
-      dayRestrictions: {
-        mon: {
-          state: 'open',
-        },
-        tue: {
-          state: 'open',
-        },
-        wed: {
-          state: 'open',
-        },
-        thu: {
-          state: 'open',
-        },
-        fri: {
-          state: 'open',
-        },
-        sat: {
-          state: 'open',
-        },
-        sun: {
-          state: 'open',
-        },
-      },
-    }
+    return defaultRestrictions
   }
 
   @Query(() => Item)
-  fetchItem(@Arg('id', { nullable: false }) id: string) {
+  fetchItem(@Arg('id') id: string) {
     return Item.findOne(id)
+  }
+
+  @Query(() => GraphQLJSONObject)
+  returnNewItem(@Ctx() context: Context) {
+    if (!context.user) {
+      throw new AuthorizationError('User not authorized')
+    }
+
+    return Item.create()
   }
 
   @Query(() => [Item])

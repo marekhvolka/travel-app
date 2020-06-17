@@ -8,7 +8,7 @@ const IMAGE_SIZES = {
 }
 
 const ITEM_TYPES = {
-  PLACE: 'place',
+  PLACE: 'PLACE',
 }
 
 const getImageUrl = (size, imageUrl) =>

@@ -48,10 +48,7 @@ export class Guide extends BaseEntity {
 
   @Field(() => [String])
   @Column()
-  itemIds: string[]
-
-  @Field(() => [Item])
-  items: Item[]
+  itemIds: string[] = []
 
   @Field(() => Int)
   @Column()
@@ -60,6 +57,10 @@ export class Guide extends BaseEntity {
   @Field(() => String)
   @Column()
   currency: string
+
+
+  @Field(() => [Item])
+  items: Item[]
 
   @Field(() => [Voucher])
   vouchers: Voucher[]

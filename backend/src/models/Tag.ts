@@ -1,5 +1,5 @@
-import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 import { Field, ID, ObjectType } from 'type-graphql'
+import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 import { Item } from './Item'
 
 @ObjectType()
@@ -28,6 +28,7 @@ export class Tag extends BaseEntity {
   @Field(() => Boolean)
   @Column()
   published: boolean
+
 
   @Field(() => [Item])
   items: Item[]

@@ -28,6 +28,7 @@ export const Select = (props: Props) => {
             [name]: value,
           })
         }
+        style={{minWidth: '120px'}}
       >
         <BaseSelect.Option value={null}>Not selected</BaseSelect.Option>
         {props.options.map(option => (

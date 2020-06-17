@@ -20,4 +20,7 @@ export class VoucherInput {
 
   @Field(() => String, { nullable: true })
   partnerId: string
+
+  @Field(() => [String])
+  usedByIds: string[]
 }

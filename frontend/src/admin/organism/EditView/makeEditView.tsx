@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { DocumentNode } from 'graphql'
-import isNil from 'lodash/isNil'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
@@ -10,6 +9,8 @@ import { removeKeys } from '../../../common/common'
 type EditViewOptions = {
   query: DocumentNode
   queryName: string
+  queryNewObject?: DocumentNode
+  queryNewObjectName?: string
   mutation: DocumentNode
   mutationName: string
   slug: string,
@@ -30,15 +31,14 @@ export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
   const FinalComponent = (props) => {
     const params = useParams<MatchParams>()
     const history = useHistory()
-    const { loading, error, data } = useQuery(options.query, {
-      skip: isNil(params.id),
+    const { loading, error, data } = useQuery(params.id ? options.query : options.queryNewObject, params.id ? {
       variables: { id: params.id }
-    })
+    } : {})
     const [updateMutation, { loading: mutationLoading }] = useMutation(options.mutation)
-    const [model, setModel] = useState(data ? data[options.queryName] : options.initialModel || {})
+    const [model, setModel] = useState(data ? data[params.id ? options.queryName : options.queryNewObjectName] : options.initialModel || {})
 
     useEffect(() => {
-      setModel(data ? data[options.queryName] : {})
+      setModel(data ? data[params.id ? options.queryName : options.queryNewObjectName] : {})
     }, [data])
 
     const handleSubmit = async () => {

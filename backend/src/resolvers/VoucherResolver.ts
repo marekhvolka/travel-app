@@ -1,3 +1,4 @@
+import { GraphQLJSONObject } from 'graphql-type-json'
 import { ObjectID } from 'mongodb'
 import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { VoucherInput } from '../inputs/VoucherInput'
@@ -26,6 +27,15 @@ export class VoucherResolver {
   @Query(() => Voucher)
   fetchVoucher(@Arg('id', { nullable: true }) id: string, @Arg('code', { nullable: true }) code: string) {
     return id ? Voucher.findOne(id) : Voucher.findOne({ code })
+  }
+
+  @Query(() => GraphQLJSONObject)
+  returnNewVoucher(@Ctx() context: Context) {
+    if (!context.user) {
+      throw new AuthorizationError('User not authorized')
+    }
+
+    return Voucher.create()
   }
 
   @Query(() => [Voucher])

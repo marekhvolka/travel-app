@@ -20,7 +20,7 @@ export class Voucher extends BaseEntity {
 
   @Field(() => Int)
   @Column()
-  maxUsageCount: number
+  maxUsageCount: number = 1
 
   @Field(() => String)
   @Column()
@@ -34,12 +34,13 @@ export class Voucher extends BaseEntity {
   @Column()
   guideId: string
 
-  @Field(() => Guide)
-  guide: Guide
-
   @Field(() => [String])
   @Column()
-  usedByIds: string[]
+  usedByIds: string[] = []
+
+
+  @Field(() => Guide)
+  guide: Guide
 
   @Field(() => [User])
   usedBy: User[]

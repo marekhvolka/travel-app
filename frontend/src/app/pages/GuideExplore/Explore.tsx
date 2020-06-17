@@ -18,6 +18,7 @@ const GUIDE_QUERY = gql`
   fragment itemBaseFields on Item {
     id
     name
+    showOnMap
     title
     description
     previewImageUrl
@@ -65,11 +66,11 @@ const GUIDE_QUERY = gql`
       latitude
       longitude
       zoomLevel
-      items {
+      items(published: true) {
         ...itemBaseFields
         latitude
         longitude
-        relatedItems {
+        relatedItems(published: true) {
           ...itemBaseFields
         }
       }

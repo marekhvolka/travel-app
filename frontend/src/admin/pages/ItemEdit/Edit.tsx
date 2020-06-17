@@ -11,6 +11,12 @@ import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditVie
 import { ItemForm } from '../../organism/ItemForm/ItemForm'
 import { RestrictionsForm } from '../../organism/ItemForm/Restrictions/RestrictionsForm'
 
+const CREATE_NEW_OBJECT_QUERY = gql`
+  {
+    returnNewItem
+  }
+`
+
 const FETCH_QUERY = gql`
   fragment dayRestrictionFields on DayRestriction {
     state
@@ -24,6 +30,7 @@ const FETCH_QUERY = gql`
       title
       type
       published
+      showOnMap
       description
       latitude
       longitude
@@ -163,6 +170,8 @@ export default makeEditView(Edit, {
   mutationName: 'update',
   query: FETCH_QUERY,
   queryName: 'fetchItem',
+  queryNewObject: CREATE_NEW_OBJECT_QUERY,
+  queryNewObjectName: 'returnNewItem',
   slug: 'item',
   initialModel
 })

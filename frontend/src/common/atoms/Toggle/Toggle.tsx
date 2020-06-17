@@ -21,7 +21,6 @@ export const Toggle = (props: Props) => (
         })
       }
     />
-    {'The value is ' + props.value}
     {props.helperText && <p>{props.helperText}</p>}
   </Form.Item>
 )

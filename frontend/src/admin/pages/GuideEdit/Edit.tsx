@@ -56,6 +56,12 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
   )
 }
 
+const CREATE_NEW_OBJECT_QUERY = gql`
+  {
+    returnNewGuide
+  }
+`
+
 const FETCH_QUERY = gql`
   query fetch($id: String!) {
     fetchGuide(id: $id) {
@@ -87,6 +93,8 @@ const UPDATE_MUTATION = gql`
 export default makeEditView(Edit, {
   query: FETCH_QUERY,
   queryName: 'fetchGuide',
+  queryNewObject: CREATE_NEW_OBJECT_QUERY,
+  queryNewObjectName: 'returnNewGuide',
   mutation: UPDATE_MUTATION,
   mutationName: 'updateGuide',
   slug: 'guides',
