@@ -10,6 +10,7 @@ import { Text } from '../../../common/atoms/Text/Text'
 import { IMAGE_SIZES, ITEM_TYPES } from '../../../common/common'
 import { config } from '../../../config'
 import {
+  ToggleFavouriteItemAction,
   MapHideFullItemDetailAction,
   MapLatLngChangedAction,
   MapSelectItemAction,
@@ -39,49 +40,51 @@ const defaultTitle = 'This is default title. It\'s usually shorter than a descri
 
 export const MapViewer = ({ model }) => {
   const [map, setMap] = useState()
-  const userData = useSelector((state: State) => state.userData)
+  const guideData = useSelector((state: State) => state.userData.guidesData[model.id])
   const dispatch = useDispatch()
 
-  const selectedItem = model.items && model.items.find(item => userData && item.id === userData.selectedItemId)
+  const selectedItem = model.items && model.items.find(item => guideData && item.id === guideData.selectedItemId)
 
   return (
     <LoadScript id="script-loader" googleMapsApiKey={config.googleMapsApiKey}>
       <GoogleMap
         mapContainerStyle={{
           left: 0,
-          top: 0,
+          top: '50px',
           bottom: 0,
           right: 0,
           position: 'absolute',
         }}
         onLoad={(mapRef) => setMap(mapRef)}
-        onZoomChanged={() => map && dispatch({ ...new MapZoomLevelChangedAction(map.zoom) })}
-        onDragEnd={() => map && dispatch({ ...new MapLatLngChangedAction(map.center.lat(), map.center.lng()) })}
-        zoom={userData ? userData.zoomLevel || model.zoomLevel : model.zoomLevel}
+        onZoomChanged={() => map && dispatch({ ...new MapZoomLevelChangedAction(model.id, map.zoom) })}
+        onDragEnd={() => map && dispatch({ ...new MapLatLngChangedAction(model.id, map.center.lat(), map.center.lng()) })}
+        zoom={guideData ? guideData.zoomLevel || model.zoomLevel : model.zoomLevel}
         center={{
-          lat: userData ? userData.mapLatitude || model.latitude : model.latitude,
-          lng: userData ? userData.mapLongitude || model.longitude : model.longitude,
+          lat: guideData ? guideData.mapLatitude || model.latitude : model.latitude,
+          lng: guideData ? guideData.mapLongitude || model.longitude : model.longitude,
         }}
       >
         {model.items &&
         model.items
-          .filter(item => item.type === ITEM_TYPES.PLACE)
+          .filter(item => item.type === ITEM_TYPES.PLACE && item.showOnMap)
           .map(item => (
             <CustomMarker
               key={item.id}
-              isSelected={userData && userData.selectedItemId === item.id}
+              isSelected={guideData && guideData.selectedItemId === item.id}
               item={item}
-              onClick={() => dispatch({ ...new MapSelectItemAction(item.id) })}
+              onClick={() => dispatch({ ...new MapSelectItemAction(model.id, item.id) })}
             />
           ))}
       </GoogleMap>
-      {userData &&
-      userData.selectedItemId &&
-      (userData.showFullDetail ? (
+      {guideData &&
+      guideData.selectedItemId &&
+      (guideData.showFullDetail ? (
         <ItemDetail
+          guideData={guideData}
           item={selectedItem}
-          hide={() => dispatch({ ...new MapHideFullItemDetailAction() })}
-          onRelatedItemClicked={(selectedItemId) => dispatch({ ...new MapSelectItemAction(selectedItemId) })}
+          hide={() => dispatch({ ...new MapHideFullItemDetailAction(model.id) })}
+          onRelatedItemClicked={(selectedItemId) => dispatch({ ...new MapSelectItemAction(model.id, selectedItemId) })}
+          onToggleFavouriteItemClicked={() => dispatch({... new ToggleFavouriteItemAction(model.id, selectedItem.id)})}
         />
       ) : (
         <SelectedItemWrapper>
@@ -92,7 +95,7 @@ export const MapViewer = ({ model }) => {
             </Box>
             <Box flex={3}>
               <Text p={'0 20px'} value={selectedItem.title || defaultTitle}/>
-              <Button onClick={() => dispatch({ ...new MapShowFullItemDetailAction() })} small>
+              <Button onClick={() => dispatch({ ...new MapShowFullItemDetailAction(model.id) })} small>
                 Detail
               </Button>
             </Box>

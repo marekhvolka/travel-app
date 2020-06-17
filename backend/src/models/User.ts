@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 import { ObjectType, Field, ID } from 'type-graphql'
-import { GuideData } from './GuideData'
+import { GuidesData } from './GuidesData'
 import { UnlockedGuide } from './UnlockedGuide'
 
 @Entity()
@@ -25,8 +25,8 @@ export class User extends BaseEntity {
   @Column()
   unlockedGuides: UnlockedGuide[]
 
-  @Column(() => GuideData)
-  guidesData: GuideData
+  @Column(() => GuidesData)
+  guidesData: GuidesData
 
   @Column()
   token: string

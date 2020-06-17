@@ -2,15 +2,24 @@ import { createStore } from 'redux'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-type UserData = {
-  id: string
-  email: string
-  token: string
+export type GuideData = {
   mapZoomLevel: number
   mapLatitude: number
   mapLongitude: number
   selectedItemId: string
   showFullDetail: boolean
+  favouriteItemsIds: {
+    [itemId: string]: {}
+  }
+}
+
+export type UserData = {
+  id: string
+  email: string
+  token: string
+  guidesData: {
+    [guideId: string]: GuideData
+  }
 }
 
 export enum ActionTypes {
@@ -21,6 +30,7 @@ export enum ActionTypes {
   MAP_SELECT_ITEM = 'MAP_SELECT_ITEM',
   MAP_SHOW_FULL_ITEM_DETAIL = 'MAP_SHOW_FULL_ITEM_DETAIL',
   MAP_HIDE_FULL_ITEM_DETAIL = 'MAP_HIDE_FULL_ITEM_DETAIL',
+  TOGGLE_FAVOURITE_ITEM = 'TOGGLE_FAVOURITE_ITEM',
 }
 
 export class LoadUserAction {
@@ -38,22 +48,30 @@ export class LogoutUserAction {
 
 export class MapZoomLevelChangedAction {
   type: typeof ActionTypes.MAP_ZOOM_LEVEL_CHANGED = ActionTypes.MAP_ZOOM_LEVEL_CHANGED
-  payload: number
+  payload: {
+    guideId: string,
+    zoomLevel: number
+  }
 
-  constructor(zoomLevel: number) {
-    this.payload = zoomLevel
+  constructor(guideId: string, zoomLevel: number) {
+    this.payload = {
+      zoomLevel,
+      guideId
+    }
   }
 }
 
 export class MapLatLngChangedAction {
   type: typeof ActionTypes.MAP_LAT_LNG_CHANGED = ActionTypes.MAP_LAT_LNG_CHANGED
   payload: {
+    guideId: string
     latitude: number
     longitude: number
   }
 
-  constructor(latitude: number, longitude) {
+  constructor(guideId: string, latitude: number, longitude) {
     this.payload = {
+      guideId,
       latitude,
       longitude,
     }
@@ -62,19 +80,58 @@ export class MapLatLngChangedAction {
 
 export class MapSelectItemAction {
   type: typeof ActionTypes.MAP_SELECT_ITEM = ActionTypes.MAP_SELECT_ITEM
-  payload: string
+  payload: {
+    guideId: string,
+    selectedItemId: string
+  }
 
-  constructor(selectedItemId: string) {
-    this.payload = selectedItemId
+  constructor(guideId: string, selectedItemId: string) {
+    this.payload = {
+      guideId,
+      selectedItemId
+    }
   }
 }
 
 export class MapShowFullItemDetailAction {
   type: typeof ActionTypes.MAP_SHOW_FULL_ITEM_DETAIL = ActionTypes.MAP_SHOW_FULL_ITEM_DETAIL
+  payload: {
+    guideId: string
+  }
+
+  constructor(guideId: string) {
+    this.payload = {
+      guideId
+    }
+  }
 }
 
 export class MapHideFullItemDetailAction {
   type: typeof ActionTypes.MAP_HIDE_FULL_ITEM_DETAIL = ActionTypes.MAP_HIDE_FULL_ITEM_DETAIL
+  payload: {
+    guideId: string
+  }
+
+  constructor(guideId: string) {
+    this.payload = {
+      guideId
+    }
+  }
+}
+
+export class ToggleFavouriteItemAction {
+  type: typeof ActionTypes.TOGGLE_FAVOURITE_ITEM = ActionTypes.TOGGLE_FAVOURITE_ITEM
+  payload: {
+    guideId: string,
+    selectedItemId: string
+  }
+
+  constructor(guideId: string, selectedItemId: string) {
+    this.payload = {
+      guideId,
+      selectedItemId
+    }
+  }
 }
 
 export type Actions =
@@ -85,6 +142,7 @@ export type Actions =
   | MapSelectItemAction
   | MapShowFullItemDetailAction
   | MapHideFullItemDetailAction
+  | ToggleFavouriteItemAction
 
 export type State = {
   userData: UserData
@@ -117,7 +175,13 @@ const baseReducer = (state: State, action: Actions): State => {
         ...state,
         userData: {
           ...state.userData,
-          mapZoomLevel: action.payload,
+          guidesData: {
+            ...state.userData.guidesData,
+            [action.payload.guideId]: {
+              ...(state.userData.guidesData || {})[action.payload.guideId],
+              mapZoomLevel: action.payload.zoomLevel,
+            }
+          }
         },
       }
     }
@@ -127,8 +191,14 @@ const baseReducer = (state: State, action: Actions): State => {
         ...state,
         userData: {
           ...state.userData,
-          mapLatitude: action.payload.latitude,
-          mapLongitude: action.payload.longitude,
+          guidesData: {
+            ...state.userData.guidesData,
+            [action.payload.guideId]: {
+              ...(state.userData.guidesData || {})[action.payload.guideId],
+              mapLatitude: action.payload.latitude,
+              mapLongitude: action.payload.longitude,
+            }
+          }
         },
       }
     }
@@ -138,7 +208,13 @@ const baseReducer = (state: State, action: Actions): State => {
         ...state,
         userData: {
           ...state.userData,
-          selectedItemId: action.payload,
+          guidesData: {
+            ...state.userData.guidesData,
+            [action.payload.guideId]: {
+              ...(state.userData.guidesData || {})[action.payload.guideId],
+              selectedItemId: action.payload.selectedItemId,
+            }
+          }
         },
       }
     }
@@ -148,7 +224,13 @@ const baseReducer = (state: State, action: Actions): State => {
         ...state,
         userData: {
           ...state.userData,
-          showFullDetail: true,
+          guidesData: {
+            ...state.userData.guidesData,
+            [action.payload.guideId]: {
+              ...(state.userData.guidesData || {})[action.payload.guideId],
+              showFullDetail: true,
+            }
+          }
         },
       }
     }
@@ -158,8 +240,47 @@ const baseReducer = (state: State, action: Actions): State => {
         ...state,
         userData: {
           ...state.userData,
-          showFullDetail: false,
+          guidesData: {
+            ...state.userData.guidesData,
+            [action.payload.guideId]: {
+              ...(state.userData.guidesData || {})[action.payload.guideId],
+              showFullDetail: false,
+            }
+          }
         },
+      }
+    }
+
+    case ActionTypes.TOGGLE_FAVOURITE_ITEM: {
+      let favouriteItemsIds
+
+      if (state.userData.guidesData &&
+        state.userData.guidesData[action.payload.guideId] &&
+        state.userData.guidesData[action.payload.guideId].favouriteItemsIds[action.payload.selectedItemId]) {
+        favouriteItemsIds = {
+          ...state.userData.guidesData[action.payload.guideId].favouriteItemsIds
+        }
+
+        delete favouriteItemsIds[action.payload.selectedItemId]
+      } else {
+        favouriteItemsIds = {
+          ...(state.userData.guidesData ? state.userData.guidesData[action.payload.guideId].favouriteItemsIds : {}),
+          [action.payload.selectedItemId]: {}
+        }
+      }
+
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          guidesData: {
+            ...state.userData.guidesData,
+            [action.payload.guideId]: {
+              ...(state.userData.guidesData || {})[action.payload.guideId],
+              favouriteItemsIds
+            }
+          }
+        }
       }
     }
   }

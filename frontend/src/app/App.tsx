@@ -31,8 +31,6 @@ export const App = () => (
             style={{
               marginTop: '50px',
               paddingBottom: '70px',
-              maxHeight: '835px',
-              overflow: 'scroll',
             }}
           >
             <Container>

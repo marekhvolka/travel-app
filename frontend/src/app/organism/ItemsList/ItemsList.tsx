@@ -11,6 +11,11 @@ type Props = {
   onRelatedItemClicked: (string) => void
 }
 
+const ItemWrapper = styled.div`
+  cursor: pointer
+  margin-bottom: 10px
+`
+
 const ItemName = styled.h4`
   font-weight: bold
   margin-bottom: 4px
@@ -26,7 +31,7 @@ const defaultTitle = 'This is default title. It\'s usually shorter than a descri
 export const ItemsList = ({ items, onRelatedItemClicked }: Props) => (
   <div>
     {items.map(item => (
-      <Box style={{ cursor: 'pointer' }} key={item.id} onClick={() => onRelatedItemClicked(item.id)}>
+      <ItemWrapper key={item.id} onClick={() => onRelatedItemClicked(item.id)}>
         <Flex>
           <Box flex={3}>
             <ImageWrapper size={IMAGE_SIZES.SMALL} url={item.previewImageUrl} />
@@ -36,7 +41,7 @@ export const ItemsList = ({ items, onRelatedItemClicked }: Props) => (
             <ItemText>{item.title || defaultTitle}</ItemText>
           </Box>
         </Flex>
-      </Box>
+      </ItemWrapper>
     ))}
   </div>
 )
