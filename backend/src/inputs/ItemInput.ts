@@ -45,5 +45,5 @@ export class ItemInput {
   restrictions: RestrictionsInput
 
   @Field(() => [String])
-  relatedItemIds: string[]
+  relatedItemsIds: string[]
 }

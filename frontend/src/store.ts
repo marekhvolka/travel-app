@@ -1,26 +1,7 @@
 import { createStore } from 'redux'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-
-export type GuideData = {
-  mapZoomLevel: number
-  mapLatitude: number
-  mapLongitude: number
-  selectedItemId: string
-  showFullDetail: boolean
-  favouriteItemsIds: {
-    [itemId: string]: {}
-  }
-}
-
-export type UserData = {
-  id: string
-  email: string
-  token: string
-  guidesData: {
-    [guideId: string]: GuideData
-  }
-}
+import { User } from './models/User'
 
 export enum ActionTypes {
   LOAD_USER = 'LOAD_USER',
@@ -31,13 +12,14 @@ export enum ActionTypes {
   MAP_SHOW_FULL_ITEM_DETAIL = 'MAP_SHOW_FULL_ITEM_DETAIL',
   MAP_HIDE_FULL_ITEM_DETAIL = 'MAP_HIDE_FULL_ITEM_DETAIL',
   TOGGLE_FAVOURITE_ITEM = 'TOGGLE_FAVOURITE_ITEM',
+  TOGGLE_SEARCH = 'TOGGLE_SEARCH',
 }
 
 export class LoadUserAction {
   type: typeof ActionTypes.LOAD_USER = ActionTypes.LOAD_USER
-  payload: UserData
+  payload: User
 
-  constructor(userData: UserData) {
+  constructor(userData: User) {
     this.payload = userData
   }
 }
@@ -134,6 +116,20 @@ export class ToggleFavouriteItemAction {
   }
 }
 
+export class ToggleSearchAction {
+  type: typeof ActionTypes.TOGGLE_SEARCH = ActionTypes.TOGGLE_SEARCH
+
+  payload: {
+    guideId: string
+  }
+
+  constructor(guideId: string) {
+    this.payload = {
+      guideId
+    }
+  }
+}
+
 export type Actions =
   | LoadUserAction
   | LogoutUserAction
@@ -143,9 +139,10 @@ export type Actions =
   | MapShowFullItemDetailAction
   | MapHideFullItemDetailAction
   | ToggleFavouriteItemAction
+  | ToggleSearchAction
 
 export type State = {
-  userData: UserData
+  userData: User
   _persist: any
 }
 
@@ -278,6 +275,22 @@ const baseReducer = (state: State, action: Actions): State => {
             [action.payload.guideId]: {
               ...(state.userData.guidesData || {})[action.payload.guideId],
               favouriteItemsIds
+            }
+          }
+        }
+      }
+    }
+
+    case ActionTypes.TOGGLE_SEARCH: {
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          guidesData: {
+            ...state.userData.guidesData,
+            [action.payload.guideId]: {
+              ...(state.userData.guidesData || {})[action.payload.guideId],
+              showSearch: !state.userData.guidesData[action.payload.guideId].showSearch
             }
           }
         }

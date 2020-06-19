@@ -21,7 +21,7 @@ export class ItemResolver {
   }
 
   @FieldResolver(() => [String])
-  async relatedItemIds(@Root() item: Item) {
+  async relatedItemsIds(@Root() item: Item) {
     const relations1 = await ItemRelation.find({
       where: {
         firstItemId: item.id.toString(),
@@ -109,7 +109,7 @@ export class ItemResolver {
     } else {
       item = await Item.create(data).save()
     }
-    const promises = data.relatedItemIds.map(async (relatedItemId: string) => {
+    const promises = data.relatedItemsIds.map(async (relatedItemId: string) => {
       const relations1 = await ItemRelation.find({
         where: {
           firstItemId: relatedItemId,

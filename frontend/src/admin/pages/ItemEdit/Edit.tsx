@@ -140,7 +140,7 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
               model={model}
               modelChanged={modelChanged}
               items={itemsData.items}
-              itemIdsArrayName={'relatedItemIds'}
+              itemIdsArrayName={'relatedItemsIds'}
             />
           </div>
           <div title="Restrictions">

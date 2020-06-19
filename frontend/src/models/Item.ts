@@ -14,6 +14,7 @@ export type Item = {
   showOnMap: boolean
   previewImageUrl: string
   restrictions: Restrictions
+  relatedItemsIds: string[]
   relatedItems: Item[]
   tags: Tag[]
 }

@@ -62,6 +62,12 @@ export class Item extends BaseEntity {
 
   @Field(() => [Tag])
   tags: Tag[]
+
+  @Field(() => [String])
+  relatedItemsIds: string[]
+
+  @Field(() => [Item])
+  relatedItems: Item[]
 }
 
 export const defaultRestrictions = {

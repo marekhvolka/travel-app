@@ -1,32 +1,13 @@
 import React from 'react'
+import FaAngleDoubleLeft from 'react-icons/lib/fa/angle-double-left'
 import FaHeart from 'react-icons/lib/fa/heart'
 import styled from 'styled-components'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
 import { Text } from '../../../common/atoms/Text/Text'
 import { IMAGE_SIZES } from '../../../common/common'
+import { GuideData } from '../../../models/GuideData'
 import { Item } from '../../../models/Item'
-import { GuideData } from '../../../store'
-import { media } from '../../../theme'
-import { ItemsList } from '../ItemsList/ItemsList'
-import { ItemAvailability } from './ItemAvailability'
-
-const ItemDetailWrapper = styled.div`
-  position: absolute
-  left: 0
-  top: 50px
-  bottom: 0
-  background: #fff
-  padding: 15px
-  overflow-y: scroll
-  
-  ${media.tablet} {
-    width: 50%
-  }
-  
-  ${media.desktop} {
-    width: 30%
-  }
-`
+import { ItemCard } from '../../molecules/ItemCard/ItemCard'
 
 const ItemName = styled.h2`
   text-transform: uppercase
@@ -69,6 +50,22 @@ const FavouriteButton = styled<FavouriteButtonProps>(FaHeart)`
   }
 `
 
+const HideButton = styled(FaAngleDoubleLeft)`
+  background-color: #fff
+  border: 1px solid #c3bdbd
+  border-radius: 5px
+  vertical-align: middle
+  font-size: 45px
+  position: absolute
+  right: 8px
+  top: 5px
+  cursor: pointer
+  
+  :hover {
+    background-color: #efefef
+  }
+`
+
 const TagWrapper = styled.span`
   display: inline-block
   border: 1px solid
@@ -77,6 +74,7 @@ const TagWrapper = styled.span`
   padding: 5px 10px
   border-radius: 3px
   margin-right: 4px
+  margin-bottom: 4px
 `
 
 const defaultDescription = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem '
@@ -90,8 +88,8 @@ type Props = {
 }
 
 export const ItemDetail = ({ guideData, item, hide, onRelatedItemClicked, onToggleFavouriteItemClicked }: Props) => (
-  <ItemDetailWrapper>
-    {/*<Button onClick={hide}>X</Button>*/}
+  <>
+    <HideButton onClick={hide}/>
     <ImageWrapper size={IMAGE_SIZES.MEDIUM} url={item.previewImageUrl}/>
     <div>
       <ItemName>{item.name}</ItemName>
@@ -101,7 +99,7 @@ export const ItemDetail = ({ guideData, item, hide, onRelatedItemClicked, onTogg
       />
     </div>
     <ItemDescription value={item.description || defaultDescription}/>
-    <ItemAvailability restrictions={item.restrictions}/>
+    {/*<ItemAvailability restrictions={item.restrictions}/>*/}
     <Subheading>Tags</Subheading>
     {item.tags.map((tag) => (
       <TagWrapper>{tag.name}</TagWrapper>
@@ -109,8 +107,12 @@ export const ItemDetail = ({ guideData, item, hide, onRelatedItemClicked, onTogg
     {item.relatedItems.length > 0 && (
       <>
         <Subheading>Related places</Subheading>
-        <ItemsList items={item.relatedItems} onRelatedItemClicked={onRelatedItemClicked}/>
+        {item.relatedItems.map(relatedItem => (
+          <div key={relatedItem.id} onClick={() => onRelatedItemClicked(relatedItem.id)}>
+            <ItemCard item={relatedItem}/>
+          </div>
+        ))}
       </>
     )}
-  </ItemDetailWrapper>
+  </>
 )
