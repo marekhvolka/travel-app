@@ -24,9 +24,9 @@ const FETCH_ADDITIONAL_DATA_QUERY = gql`
 `
 
 const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
-  const { loading: loadingData, data: data } = useQuery(FETCH_ADDITIONAL_DATA_QUERY)
+  const { loading, data: data } = useQuery(FETCH_ADDITIONAL_DATA_QUERY)
 
-  if (loadingData) {
+  if (loading) {
     return <Spinner />
   }
 

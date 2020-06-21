@@ -12,7 +12,7 @@ type Props = {
   zoomLevel?: number
 }
 
-export const LocationInput = (props: Props) => {
+export const LocationInput = React.memo((props: Props) => {
   let map: any
 
   const onClick = data => {
@@ -67,4 +67,4 @@ export const LocationInput = (props: Props) => {
       </GoogleMap>
     </LoadScript>
   )
-}
+})

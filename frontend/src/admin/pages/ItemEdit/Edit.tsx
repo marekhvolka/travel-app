@@ -37,7 +37,7 @@ const FETCH_QUERY = gql`
       zoomLevel
       previewImageUrl
       tagIds
-      relatedItemIds
+      relatedItemsIds
       restrictions {
         state
         dayRestrictions {
@@ -99,7 +99,7 @@ const initialModel = {
     name: '',
     tags: [],
     tagIds: [],
-    relatedItemIds: [],
+    relatedItemsIds: [],
     relatedItems: []
   }
 }

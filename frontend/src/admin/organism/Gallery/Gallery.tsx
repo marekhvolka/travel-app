@@ -7,7 +7,6 @@ import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashM
 import { enablePreview } from '../../../common/atoms/ImagePreview/enablePreview'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
 import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
-import { Text } from '../../../common/atoms/Text/Text'
 import { IMAGE_SIZES } from '../../../common/common'
 import dirImage from './dir.jpg'
 import { GalleryToolbar } from './GalleryToolbar'
@@ -91,7 +90,7 @@ export const Gallery = ({onImageSelected }: Props) => {
   }
 
   const dirClicked = dirName => {
-    setPath([...path, dirName])
+    setPath(currentPath => [...currentPath, dirName])
   }
 
   const deleteItem = (path, isFile: boolean = true) => {

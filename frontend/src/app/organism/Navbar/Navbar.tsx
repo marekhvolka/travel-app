@@ -1,6 +1,6 @@
 import React from 'react'
 import FaSearch from 'react-icons/lib/fa/search'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'

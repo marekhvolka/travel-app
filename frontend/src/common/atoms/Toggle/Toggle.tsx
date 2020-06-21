@@ -9,7 +9,7 @@ type Props = {
   value: boolean
 }
 
-export const Toggle = (props: Props) => (
+export const Toggle = React.memo((props: Props) => (
   <Form.Item label={props.label}>
     <Switch
       checkedChildren="On"
@@ -23,4 +23,4 @@ export const Toggle = (props: Props) => (
     />
     {props.helperText && <p>{props.helperText}</p>}
   </Form.Item>
-)
+))

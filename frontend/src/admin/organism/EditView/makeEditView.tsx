@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { DocumentNode } from 'graphql'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
 import { Spinner } from '../../../common/atoms/Spinner/Spinner'
@@ -41,6 +41,12 @@ export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
       setModel(data ? data[params.id ? options.queryName : options.queryNewObjectName] : {})
     }, [data])
 
+    const modelChanged = useCallback((updatedFields) =>
+      setModel({
+        ...model,
+        ...updatedFields,
+      }), [model, setModel])
+
     const handleSubmit = async () => {
       const data = await updateMutation({
         variables: {
@@ -70,12 +76,7 @@ export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
         {mutationLoading && <Spinner />}
         <WrappedComponent
           model={model}
-          modelChanged={updatedFields =>
-            setModel({
-              ...model,
-              ...updatedFields,
-            })
-          }
+          modelChanged={modelChanged}
           handleSubmit={handleSubmit}
         />
       </>

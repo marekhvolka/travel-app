@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useCallback, useMemo, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Guide } from '../../../models/Guide'
 import { Item } from '../../../models/Item'
 import { MapSelectItemAction } from '../../../store'
@@ -11,13 +11,13 @@ type Props = {
   guide: Guide
 }
 
-export const ItemsSearch = ({ guide }: Props) => {
+export const ItemsSearch = React.memo(({ guide }: Props) => {
   const [searchedTerm, setSearchedTerm] = useState('')
   const dispatch = useDispatch()
 
   const filteredItems = useMemo(() => {
     if (searchedTerm === '') {
-      return []
+      return guide.items
     }
 
     return guide.items.filter((item: Item) => {
@@ -35,12 +35,20 @@ export const ItemsSearch = ({ guide }: Props) => {
 
       return false
     })
-  }, [searchedTerm])
+  }, [guide.items, searchedTerm])
+
+  const onSearchedTermChanged = useCallback((value: string) => {
+    setSearchedTerm(value)
+  }, [setSearchedTerm])
+
+  const onItemCardClicked = useCallback((itemId: string) => {
+    dispatch({...new MapSelectItemAction(guide.id, itemId)})
+  }, [guide, dispatch])
 
   return (
     <>
-      <SearchForm searchedTerm={searchedTerm} onChange={(value) => setSearchedTerm(value)}/>
-      <SearchResults results={filteredItems} onItemCardClicked={(clickedItemId) => dispatch({...new MapSelectItemAction(guide.id, clickedItemId)})}/>
+      <SearchForm searchedTerm={searchedTerm} onChange={onSearchedTermChanged}/>
+      <SearchResults results={filteredItems} onItemCardClicked={onItemCardClicked}/>
     </>
   )
-}
+})

@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { config } from '../config'
 
 const IMAGE_SIZES = {
@@ -38,3 +39,8 @@ const removeKeys = item => {
 }
 
 export { IMAGE_SIZES, ITEM_TYPES, getImageUrl, removeKeys }
+
+export const useCountRenders = (title?: string) => {
+  const renders = useRef(0)
+  console.log(title + ' renders: ' + renders.current++)
+}

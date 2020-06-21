@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import TimePicker from 'antd/lib/time-picker'
 import moment from 'moment'
-import { makeForm } from '../../../../common/organism/Form/makeForm'
 import { Select } from '../../../../common/atoms/Select/Select'
 import 'antd/dist/antd.css'
 import { RestrictionState } from '../../../../models/RestrictionState'
 
-export const DayRestrictionForm = makeForm(({ dayId, model, onChange }) => {
+export const DayRestrictionForm = ({ dayId, model, modelChanged }) => {
+  const onChange = useCallback(newValues => {
+    modelChanged({
+      ...model,
+      ...newValues,
+    })
+  }, [modelChanged, model])
+
   const format = 'HH:mm'
 
   return (
@@ -57,4 +63,4 @@ export const DayRestrictionForm = makeForm(({ dayId, model, onChange }) => {
       />
     </div>
   )
-})
+}

@@ -17,7 +17,7 @@ type Props = {
   value: string
 }
 
-export const ImageInput = (props: Props) => {
+export const ImageInput = React.memo((props: Props) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false)
 
   const onImageSelected = path => {
@@ -45,4 +45,4 @@ export const ImageInput = (props: Props) => {
       </Modal>
     </div>
   )
-}
+})

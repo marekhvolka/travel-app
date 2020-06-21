@@ -1,9 +1,14 @@
 import React from 'react'
 import { Input } from '../../../common/atoms/Input/Input'
-import { makeForm } from '../../../common/organism/Form/makeForm'
+import { City } from '../../../models/City'
 
-export const CityForm = makeForm(({ onChange, model }) => (
+type Props = {
+  model: City
+  modelChanged: any
+}
+
+export const CityForm = ({ modelChanged, model }: Props) => (
   <div>
-    <Input name="name" label="City name" value={model.name} onChange={onChange} />
+    <Input name="name" label="City name" value={model.name} onChange={modelChanged} />
   </div>
-))
+)

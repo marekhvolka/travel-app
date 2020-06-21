@@ -15,7 +15,7 @@ type Props = {
   value: string
 }
 
-export const Select = (props: Props) => {
+export const Select = React.memo((props: Props) => {
   const { label, name, value, onChange, helperText } = props
 
   return (
@@ -40,4 +40,4 @@ export const Select = (props: Props) => {
       <p>{helperText}</p>
     </Form.Item>
   )
-}
+})

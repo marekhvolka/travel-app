@@ -3,17 +3,22 @@ import { Input } from '../../../common/atoms/Input/Input'
 import { WysiwygInput } from '../../../common/atoms/WysiwygInput/WysiwygInput'
 import { Toggle } from '../../../common/atoms/Toggle/Toggle'
 import { Select } from '../../../common/atoms/Select/Select'
-import { makeForm } from '../../../common/organism/Form/makeForm'
+import { Tag } from '../../../models/Tag'
 
-export const TagForm = makeForm(({ model, onChange }) => (
+type Props = {
+  model: Tag
+  modelChanged: any
+}
+
+export const TagForm = ({ model, modelChanged }: Props) => (
   <div>
-    <Input name="name" label="Tag name" value={model.name} onChange={onChange} />
-    <WysiwygInput name="description" label="Description" onChange={onChange} value={model.description} />
+    <Input name="name" label="Tag name" value={model.name} onChange={modelChanged} />
+    <WysiwygInput name="description" label="Description" onChange={modelChanged} value={model.description} />
     <Select
       name="color"
       label="Color"
       value={model.color}
-      onChange={onChange}
+      onChange={modelChanged}
       options={[
         {
           id: '#28a745',
@@ -33,7 +38,7 @@ export const TagForm = makeForm(({ model, onChange }) => (
       name="icon"
       label="Icon"
       value={model.icon}
-      onChange={onChange}
+      onChange={modelChanged}
       options={[
         {
           id: 'FaUser',
@@ -45,6 +50,6 @@ export const TagForm = makeForm(({ model, onChange }) => (
         },
       ]}
     />
-    <Toggle name="published" value={model.published} onChange={onChange} label="Published" />
+    <Toggle name="published" value={model.published} onChange={modelChanged} label="Published" />
   </div>
-))
+)

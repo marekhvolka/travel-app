@@ -1,16 +1,21 @@
 import React from 'react'
-import { makeForm } from '../../../../common/organism/Form/makeForm'
 import { Select } from '../../../../common/atoms/Select/Select'
+import { Restrictions } from '../../../../models/Restrictions'
 import { DayRestrictionForm } from './DayRestrictionForm'
 import { RestrictionState } from '../../../../models/RestrictionState'
 
-export const RestrictionsForm = makeForm(({ model, onChange }) => (
+type Props = {
+  model: Restrictions
+  modelChanged: any
+}
+
+export const RestrictionsForm = ({ model, modelChanged }: Props) => (
   <div>
     <Select
       name="state"
       label="Restriction state"
       value={model.state}
-      onChange={onChange}
+      onChange={modelChanged}
       options={[
         {
           id: RestrictionState.NOT_DEFINED,
@@ -40,7 +45,7 @@ export const RestrictionsForm = makeForm(({ model, onChange }) => (
             dayId={dayRestrictionId}
             model={model.dayRestrictions[dayRestrictionId]}
             modelChanged={dayRestriction => {
-              onChange({
+              modelChanged({
                 dayRestrictions: {
                   ...model.dayRestrictions,
                   [dayRestrictionId]: dayRestriction,
@@ -51,4 +56,4 @@ export const RestrictionsForm = makeForm(({ model, onChange }) => (
         ))}
     </div>
   </div>
-))
+)

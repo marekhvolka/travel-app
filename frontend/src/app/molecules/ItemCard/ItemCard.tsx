@@ -27,7 +27,7 @@ const ItemText = styled.p`
   color: #13111196
 `
 
-export const ItemCard = (props: Props) => (
+export const ItemCard = React.memo((props: Props) => (
   <Wrapper>
     <Flex>
       <Box flex={3}>
@@ -39,4 +39,4 @@ export const ItemCard = (props: Props) => (
       </Box>
     </Flex>
   </Wrapper>
-)
+))

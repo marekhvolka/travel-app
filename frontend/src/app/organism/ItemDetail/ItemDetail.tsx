@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import FaAngleDoubleLeft from 'react-icons/lib/fa/angle-double-left'
 import FaHeart from 'react-icons/lib/fa/heart'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
 import { Text } from '../../../common/atoms/Text/Text'
 import { IMAGE_SIZES } from '../../../common/common'
-import { GuideData } from '../../../models/GuideData'
+import { Guide } from '../../../models/Guide'
 import { Item } from '../../../models/Item'
+import { MapHideFullItemDetailAction, MapSelectItemAction, ToggleFavouriteItemAction } from '../../../store'
 import { ItemCard } from '../../molecules/ItemCard/ItemCard'
 
 const ItemName = styled.h2`
@@ -80,39 +82,53 @@ const TagWrapper = styled.span`
 const defaultDescription = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem '
 
 type Props = {
-  guideData: GuideData
+  isInFavourites: boolean,
+  guide: Guide
   item: Item
-  hide: any
-  onRelatedItemClicked: (string) => void
-  onToggleFavouriteItemClicked: () => void
 }
 
-export const ItemDetail = ({ guideData, item, hide, onRelatedItemClicked, onToggleFavouriteItemClicked }: Props) => (
-  <>
-    <HideButton onClick={hide}/>
-    <ImageWrapper size={IMAGE_SIZES.MEDIUM} url={item.previewImageUrl}/>
-    <div>
-      <ItemName>{item.name}</ItemName>
-      <FavouriteButton
-        active={!!guideData.favouriteItemsIds[item.id]}
-        onClick={onToggleFavouriteItemClicked}
-      />
-    </div>
-    <ItemDescription value={item.description || defaultDescription}/>
-    {/*<ItemAvailability restrictions={item.restrictions}/>*/}
-    <Subheading>Tags</Subheading>
-    {item.tags.map((tag) => (
-      <TagWrapper>{tag.name}</TagWrapper>
-    ))}
-    {item.relatedItems.length > 0 && (
-      <>
-        <Subheading>Related places</Subheading>
-        {item.relatedItems.map(relatedItem => (
-          <div key={relatedItem.id} onClick={() => onRelatedItemClicked(relatedItem.id)}>
-            <ItemCard item={relatedItem}/>
-          </div>
-        ))}
-      </>
-    )}
-  </>
-)
+export const ItemDetail = React.memo(({ guide, isInFavourites, item }: Props) => {
+  const dispatch = useDispatch()
+
+  const onHide = useCallback(() => {
+    dispatch({...new MapHideFullItemDetailAction(guide.id)})
+  }, [dispatch, guide.id])
+
+  const onRelatedItemClicked = useCallback((itemId: string) => {
+    dispatch({ ...new MapSelectItemAction(guide.id, itemId) })
+  }, [dispatch, guide.id])
+
+  const onToggleFavouriteItemClicked = useCallback(() => {
+    dispatch({ ...new ToggleFavouriteItemAction(guide.id, item.id) })
+  }, [dispatch, guide.id, item.id])
+
+  return (
+    <>
+      <HideButton onClick={onHide}/>
+      <ImageWrapper size={IMAGE_SIZES.MEDIUM} url={item.previewImageUrl}/>
+      <div>
+        <ItemName>{item.name}</ItemName>
+        <FavouriteButton
+          active={isInFavourites}
+          onClick={onToggleFavouriteItemClicked}
+        />
+      </div>
+      <ItemDescription value={item.description || defaultDescription}/>
+      {/*<ItemAvailability restrictions={item.restrictions}/>*/}
+      <Subheading>Tags</Subheading>
+      {item.tags.map((tag) => (
+        <TagWrapper>{tag.name}</TagWrapper>
+      ))}
+      {item.relatedItems.length > 0 && (
+        <>
+          <Subheading>Related places</Subheading>
+          {item.relatedItems.map(relatedItem => (
+            <div key={relatedItem.id} onClick={() => onRelatedItemClicked(relatedItem.id)}>
+              <ItemCard item={relatedItem}/>
+            </div>
+          ))}
+        </>
+      )}
+    </>
+  )
+})
