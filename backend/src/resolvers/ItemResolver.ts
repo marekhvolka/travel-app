@@ -1,13 +1,13 @@
 import { GraphQLJSONObject } from 'graphql-type-json'
 import { ObjectID } from 'mongodb'
-import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql'
 import { ItemInput } from '../inputs/ItemInput'
+import { isAuth } from '../middleware/isAuth'
 import { Context } from '../models/Context'
 import { defaultRestrictions, Item } from '../models/Item'
 import { ItemRelation } from '../models/ItemRelation'
 import { Restrictions } from '../models/Restrictions'
 import { Tag } from '../models/Tag'
-import { AuthorizationError } from '../utils/errors'
 
 @Resolver(() => Item)
 export class ItemResolver {
@@ -82,11 +82,8 @@ export class ItemResolver {
   }
 
   @Query(() => GraphQLJSONObject)
+  @UseMiddleware(isAuth)
   returnNewItem(@Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     return Item.create()
   }
 
@@ -96,11 +93,8 @@ export class ItemResolver {
   }
 
   @Mutation(() => Item)
+  @UseMiddleware(isAuth)
   async updateItem(@Arg('data') data: ItemInput, @Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     let item: Item | undefined
 
     if (data.id) {
@@ -137,11 +131,8 @@ export class ItemResolver {
   }
 
   @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
   deleteItem(@Arg('id') id: string, @Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     Item.delete(id)
     return true
   }

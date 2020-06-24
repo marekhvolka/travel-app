@@ -1,20 +1,17 @@
-import { Arg, Ctx, Query, Resolver } from 'type-graphql'
+import { Arg, Ctx, Query, Resolver, UseMiddleware } from 'type-graphql'
+import { isAuth } from '../middleware/isAuth'
 import { Context } from '../models/Context'
 import { Guide } from '../models/Guide'
 import { Item } from '../models/Item'
 import { SearchResult } from '../models/SearchResult'
 import { Tag } from '../models/Tag'
 import { Voucher } from '../models/Voucher'
-import { AuthorizationError } from '../utils/errors'
 
 @Resolver(() => SearchResult)
 export class CityResolver {
   @Query(() => [SearchResult])
+  @UseMiddleware(isAuth)
   async search(@Arg('searchTerm') searchTerm: String, @Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     const result: SearchResult[] = []
 
     const items = await Item.find({

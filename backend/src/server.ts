@@ -5,7 +5,7 @@ import cors from 'cors'
 import express from 'express'
 import fs from 'fs'
 import helmet from 'helmet'
-import https from 'https'
+import https, { ServerOptions } from 'https'
 import 'reflect-metadata'
 import { buildSchema } from 'type-graphql'
 import { createConnection } from 'typeorm'
@@ -15,24 +15,21 @@ import { loginRequestHandler } from './request-handlers/login'
 import { registerRequestHandler } from './request-handlers/register'
 import { uploadFileRequestHandler } from './request-handlers/upload'
 import { handleErrors, handleNotFound } from './utils/errors'
-
 import { logger } from './utils/logger'
 
-// import {executableSchema} from './graphql'
+(async () => {
+  await createConnection({
+    useUnifiedTopology: true,
+    type: 'mongodb',
+    host: config.mongodb.host,
+    port: 27017,
+    logging: true,
+    database: config.mongodb.database,
+    username: config.mongodb.username,
+    password: config.mongodb.password,
+    entities: [__dirname + '/models/*.ts'],
+  })
 
-createConnection({
-  useUnifiedTopology: true,
-  type: 'mongodb',
-  host: config.mongodb.host,
-  port: 27017,
-  logging: true,
-  database: config.mongodb.database,
-  username: config.mongodb.username,
-  password: config.mongodb.password,
-  entities: [__dirname + '/models/*.ts'],
-})
-
-const main = async () => {
   const app = express()
 
   app.use(bodyParser.urlencoded({ extended: false }))
@@ -52,11 +49,11 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
       schema,
-      context: async ({ req }) => {
+      context: async ({ req, res }) => {
         const token = req.headers.authorization || ''
         const user = await User.findOne({ token })
 
-        return { user, token }
+        return { req, res, user, token }
       },
     })
 
@@ -77,48 +74,23 @@ const main = async () => {
 
   app.use(handleNotFound)
 
-  const services = {
-    server: undefined,
-  }
-
-  const backend = {
-    start: async () => {
-      services.server = await new Promise((resolve, reject) => {
-        const listen = app.listen(config.server.port, () => {
-          if (process.env.NODE_ENV === 'production') {
-            logger.info('Server successfully running')
-          } else {
-            logger.info(`GraphiQL is now running on http://localhost:${config.server.port}/graphiql`)
-          }
-
-          resolve(listen)
-        })
-      })
-
-      if (config.https.enabled) {
-        const options = {
-          key: await fs.readFile(config.https.keyFile),
-          cert: await fs.readFile(config.https.certFile),
-          dhparam: await fs.readFile(config.https.dhParam),
-        }
-
-        https.createServer(options, services.server).listen(config.server.httpsPort, () => {
-          logger.info('HTTPS active')
-        })
-      }
-    },
-    stop: () => {
-      logger.info('Shutting down server')
-      services.server.close()
+  app.listen(config.server.port, () => {
+    if (process.env.NODE_ENV === 'production') {
+      logger.info('Server successfully running')
+    } else {
+      logger.info(`GraphiQL is now running on http://localhost:${config.server.port}/graphiql`)
     }
+  })
+
+  if (config.https.enabled) {
+    const options: ServerOptions = {
+      key: await fs.readFileSync(config.https.keyFile),
+      cert: await fs.readFileSync(config.https.certFile),
+      dhparam: await fs.readFileSync(config.https.dhParam),
+    }
+
+    https.createServer(options, app).listen(config.server.httpsPort, () => {
+      logger.info('HTTPS active')
+    })
   }
-
-  process.once('SIGINT', () => backend.stop())
-  process.once('SIGTERM', () => backend.stop())
-
-  backend.start()
-    .then(() => logger.info('App is running'))
-    .catch((err: any) => logger.error(err))
-}
-
-main()
+})()

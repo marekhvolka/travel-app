@@ -1,12 +1,12 @@
 import { GraphQLJSONObject } from 'graphql-type-json'
 import { ObjectID } from 'mongodb'
-import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql'
 import { GuideInput } from '../inputs/GuideInput'
+import { isAuth } from '../middleware/isAuth'
 import { Context } from '../models/Context'
 import { Guide } from '../models/Guide'
 import { Item } from '../models/Item'
 import { Voucher } from '../models/Voucher'
-import { AuthorizationError } from '../utils/errors'
 
 @Resolver(() => Guide)
 export class GuideResolver {
@@ -35,11 +35,8 @@ export class GuideResolver {
   }
 
   @Query(() => GraphQLJSONObject)
+  @UseMiddleware(isAuth)
   returnNewGuide(@Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     return Guide.create()
   }
 
@@ -49,11 +46,8 @@ export class GuideResolver {
   }
 
   @Mutation(() => Guide)
+  @UseMiddleware(isAuth)
   async updateGuide(@Arg('data') data: GuideInput, @Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     if (data.id) {
       await Guide.update(data.id, data)
       return Guide.findOne(data.id)
@@ -63,11 +57,8 @@ export class GuideResolver {
   }
 
   @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
   deleteGuide(@Arg('id') id: string, @Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     Guide.delete(id)
     return true
   }

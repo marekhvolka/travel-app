@@ -1,12 +1,12 @@
 import { GraphQLJSONObject } from 'graphql-type-json'
 import { ObjectID } from 'mongodb'
-import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql'
 import { VoucherInput } from '../inputs/VoucherInput'
+import { isAuth } from '../middleware/isAuth'
 import { Context } from '../models/Context'
 import { Guide } from '../models/Guide'
 import { User } from '../models/User'
 import { Voucher } from '../models/Voucher'
-import { AuthorizationError } from '../utils/errors'
 
 @Resolver(() => Voucher)
 export class VoucherResolver {
@@ -30,11 +30,8 @@ export class VoucherResolver {
   }
 
   @Query(() => GraphQLJSONObject)
+  @UseMiddleware(isAuth)
   returnNewVoucher(@Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     return Voucher.create()
   }
 
@@ -44,11 +41,8 @@ export class VoucherResolver {
   }
 
   @Mutation(() => Voucher)
+  @UseMiddleware(isAuth)
   async updateVoucher(@Arg('data') data: VoucherInput, @Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     if (data.id) {
       await Voucher.update(data.id, data)
       return Voucher.findOne(data.id)
@@ -58,11 +52,8 @@ export class VoucherResolver {
   }
 
   @Mutation(() => Voucher)
+  @UseMiddleware(isAuth)
   async useVoucher(@Arg('voucherCode') voucherCode: string, @Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     const voucher = await Voucher.findOne({
       code: voucherCode
     })
@@ -97,11 +88,8 @@ export class VoucherResolver {
   }
 
   @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
   deleteVoucher(@Arg('id') id: string, @Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     Voucher.delete(id)
     return true
   }

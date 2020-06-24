@@ -1,9 +1,9 @@
 import { GraphQLJSONObject } from 'graphql-type-json'
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql'
 import { CityInput } from '../inputs/CityInput'
+import { isAuth } from '../middleware/isAuth'
 import { City } from '../models/City'
 import { Context } from '../models/Context'
-import { AuthorizationError } from '../utils/errors'
 
 @Resolver(() => City)
 export class CityResolver {
@@ -13,11 +13,8 @@ export class CityResolver {
   }
 
   @Query(() => GraphQLJSONObject)
+  @UseMiddleware(isAuth)
   returnNewCity(@Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     return City.create()
   }
 
@@ -27,11 +24,8 @@ export class CityResolver {
   }
 
   @Mutation(() => City)
+  @UseMiddleware(isAuth)
   async updateCity(@Arg('data') data: CityInput, @Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     if (data.id) {
       await City.update(data.id, data)
       return City.findOne(data.id)
@@ -41,11 +35,8 @@ export class CityResolver {
   }
 
   @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
   deleteCity(@Arg('id') id: string, @Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     City.delete(id)
     return true
   }

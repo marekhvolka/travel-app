@@ -1,11 +1,11 @@
 import fs from 'fs-extra'
 import path from 'path'
-import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql'
 import { FileLoader } from '../data/loaders'
+import { isAuth } from '../middleware/isAuth'
 import { Context } from '../models/Context'
 import { File } from '../models/File'
 import { FileStats } from '../models/FileStats'
-import { AuthorizationError } from '../utils/errors'
 import { deleteFile } from '../utils/file-functions'
 
 @Resolver(() => File)
@@ -35,17 +35,15 @@ export class FileResolver {
   }
 
   @Query(() => File)
+  @UseMiddleware(isAuth)
   file(@Arg('path', { nullable: false }) path: string) {
     return FileLoader.openFile(path)
     // get file info and pass it to file
   }
 
   @Mutation(() => String)
+  @UseMiddleware(isAuth)
   delete(@Arg('path', { nullable: false }) path: string, @Ctx() context: Context) {
-    if (!context.user) {
-      throw new AuthorizationError('User not authorized')
-    }
-
     deleteFile(path)
 
     return 'ok'
