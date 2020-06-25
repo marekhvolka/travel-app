@@ -75,6 +75,10 @@ const GUIDE_QUERY = gql`
         }
       }
     }
+    tags {
+      id
+      name
+    }
   }
 `
 
@@ -103,7 +107,7 @@ export const GuideExplore = () => {
 
   return (
     <>
-      <GuideViewer model={data.fetchGuide} />
+      <GuideViewer model={data.fetchGuide} tags={data.tags} />
       {!userData && <CheckUser />}
     </>
   )

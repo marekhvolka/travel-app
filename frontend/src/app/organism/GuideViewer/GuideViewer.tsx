@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { Guide } from '../../../models/Guide'
 import { GuideData } from '../../../models/GuideData'
+import { Tag } from '../../../models/Tag'
 import { MapShowFullItemDetailAction, State } from '../../../store'
 import { media } from '../../../theme'
 import { MapViewer } from '../Map/MapViewer'
@@ -67,9 +68,10 @@ const SidebarWrapper = styled.div`
 
 type Props = {
   model: Guide
+  tags: Tag[]
 }
 
-export const GuideViewer = ({model}: Props) => {
+export const GuideViewer = ({ model, tags }: Props) => {
   const dispatch = useDispatch()
   const guideData: GuideData = useSelector((state: State) => state.userData.guidesData[model.id])
   const selectedItem = model.items && model.items.find(item => guideData && item.id === guideData.selectedItemId)
@@ -83,7 +85,7 @@ export const GuideViewer = ({model}: Props) => {
         />
         {guideData && guideData.showSearch && (
           <SidebarWrapper>
-            <ItemsSearch guide={model}/>
+            <ItemsSearch guide={model} tags={tags} />
           </SidebarWrapper>
         )}
         {guideData && !guideData.showSearch && guideData.selectedItemId &&

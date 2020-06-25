@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Guide } from '../../../models/Guide'
 import { Item } from '../../../models/Item'
+import { Tag } from '../../../models/Tag'
 import { MapSelectItemAction } from '../../../store'
 import { SearchForm } from './SearchForm'
 import { SearchResults } from './SearchResults'
@@ -9,9 +10,10 @@ import { SearchResults } from './SearchResults'
 
 type Props = {
   guide: Guide
+  tags: Tag[]
 }
 
-export const ItemsSearch = React.memo(({ guide }: Props) => {
+export const ItemsSearch = React.memo(({ guide, tags }: Props) => {
   const [searchedTerm, setSearchedTerm] = useState('')
   const dispatch = useDispatch()
 
@@ -47,8 +49,15 @@ export const ItemsSearch = React.memo(({ guide }: Props) => {
 
   return (
     <>
-      <SearchForm searchedTerm={searchedTerm} onChange={onSearchedTermChanged}/>
-      <SearchResults results={filteredItems} onItemCardClicked={onItemCardClicked}/>
+      <SearchForm
+        searchedTerm={searchedTerm}
+        tags={tags}
+        onChange={onSearchedTermChanged}
+      />
+      <SearchResults
+        results={filteredItems}
+        onItemCardClicked={onItemCardClicked}
+      />
     </>
   )
 })
