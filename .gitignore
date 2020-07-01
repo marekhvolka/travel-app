@@ -1,3 +1,4 @@
+node_modules
 .idea
 error.log
 requests.log
