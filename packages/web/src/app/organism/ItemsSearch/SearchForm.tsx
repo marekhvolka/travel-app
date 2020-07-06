@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import FaSlidersH from 'react-icons/lib/fa/sliders'
 import styled from 'styled-components'
-import { Input } from '../../../common/atoms/Input/Input'
-import { Tag } from '../../../models/Tag'
-import { Select } from 'antd'
+import { Tag } from '@md/common'
+import { Input, Select } from 'antd'
 
 const FilterButton = styled(FaSlidersH)`
   font-size: 25px
@@ -32,10 +31,7 @@ export const SearchForm = ({ tags, searchedTerm, onChange }: Props) => {
           <Input
             placeholder={'Search'}
             value={searchedTerm}
-            name="searchedTerm"
-            onChange={(data) => {
-              onChange(data.searchedTerm)
-            }}
+            onChange={(event) => onChange(event.target.value)}
           />
         </div>
         <FilterButton onClick={() => setIsTagsFilterVisible(!isTagsFilterVisible)}/>

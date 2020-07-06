@@ -12,7 +12,7 @@ import helmet from 'helmet'
 import https, { ServerOptions } from 'https'
 import 'reflect-metadata'
 import { buildSchema } from 'type-graphql'
-import { createConnection } from 'typeorm'
+import { createConnection, getRepository } from 'typeorm'
 import config from '../config/config'
 import { loginRequestHandler } from './request-handlers/login'
 import { registerRequestHandler } from './request-handlers/register'
@@ -54,7 +54,7 @@ import { logger } from './utils/logger'
       schema,
       context: async ({ req, res }) => {
         const token = req.headers.authorization || ''
-        const user = await User.findOne({ token })
+        const user = await getRepository(User).findOne({ token })
 
         return { req, res, user, token }
       },

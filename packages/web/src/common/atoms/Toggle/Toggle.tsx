@@ -1,26 +1,23 @@
+import { FieldProps } from 'formik'
 import React from 'react'
 import { Form, Switch } from 'antd'
 
-type Props = {
+type Props = FieldProps & {
   helperText?: string
   label: string
   name: string
-  onChange: any
-  value: boolean
 }
 
-export const Toggle = React.memo((props: Props) => (
+export const Toggle = React.memo(({ field, form: { setFieldValue, touched, errors }, ...props }: Props) => (
   <Form.Item label={props.label}>
     <Switch
+      {...field}
+      {...props}
       checkedChildren="On"
       unCheckedChildren="Off"
-      checked={props.value}
-      onChange={value =>
-        props.onChange({
-          [props.name]: value,
-        })
-      }
+      checked={field.value}
+      onChange={value => setFieldValue(field.name, value)}
     />
-    {props.helperText && <p>{props.helperText}</p>}
+    {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
   </Form.Item>
 ))

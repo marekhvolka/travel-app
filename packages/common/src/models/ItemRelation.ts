@@ -1,11 +1,11 @@
-import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 import { Field, ID, ObjectType } from 'type-graphql'
+import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 
 @ObjectType()
 @Entity({
   name: 'itemRelation'
 })
-export class ItemRelation extends BaseEntity {
+export class ItemRelation {
   @Field(() => ID)
   @ObjectIdColumn()
   id: ObjectID

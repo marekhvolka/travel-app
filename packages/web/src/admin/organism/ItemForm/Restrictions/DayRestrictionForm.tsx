@@ -1,29 +1,26 @@
-import React, { useCallback } from 'react'
-import TimePicker from 'antd/lib/time-picker'
+import { Field } from 'formik'
+import React  from 'react'
 import moment from 'moment'
+import { DayRestriction } from '@md/common'
+import { TimePicker } from '../../../../common/atoms/TimePicker/TimePicker'
 import { Select } from '../../../../common/atoms/Select/Select'
 import 'antd/dist/antd.css'
 import { RestrictionState } from '../../../../models/RestrictionState'
 
-export const DayRestrictionForm = ({ dayId, model, modelChanged }) => {
-  const onChange = useCallback(newValues => {
-    modelChanged({
-      ...model,
-      ...newValues,
-    })
-  }, [modelChanged, model])
+type Props = {
+  dayRestriction: DayRestriction
+  dayId: string
+}
 
-  const format = 'HH:mm'
+export const DayRestrictionForm = ({ dayRestriction, dayId }: Props) => {
 
   return (
     <div style={{ float: 'left', display: 'inline', width: 100 / 7 + '%' }}>
       <h3>{dayId}</h3>
-      <Select
-        key={`dayRestriction-state-${model.id}`}
-        name="state"
+      <Field
+        name={`restrictions.dayRestrictions.${dayId}.state`}
         label="State"
-        value={model.state}
-        onChange={onChange}
+        component={Select}
         options={[
           {
             id: RestrictionState.OPEN,
@@ -39,28 +36,20 @@ export const DayRestrictionForm = ({ dayId, model, modelChanged }) => {
           },
         ]}
       />
-      <TimePicker
-        style={{ display: model.state === RestrictionState.RESTRICTED ? 'initial' : 'none' }}
-        key={`dayRestriction-from-${model.id}`}
-        format={format}
-        value={moment(model.from ? model.from : Date.now())}
-        onChange={data =>
-          onChange({
-            from: data.toString(),
-          })
-        }
-      />
-      <TimePicker
-        style={{ display: model.state === RestrictionState.RESTRICTED ? 'initial' : 'none' }}
-        key={`dayRestriction-to-${model.id}`}
-        format={format}
-        value={moment(model.to ? model.to : Date.now())}
-        onChange={data =>
-          onChange({
-            to: data.toString(),
-          })
-        }
-      />
+      {dayRestriction.state === RestrictionState.RESTRICTED && (
+        <>
+          <Field
+            name={`restrictions.dayRestrictions.${dayId}.from`}
+            value={moment(dayRestriction.from ? dayRestriction.from : Date.now())}
+            component={TimePicker}
+          />
+          <Field
+            name={`restrictions.dayRestrictions.${dayId}.to`}
+            value={moment(dayRestriction.to ? dayRestriction.to : Date.now())}
+            component={TimePicker}
+          />
+        </>
+      )}
     </div>
   )
 }

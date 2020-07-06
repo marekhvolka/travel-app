@@ -1,5 +1,6 @@
 import { Guide, Item, SearchResult, Tag, Voucher } from '@md/common'
 import { Arg, Query, Resolver, UseMiddleware } from 'type-graphql'
+import { getRepository } from 'typeorm'
 import { isAuth } from '../middleware/isAuth'
 
 @Resolver(() => SearchResult)
@@ -9,7 +10,7 @@ export class CityResolver {
   async search(@Arg('searchTerm') searchTerm: String) {
     const result: SearchResult[] = []
 
-    const items = await Item.find({
+    const items = await getRepository(Item).find({
       where: {
         $or: [
           {
@@ -43,7 +44,7 @@ export class CityResolver {
       })
     })
 
-    const guides = await Guide.find({
+    const guides = await getRepository(Guide).find({
       where: {
         $or: [
           {
@@ -77,7 +78,7 @@ export class CityResolver {
       })
     })
 
-    const tags = await Tag.find({
+    const tags = await getRepository(Tag).find({
       where: {
         $or: [
           {
@@ -105,7 +106,7 @@ export class CityResolver {
       })
     })
 
-    const vouchers = await Voucher.find({
+    const vouchers = await getRepository(Voucher).find({
       where: {
         $or: [
           {

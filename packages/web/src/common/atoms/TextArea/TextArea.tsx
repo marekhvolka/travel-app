@@ -1,30 +1,23 @@
 import { Form, Input as BaseInput } from 'antd'
+import { FieldProps } from 'formik'
 import React from 'react'
 
-type Props = {
-  helperText?: string
+type Props = FieldProps & {
   label?: string
-  name?: string
-  onChange: any
   placeholder?: string
-  type?: string
-  value: string
 }
 
-export const TextArea = React.memo((props: Props) => (
-    <Form.Item label={props.label}>
+export const TextArea = React.memo(({ field, form: { touched, errors }, ...props }: Props) => (
+    <Form.Item
+      label={props.label}
+      validateStatus={touched[field.name] && errors[field.name] ? 'error' : ''}
+    >
       <BaseInput.TextArea
         rows={5}
-        value={props.value || ''}
-        placeholder={props.placeholder}
-        onChange={event =>
-          props.onChange &&
-          props.onChange({
-            [props.name]: event.target.value,
-          })
-        }
+        {...field}
+        {...props}
       />
-      {props.helperText && <p>{props.helperText}</p>}
+      {touched[field.name] && errors[field.name] && <p style={{color: 'red', lineHeight: '20px'}}>{errors[field.name]}</p>}
     </Form.Item>
   )
 )

@@ -1,11 +1,11 @@
-import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
+import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 import { ObjectType, Field, ID } from 'type-graphql'
 import { GuidesData } from './GuidesData'
 import { UnlockedGuide } from './UnlockedGuide'
 
 @Entity()
 @ObjectType()
-export class User extends BaseEntity {
+export class User {
   @Field(() => ID)
   @ObjectIdColumn()
   id: ObjectID

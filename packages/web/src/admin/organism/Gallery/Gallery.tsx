@@ -64,10 +64,6 @@ export const Gallery = ({onImageSelected }: Props) => {
     files: []
   })
 
-  useEffect(() => {
-    queryDirContent()
-  }, [path])
-
   const queryDirContent = async () => {
     const result = await client.query({
       query: QUERY,
@@ -83,6 +79,11 @@ export const Gallery = ({onImageSelected }: Props) => {
       files: result.data.dir.files,
     })
   }
+
+  useEffect(() => {
+    queryDirContent()
+  }, [path, queryDirContent])
+
 
   const dirClicked = dirName => {
     setPath(currentPath => [...currentPath, dirName])

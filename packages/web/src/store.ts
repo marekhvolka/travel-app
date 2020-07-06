@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import { User } from './models/User'
+import { User } from '@md/common'
 
 export enum ActionTypes {
   LOAD_USER = 'LOAD_USER',

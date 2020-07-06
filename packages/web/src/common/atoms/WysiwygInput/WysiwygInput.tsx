@@ -1,3 +1,4 @@
+import { FieldProps } from 'formik'
 import React, { useState } from 'react'
 import { Form } from 'antd'
 import { Editor } from 'react-draft-wysiwyg'
@@ -6,24 +7,20 @@ import stateToHTML from 'draft-js-export-html/lib/stateToHTML'
 import stateFromHTML from 'draft-js-import-html/lib/stateFromHTML'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
-type Props = {
+type Props = FieldProps & {
   helperText?: any
   label: string
   name: string
-  onChange: any
-  value: string
 }
 
-export const WysiwygInput = (props: Props) => {
+export const WysiwygInput = ({ field, form: { setFieldValue, touched, errors }, ...props }: Props) => {
   const [editorState, setEditorState] = useState(
-    EditorState.createWithContent(stateFromHTML(props.value ? props.value : ''))
+    EditorState.createWithContent(stateFromHTML(field.value || ''))
   )
 
   const onEditorStateChange = editorState => {
     setEditorState(editorState)
-    props.onChange({
-      [props.name]: stateToHTML(editorState.getCurrentContent()),
-    })
+    setFieldValue(field.name, stateToHTML(editorState.getCurrentContent()))
   }
 
   return (
@@ -36,7 +33,7 @@ export const WysiwygInput = (props: Props) => {
         }}
         onEditorStateChange={onEditorStateChange}
       />
-      {props.helperText && <p>{props.helperText}</p>}
+      {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
     </Form.Item>
   )
 }

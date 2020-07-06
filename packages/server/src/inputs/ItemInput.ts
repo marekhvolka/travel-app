@@ -1,6 +1,7 @@
-import { Field, Float, ID, InputType } from 'type-graphql'
+import { Field, ID, InputType } from 'type-graphql'
 import { ObjectID } from 'typeorm'
 import { ItemType } from '@md/common'
+import { LocationInput } from './LocationInput'
 import { RestrictionsInput } from './RestrictionsInput'
 
 @InputType()
@@ -32,14 +33,8 @@ export class ItemInput {
   @Field(() => [String])
   tagIds: string[]
 
-  @Field(() => Float, { nullable: true })
-  latitude: number
-
-  @Field(() => Float, { nullable: true })
-  longitude: number
-
-  @Field(() => Float, { nullable: true })
-  zoomLevel: number
+  @Field(() => LocationInput, { nullable: true })
+  location: LocationInput
 
   @Field(() => RestrictionsInput)
   restrictions: RestrictionsInput

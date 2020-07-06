@@ -1,9 +1,13 @@
 import { User } from '@md/common'
 import { compare } from 'bcrypt'
 import { RequestHandler } from 'express'
+import { getRepository } from 'typeorm'
 import { generateToken } from '../utils/auth-functions'
 
+
 export const loginRequestHandler: RequestHandler = async (req, res) => {
+  const UserRepository = getRepository(User)
+
   const email = req.body.email
   const password = req.body.password
 
@@ -11,7 +15,7 @@ export const loginRequestHandler: RequestHandler = async (req, res) => {
     return res.status(400).send({ message: 'Please enter both id and password' })
   }
 
-  const user = await User.findOne({ email })
+  const user = await UserRepository.findOne({ email })
 
   if (!user) {
     return res.status(400).send({ message: 'Invalid credentials!' })
@@ -31,7 +35,7 @@ export const loginRequestHandler: RequestHandler = async (req, res) => {
 
   const token = generateToken(user)
 
-  User.update({ email }, { token })
+  UserRepository.update({ email }, { token })
 
   res.json({
     user,

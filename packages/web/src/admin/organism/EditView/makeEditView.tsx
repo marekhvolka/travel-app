@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
+import { Formik, Form } from 'formik'
 import { DocumentNode } from 'graphql'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
@@ -15,6 +16,7 @@ type EditViewOptions = {
   mutationName: string
   slug: string,
   initialModel?: any
+  validate?: any
 }
 
 type MatchParams = {
@@ -23,8 +25,8 @@ type MatchParams = {
 
 export type EditViewProps = {
   model: any
-  modelChanged: any
-  handleSubmit: any
+  modelChanged?: any
+  handleSubmit?: any
 }
 
 export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
@@ -39,22 +41,16 @@ export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
 
     useEffect(() => {
       setModel(data ? data[params.id ? options.queryName : options.queryNewObjectName] : {})
-    }, [data])
+    }, [data, params.id])
 
-    const modelChanged = useCallback((updatedFields) =>
-      setModel({
-        ...model,
-        ...updatedFields,
-      }), [model, setModel])
-
-    const handleSubmit = async () => {
+    const handleSubmit = async (values) => {
       const data = await updateMutation({
         variables: {
-          data: removeKeys({ ...model }),
+          data: removeKeys({ ...values }),
         },
       })
 
-      if (!model.id) {
+      if (!values.id) {
         showFlashMessage('Item successfully created', FlashMessageType.SUCCESS)
         const redirectUrl = `/${options.slug}/edit/${data.data[options.mutationName].id}`
         history.push(redirectUrl)
@@ -73,12 +69,22 @@ export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
 
     return (
       <>
-        {mutationLoading && <Spinner />}
-        <WrappedComponent
-          model={model}
-          modelChanged={modelChanged}
-          handleSubmit={handleSubmit}
-        />
+        {mutationLoading && <Spinner/>}
+        <Formik
+          validate={options.validate}
+          enableReinitialize={true}
+          initialValues={model}
+          onSubmit={handleSubmit}
+        >
+          {({values}) => (
+            <Form>
+              <WrappedComponent
+                model={values}
+                handleSubmit={handleSubmit}
+              />
+            </Form>
+          )}
+        </Formik>
       </>
     )
   }

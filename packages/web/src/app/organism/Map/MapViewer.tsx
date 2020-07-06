@@ -1,10 +1,9 @@
 import { GoogleMap, LoadScript } from '@react-google-maps/api'
 import React, { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { Guide, GuideData } from '@md/common'
 import { ITEM_TYPES } from '../../../common/common'
 import { config } from '../../../config'
-import { Guide } from '../../../models/Guide'
-import { GuideData } from '../../../models/GuideData'
 import { MapLatLngChangedAction, MapSelectItemAction, MapZoomLevelChangedAction, } from '../../../store'
 import { CustomMarker } from './Marker'
 
@@ -35,10 +34,10 @@ export const MapViewer = React.memo(({ model, guideData }: Props) => {
           onLoad={(mapRef) => setMap(mapRef)}
           onZoomChanged={() => map && dispatch({ ...new MapZoomLevelChangedAction(model.id, map.zoom) })}
           onDragEnd={() => map && dispatch({ ...new MapLatLngChangedAction(model.id, map.center.lat(), map.center.lng()) })}
-          zoom={guideData ? guideData.mapZoomLevel || model.zoomLevel : model.zoomLevel}
+          zoom={guideData ? guideData.mapZoomLevel || model.location.zoomLevel : model.location.zoomLevel}
           center={{
-            lat: guideData ? guideData.mapLatitude || model.latitude : model.latitude,
-            lng: guideData ? guideData.mapLongitude || model.longitude : model.longitude,
+            lat: guideData ? guideData.mapLatitude || model.location.latitude : model.location.latitude,
+            lng: guideData ? guideData.mapLongitude || model.location.longitude : model.location.longitude,
           }}
         >
           {model.items &&

@@ -63,9 +63,11 @@ const GUIDE_QUERY = gql`
       name
       url
       description
-      latitude
-      longitude
-      zoomLevel
+      location {
+        latitude
+        longitude
+        zoomLevel
+      }
       items(published: true) {
         ...itemBaseFields
         latitude

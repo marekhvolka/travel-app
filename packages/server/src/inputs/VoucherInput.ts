@@ -21,6 +21,9 @@ export class VoucherInput {
   @Field(() => String, { nullable: true })
   partnerId: string
 
-  @Field(() => [String])
-  usedByIds: string[]
+  @Field(() => Int)
+  maxUsageCount: number
+
+  @Field(() => [String], { nullable: true })
+  usedByIds?: string[]
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Restrictions } from '../../../models/Restrictions'
+import { Restrictions } from '@md/common'
 import { RestrictionState } from '../../../models/RestrictionState'
 import { ItemDayAvailability } from './ItemDayAvailability'
 

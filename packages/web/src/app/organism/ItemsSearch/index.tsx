@@ -1,12 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Guide } from '../../../models/Guide'
-import { Item } from '../../../models/Item'
-import { Tag } from '../../../models/Tag'
+import { Guide, Item, Tag } from '@md/common'
 import { MapSelectItemAction } from '../../../store'
 import { SearchForm } from './SearchForm'
 import { SearchResults } from './SearchResults'
-
 
 type Props = {
   guide: Guide

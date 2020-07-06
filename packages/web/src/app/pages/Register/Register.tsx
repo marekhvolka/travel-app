@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Field, Form, Formik } from 'formik'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -9,24 +10,52 @@ import { Spinner } from '../../../common/atoms/Spinner/Spinner'
 import { config } from '../../../config'
 import { LoadUserAction } from '../../../store'
 
+type RegisterModel = {
+  email: string
+  password: string
+  passwordCheck: string
+}
+
+const initialValues: RegisterModel = {
+  email: '',
+  password: '',
+  passwordCheck: ''
+}
+
+const validate = (values: RegisterModel) => {
+  const errors: any = {}
+  if (!values.email) {
+    errors.email = 'Email is required'
+  }
+
+  if (!values.password) {
+    errors.password = 'Password is required'
+  }
+
+  if (!values.passwordCheck) {
+    errors.passwordCheck = 'Please type password again'
+  }
+
+  if (values.password !== values.passwordCheck) {
+    errors.passwordCheck = 'Passwords should match'
+  }
+
+  return errors
+}
+
 export const Register = () => {
   const history = useHistory()
   const [isLoading, setIsLoading] = useState(false)
-  const [model, setModel] = useState({ email: '', password: '', passwordCheck: '' })
   const dispatch = useDispatch()
 
-  const onSubmit = () => {
-    if (model.password !== model.passwordCheck) {
-      return alert('Password don\'t match')
-    }
-
+  const onSubmit = (values) => {
     setIsLoading(true)
-    delete model.passwordCheck
+    delete values.passwordCheck
 
     axios
       .post(config.backendUrl + '/register', {
-        email: model.email,
-        password: model.password,
+        email: values.email,
+        password: values.password,
       })
       .then((result) => {
         setIsLoading(false)
@@ -44,36 +73,40 @@ export const Register = () => {
       })
   }
 
-  const onChange = (changed) => {
-    setModel({ ...model, ...changed })
-  }
-
   return (
     <>
-      {isLoading && <Spinner />}
+      {isLoading && <Spinner/>}
       <MainHeading>Register form</MainHeading>
-      <Input
-        onChange={onChange}
-        name="email"
-        label="Email"
-        type="email"
-        value={model.email}
-      />
-      <Input
-        type="password"
-        onChange={onChange}
-        name="password"
-        label="Password"
-        value={model.password}
-      />
-      <Input
-        type="password"
-        onChange={onChange}
-        name="passwordCheck"
-        label="Password again"
-        value={model.passwordCheck}
-      />
-      <Button onClick={onSubmit}>Register</Button>
+      <Formik
+        validate={validate}
+        enableReinitialize={true}
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+      >
+        {() => (
+          <Form>
+            <Field
+              name="email"
+              label="Email"
+              type="email"
+              component={Input}
+            />
+            <Field
+              type="password"
+              name="password"
+              label="Password"
+              component={Input}
+            />
+            <Field
+              type="password"
+              name="passwordCheck"
+              label="Password again"
+              component={Input}
+            />
+            <Button type="submit">Register</Button>
+          </Form>
+        )}
+      </Formik>
     </>
   )
 }

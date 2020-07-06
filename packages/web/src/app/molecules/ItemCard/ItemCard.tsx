@@ -4,7 +4,7 @@ import { Box } from '../../../common/atoms/Box/Box'
 import { Flex } from '../../../common/atoms/Flex/Flex'
 import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
 import { IMAGE_SIZES } from '../../../common/common'
-import { Item } from '../../../models/Item'
+import { Item } from '@md/common'
 
 type Props = {
   item: Item

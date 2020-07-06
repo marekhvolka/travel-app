@@ -1,16 +1,68 @@
 import gql from 'graphql-tag'
 import React from 'react'
+import { Field } from 'formik'
 import { Button } from '../../../common/atoms/Button/Button'
+import { Input } from '../../../common/atoms/Input/Input'
+import { Select } from '../../../common/atoms/Select/Select'
+import { Toggle } from '../../../common/atoms/Toggle/Toggle'
+import { WysiwygInput } from '../../../common/atoms/WysiwygInput/WysiwygInput'
 import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditView'
-import { TagForm } from '../../organism/TagForm/TagForm'
 
-const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => (
+const Edit = ({ model }: EditViewProps) => (
   <>
     <h1>
       {model.id ? `Edit tag ${model.name}` : 'Add tag'}
-      <Button float={'right'} onClick={handleSubmit}>Save</Button>
+      <Button type="submit" float={'right'}>Save</Button>
     </h1>
-    <TagForm modelChanged={modelChanged} model={model} />
+    <Field
+      name="name"
+      label="Tag name"
+      component={Input}
+    />
+    <Field
+      name="description"
+      label="Description"
+      component={WysiwygInput}
+    />
+    <Field
+      name="color"
+      label="Color"
+      options={[
+        {
+          id: '#28a745',
+          name: 'Green',
+        },
+        {
+          id: '#ffc107',
+          name: 'Orange',
+        },
+        {
+          id: '#dc3545',
+          name: 'Red',
+        },
+      ]}
+      component={Select}
+    />
+    <Field
+      name="icon"
+      label="Icon"
+      options={[
+        {
+          id: 'FaUser',
+          name: 'User',
+        },
+        {
+          id: 'FaUser',
+          name: 'Walk',
+        },
+      ]}
+      component={Select}
+    />
+    <Field
+      name="published"
+      label="Published"
+      component={Toggle}
+    />
   </>
 )
 

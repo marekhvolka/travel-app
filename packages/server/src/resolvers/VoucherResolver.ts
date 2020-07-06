@@ -2,20 +2,25 @@ import { Guide, User, Voucher } from '@md/common'
 import { GraphQLJSONObject } from 'graphql-type-json'
 import { ObjectID } from 'mongodb'
 import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql'
+import { getRepository } from 'typeorm'
 import { VoucherInput } from '../inputs/VoucherInput'
 import { isAuth } from '../middleware/isAuth'
 import { Context } from '../types/Context'
+
+const VoucherRepository = getRepository(Voucher)
+const GuideRepository = getRepository(Guide)
+const UserRepository = getRepository(User)
 
 @Resolver(() => Voucher)
 export class VoucherResolver {
   @FieldResolver(() => Guide)
   guide(@Root() voucher: Voucher) {
-    return Guide.findOne(voucher.guideId)
+    return GuideRepository.findOne(voucher.guideId)
   }
 
   @FieldResolver(() => [User])
   usedBy(@Root() voucher: Voucher) {
-    return User.find({
+    return UserRepository.find({
       where: {
         _id: { $in: (voucher.usedByIds || []).map(id => new ObjectID(id)) },
       },
@@ -24,35 +29,35 @@ export class VoucherResolver {
 
   @Query(() => Voucher)
   fetchVoucher(@Arg('id', { nullable: true }) id: string, @Arg('code', { nullable: true }) code: string) {
-    return id ? Voucher.findOne(id) : Voucher.findOne({ code })
+    return id ? VoucherRepository.findOne(id) : VoucherRepository.findOne({ code })
   }
 
   @Query(() => GraphQLJSONObject)
   @UseMiddleware(isAuth)
   returnNewVoucher() {
-    return Voucher.create()
+    return VoucherRepository.create()
   }
 
   @Query(() => [Voucher])
   vouchers() {
-    return Voucher.find({})
+    return VoucherRepository.find({})
   }
 
   @Mutation(() => Voucher)
   @UseMiddleware(isAuth)
   async updateVoucher(@Arg('data') data: VoucherInput) {
     if (data.id) {
-      await Voucher.update(data.id, data)
-      return Voucher.findOne(data.id)
+      await VoucherRepository.update(data.id, data)
+      return VoucherRepository.findOne(data.id)
     } else {
-      return Voucher.create(data).save()
+      return VoucherRepository.save(data)
     }
   }
 
   @Mutation(() => Voucher)
   @UseMiddleware(isAuth)
   async useVoucher(@Arg('voucherCode') voucherCode: string, @Ctx() context: Context) {
-    const voucher = await Voucher.findOne({
+    const voucher = await VoucherRepository.findOne({
       code: voucherCode
     })
 
@@ -69,9 +74,9 @@ export class VoucherResolver {
     !voucher.usedByIds && (voucher.usedByIds = [])
     voucher.usedByIds.push(context.user.id.toString())
 
-    await voucher.save()
+    await VoucherRepository.save(voucher)
 
-    await User.update(context.user.id.toString(), {
+    await UserRepository.update(context.user.id.toString(), {
       unlockedGuides: [
         ...(context.user.unlockedGuides || []),
         {
@@ -88,7 +93,7 @@ export class VoucherResolver {
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
   deleteVoucher(@Arg('id') id: string) {
-    Voucher.delete(id)
+    VoucherRepository.delete(id)
     return true
   }
 }

@@ -21,6 +21,7 @@
     "draft-js-export-html": "^1.2.0",
     "draft-js-import-html": "^1.2.1",
     "events": "^3.1.0",
+    "formik": "^2.1.4",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.9.2",
     "lodash": "^4.17.10",

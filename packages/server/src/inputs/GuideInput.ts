@@ -1,5 +1,6 @@
-import { Field, Float, ID, InputType, Int } from 'type-graphql'
+import { Field, ID, InputType, Int } from 'type-graphql'
 import { ObjectID } from 'typeorm'
+import { LocationInput } from './LocationInput'
 
 @InputType()
 export class GuideInput {
@@ -15,14 +16,8 @@ export class GuideInput {
   @Field(() => String)
   description: string
 
-  @Field(() => Float)
-  latitude: number
-
-  @Field(() => Float)
-  longitude: number
-
-  @Field(() => Float)
-  zoomLevel: number
+  @Field(() => LocationInput)
+  location: LocationInput
 
   @Field(() => Boolean)
   published: boolean

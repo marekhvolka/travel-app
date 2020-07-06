@@ -1,42 +1,45 @@
 import { Tag } from '@md/common'
 import { GraphQLJSONObject } from 'graphql-type-json'
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql'
+import { getRepository } from 'typeorm'
 import { TagInput } from '../inputs/TagInput'
 import { isAuth } from '../middleware/isAuth'
+
+const TagRepository = getRepository(Tag)
 
 @Resolver(() => Tag)
 export class TagResolver {
   @Query(() => Tag)
   fetchTag(@Arg('id', { nullable: false }) id: string) {
-    return Tag.findOne(id)
+    return TagRepository.findOne(id)
   }
 
   @Query(() => GraphQLJSONObject)
   @UseMiddleware(isAuth)
   returnNewTag() {
-    return Tag.create()
+    return TagRepository.create()
   }
 
   @Query(() => [Tag])
   tags() {
-    return Tag.find({})
+    return TagRepository.find({})
   }
 
   @Mutation(() => Tag)
   @UseMiddleware(isAuth)
   async updateTag(@Arg('data') data: TagInput) {
     if (data.id) {
-      await Tag.update(data.id, data)
-      return Tag.findOne(data.id)
+      await TagRepository.update(data.id, data)
+      return TagRepository.findOne(data.id)
     } else {
-      return Tag.create(data).save()
+      return TagRepository.save(data)
     }
   }
 
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
   deleteTag(@Arg('id') id: string) {
-    Tag.delete(id)
+    TagRepository.delete(id)
     return true
   }
 }

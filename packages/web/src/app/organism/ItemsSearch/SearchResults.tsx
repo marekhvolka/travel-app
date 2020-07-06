@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Item } from '../../../models/Item'
+import { Item } from '@md/common'
 import { ItemCard } from '../../molecules/ItemCard/ItemCard'
 
 type Props = {

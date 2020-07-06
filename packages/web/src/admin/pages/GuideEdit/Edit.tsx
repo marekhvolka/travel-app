@@ -1,14 +1,20 @@
 import { useQuery } from '@apollo/react-hooks'
-import React from 'react'
+import { Field } from 'formik'
 import gql from 'graphql-tag'
-import { Spinner } from '../../../common/atoms/Spinner/Spinner'
-import { Tabs } from '../../../common/organism/Tabs/Tabs'
-import { Button } from '../../../common/atoms/Button/Button'
-import { GuideForm } from '../../organism/GuideForm/GuideForm'
-import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditView'
-import { AssignForm } from '../../../common/organism/AssignForm/AssignForm'
-import { Flex } from '../../../common/atoms/Flex/Flex'
+import React from 'react'
 import { Box } from '../../../common/atoms/Box/Box'
+import { Button } from '../../../common/atoms/Button/Button'
+import { Flex } from '../../../common/atoms/Flex/Flex'
+import { ImageInput } from '../../../common/atoms/ImageInput/ImageInput'
+import { Input } from '../../../common/atoms/Input/Input'
+import { LocationInput } from '../../../common/atoms/LocationInput/LocationInput'
+import { Select } from '../../../common/atoms/Select/Select'
+import { Spinner } from '../../../common/atoms/Spinner/Spinner'
+import { Toggle } from '../../../common/atoms/Toggle/Toggle'
+import { WysiwygInput } from '../../../common/atoms/WysiwygInput/WysiwygInput'
+import { AssignForm } from '../../../common/organism/AssignForm/AssignForm'
+import { Tabs } from '../../../common/organism/Tabs/Tabs'
+import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditView'
 
 const FETCH_ADDITIONAL_DATA_QUERY = gql`
   {
@@ -23,11 +29,11 @@ const FETCH_ADDITIONAL_DATA_QUERY = gql`
   }
 `
 
-const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
+const Edit = ({ model }: EditViewProps) => {
   const { loading, data: data } = useQuery(FETCH_ADDITIONAL_DATA_QUERY)
 
   if (loading) {
-    return <Spinner />
+    return <Spinner/>
   }
 
   return (
@@ -35,11 +41,56 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
       <Box flex={7}>
         <h1>
           {model.id ? `Edit guide ${model.name}` : 'Add guide'}
-          <Button float={'right'} onClick={handleSubmit}>Save</Button>
+          <Button type="submit" float={'right'}>Save</Button>
         </h1>
         <Tabs defaultActiveIndex={0}>
           <div title="Basic settings">
-            <GuideForm modelChanged={modelChanged} model={model} cities={data.cities}/>
+            <Field
+              name="name"
+              label="Guide name"
+              component={Input}
+            />
+            <Field
+              name="url"
+              label="Guide url"
+              component={Input}
+            />
+            <Field
+              name="description"
+              label="Description"
+              component={WysiwygInput}
+            />
+            <Field
+              name="price"
+              type="number"
+              label="Price"
+              component={Input}
+            />
+            <Field
+              name="currency"
+              label="Currency"
+              component={Input}
+            />
+            <Field
+              name="previewImageUrl"
+              label="Preview Image"
+              component={ImageInput}
+            />
+            <Field
+              name="published"
+              label="Published"
+              component={Toggle}
+            />
+            <Field
+              name="location"
+              component={LocationInput}
+            />
+            <Field
+              label="City"
+              name="cityId"
+              options={data.cities}
+              component={Select}
+            />
           </div>
           <div title="Items">
             <h1>Items</h1>
@@ -47,7 +98,6 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
               items={data.items}
               model={model}
               itemIdsArrayName={'itemIds'}
-              modelChanged={modelChanged}
             />
           </div>
         </Tabs>
@@ -70,9 +120,11 @@ const FETCH_QUERY = gql`
       cityId
       url
       description
-      latitude
-      longitude
-      zoomLevel
+      location {
+        latitude
+        longitude
+        zoomLevel
+      }
       previewImageUrl
       published
       price

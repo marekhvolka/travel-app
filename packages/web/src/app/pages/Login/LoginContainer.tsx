@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Form, Formik } from 'formik'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -12,12 +13,11 @@ export const LoginContainer = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
-  const [model, setModel] = useState({ email: '', password: '' })
 
-  const onLogin = () => {
+  const onLogin = (values) => {
     setIsLoading(true)
     axios
-      .post(config.backendUrl + '/login', model)
+      .post(config.backendUrl + '/login', values)
       .then((result) => {
         setIsLoading(false)
         dispatch({
@@ -41,15 +41,14 @@ export const LoginContainer = () => {
   return (
     <>
       {isLoading && <Spinner />}
-      <Login
-        model={model}
-        onChange={(changed) => setModel({
-          ...model,
-          ...changed
-        })}
-        onLogin={onLogin}
-        onFacebookLogin={onFacebookLogin}
-      />
+      <Formik
+        initialValues={{email: '', password: ''}}
+        onSubmit={onLogin}
+      >
+        <Form>
+          <Login onFacebookLogin={onFacebookLogin}/>
+        </Form>
+      </Formik>
     </>
   )
 }

@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react'
 import { Marker } from '@react-google-maps/api'
+import { Item } from '@md/common'
 
 /* global google*/
 
 type Props = {
   isSelected: boolean
-  item: any
+  item: Item
   onClick: any
 }
 
@@ -24,8 +25,8 @@ export const CustomMarker = React.memo(({ item, onClick, isSelected }: Props) =>
       // }}
       onClick={handleOnClick}
       position={{
-        lat: item.latitude,
-        lng: item.longitude,
+        lat: item.location.latitude,
+        lng: item.location.longitude,
       }}
     ></Marker>
   )

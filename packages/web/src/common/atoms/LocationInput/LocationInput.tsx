@@ -1,51 +1,56 @@
-import React from 'react'
+import { FieldProps } from 'formik'
+import React, { useState} from 'react'
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { config } from '../../../config'
 
-type Props = {
-  latitude?: number
-  longitude?: number
-  nameLatitude: string
-  nameLongitude: string
-  nameZoomLevel: string
-  onChange: any
-  zoomLevel?: number
+type Props = FieldProps & {
+  name: string
 }
 
-export const LocationInput = React.memo((props: Props) => {
-  let map: any
+export const LocationInput = React.memo(({ field, form: { setFieldValue }, ...props }: Props) => {
+  const [map, setMap] = useState(null)
+  const latitude = field.value.latitude
+  const longitude = field.value.longitude
+  const zoomLevel = field.value.zoomLevel
 
   const onClick = data => {
-    if (!props.latitude && !props.longitude) {
+    if (!latitude && !longitude) {
       onChangeLocation(data)
     }
   }
 
   const onChangeLocation = data => {
-    props.onChange({
-      [props.nameLatitude]: data.latLng.lat(),
-      [props.nameLongitude]: data.latLng.lng(),
+    setFieldValue(field.name, {
+      latitude: data.latLng.lat(),
+      longitude: data.latLng.lng(),
+      zoomLevel
     })
   }
 
   const onChangeZoom = () => {
-    map &&
-      props.onChange({
-        [props.nameZoomLevel]: map.getZoom(),
-      })
+    map && setFieldValue(field.name, {
+      zoomLevel: map.getZoom(),
+      latitude,
+      longitude
+    })
   }
 
-  const { latitude, longitude, zoomLevel } = props
   const showMarker = latitude && longitude
 
   return (
+    <>
+      <div>
+        latitude {latitude} <br />
+        longitude {longitude} <br />
+        zoomLevel {zoomLevel} <br />
+      </div>
     <LoadScript id="script-loader" googleMapsApiKey={config.googleMapsApiKey}>
       <GoogleMap
         mapContainerStyle={{
           height: '400px',
           width: '800px',
         }}
-        onLoad={mapRef => (map = mapRef)}
+        onLoad={setMap}
         onClick={onClick}
         onZoomChanged={onChangeZoom}
         zoom={zoomLevel || 12.9}
@@ -66,5 +71,6 @@ export const LocationInput = React.memo((props: Props) => {
         )}
       </GoogleMap>
     </LoadScript>
+    </>
   )
 })

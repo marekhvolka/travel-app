@@ -1,14 +1,15 @@
 import { Field, ID, Int, ObjectType } from 'type-graphql'
-import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
+import { Column, Entity, ObjectIdColumn } from 'typeorm'
 import { Guide } from './Guide'
 import { User } from './User'
 
 @ObjectType()
 @Entity()
-export class Voucher extends BaseEntity {
+export class Voucher {
   @Field(() => ID)
   @ObjectIdColumn()
-  id: ObjectID
+  // id: ObjectID
+  id: string
 
   @Field(() => String)
   @Column()

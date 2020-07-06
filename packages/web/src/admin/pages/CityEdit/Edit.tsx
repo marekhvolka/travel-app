@@ -1,16 +1,21 @@
+import { Field } from 'formik'
 import React from 'react'
 import gql from 'graphql-tag'
 import { Button } from '../../../common/atoms/Button/Button'
-import { CityForm } from '../../organism/CityForm/CityForm'
+import { Input } from '../../../common/atoms/Input/Input'
 import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditView'
 
-const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => (
+const Edit = ({ model }: EditViewProps) => (
   <div>
     <h1>
       {model.id ? `Edit city ${model.name}` : 'Add city'}
-      <Button float={'right'} onClick={handleSubmit}>Save</Button>
+      <Button type="submit" float={'right'}>Save</Button>
     </h1>
-    <CityForm modelChanged={modelChanged} model={model} />
+    <Field
+      name="name"
+      label="City name"
+      component={Input}
+    />
   </div>
 )
 

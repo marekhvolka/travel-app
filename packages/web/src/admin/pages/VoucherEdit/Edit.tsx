@@ -1,7 +1,10 @@
 import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import gql from 'graphql-tag'
-import { VoucherForm } from '../../organism/VoucherForm/VoucherForm'
+import { Field } from 'formik'
+import { Input } from '../../../common/atoms/Input/Input'
+import { Select } from '../../../common/atoms/Select/Select'
+import { TextArea } from '../../../common/atoms/TextArea/TextArea'
 import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditView'
 import { Button } from '../../../common/atoms/Button/Button'
 
@@ -14,7 +17,7 @@ const GUIDES_QUERY = gql`
   } 
 `
 
-const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
+const Edit = ({ model }: EditViewProps) => {
   const { error, loading, data } = useQuery(GUIDES_QUERY)
 
   if (error || loading) {
@@ -25,9 +28,36 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
     <div>
       <h1>
         {model.id ? `Edit voucher ${model.code}` : 'Add voucher'}
-        <Button float={'right'} onClick={handleSubmit}>Save</Button>
+        <Button type="submit" float={'right'} >Save</Button>
       </h1>
-      <VoucherForm modelChanged={modelChanged} model={model} guides={data.guides} />
+      <Field
+        name="code"
+        label="Voucher code"
+        component={Input}
+      />
+      <Field
+        name="price"
+        type="number"
+        label="Voucher price"
+        component={Input}
+      />
+      <Field
+        name="maxUsageCount"
+        type="number"
+        label="Maximum number of usage"
+        component={Input}
+      />
+      <Field
+        name="description"
+        label="Description"
+        component={TextArea}
+      />
+      <Field
+        label="Guide"
+        name="guideId"
+        options={data.guides}
+        component={Select}
+      />
     </div>
   )
 }
@@ -60,6 +90,15 @@ const UPDATE_MUTATION = gql`
   }
 `
 
+const validate = values => {
+  const errors: any = {};
+  if (!values.code) {
+    errors.code = 'Required';
+  }
+
+  return errors;
+};
+
 export default makeEditView(Edit, {
   query: FETCH_QUERY,
   queryName: 'fetchVoucher',
@@ -68,4 +107,5 @@ export default makeEditView(Edit, {
   mutation: UPDATE_MUTATION,
   mutationName: 'updateVoucher',
   slug: 'vouchers',
+  validate
 })

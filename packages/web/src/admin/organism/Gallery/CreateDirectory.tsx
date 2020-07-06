@@ -1,8 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
-import { Modal } from 'antd'
+import { Input, Modal } from 'antd'
 import gql from 'graphql-tag'
 import React, { useState } from 'react'
-import { Input } from '../../../common/atoms/Input/Input'
 
 const CREATE_DIR = gql`
   mutation($name: String!, $path: String!) {
@@ -43,10 +42,10 @@ export const CreateDirectory = (props: Props) => {
       onCancel={props.onClose}
     >
       <Input
-        label="Directory name"
+        placeholder="Directory name"
         value={directoryName}
         name="dirInput"
-        onChange={input => setDirectoryName(input.dirInput)}
+        onChange={event => setDirectoryName(event.target.value)}
       />
     </Modal>
   )

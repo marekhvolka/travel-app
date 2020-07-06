@@ -2,14 +2,19 @@ import { defaultRestrictions, Item, ItemRelation, Restrictions, Tag } from '@md/
 import { GraphQLJSONObject } from 'graphql-type-json'
 import { ObjectID } from 'mongodb'
 import { Arg, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql'
+import { getRepository } from 'typeorm'
 import { ItemInput } from '../inputs/ItemInput'
 import { isAuth } from '../middleware/isAuth'
+
+const ItemRepository = getRepository(Item)
+const ItemRelationRepository = getRepository(ItemRelation)
+const TagRepository = getRepository(Tag)
 
 @Resolver(() => Item)
 export class ItemResolver {
   @FieldResolver(() => [Tag])
   tags(@Root() item: Item) {
-    return Tag.find({
+    return TagRepository.find({
       where: {
         _id: { $in: item.tagIds.map(id => new ObjectID(id)) },
       },
@@ -18,13 +23,13 @@ export class ItemResolver {
 
   @FieldResolver(() => [String])
   async relatedItemsIds(@Root() item: Item) {
-    const relations1 = await ItemRelation.find({
+    const relations1 = await ItemRelationRepository.find({
       where: {
         firstItemId: item.id.toString(),
       },
     })
 
-    const relations2 = await ItemRelation.find({
+    const relations2 = await ItemRelationRepository.find({
       where: {
         secondItemId: item.id.toString(),
       },
@@ -38,19 +43,19 @@ export class ItemResolver {
 
   @FieldResolver(() => [Item])
   async relatedItems(@Root() item: Item, @Arg('published', { nullable: true }) published: boolean) {
-    const relations1 = await ItemRelation.find({
+    const relations1 = await ItemRelationRepository.find({
       where: {
         firstItemId: item.id.toString(),
       },
     })
 
-    const relations2 = await ItemRelation.find({
+    const relations2 = await ItemRelationRepository.find({
       where: {
         secondItemId: item.id.toString(),
       },
     })
 
-    return Item.find({
+    return ItemRepository.find({
       where: {
         _id: {
           $in: [
@@ -74,18 +79,18 @@ export class ItemResolver {
 
   @Query(() => Item)
   fetchItem(@Arg('id') id: string) {
-    return Item.findOne(id)
+    return ItemRepository.findOne(id)
   }
 
   @Query(() => GraphQLJSONObject)
   @UseMiddleware(isAuth)
   returnNewItem() {
-    return Item.create()
+    return ItemRepository.create()
   }
 
   @Query(() => [Item])
   items() {
-    return Item.find({})
+    return ItemRepository.find({})
   }
 
   @Mutation(() => Item)
@@ -94,20 +99,20 @@ export class ItemResolver {
     let item: Item | undefined
 
     if (data.id) {
-      await Item.update(data.id, data)
-      item = await Item.findOne(data.id)
+      await ItemRepository.update(data.id, data)
+      item = await ItemRepository.findOne(data.id)
     } else {
-      item = await Item.create(data).save()
+      item = await ItemRepository.save(data)
     }
     const promises = data.relatedItemsIds.map(async (relatedItemId: string) => {
-      const relations1 = await ItemRelation.find({
+      const relations1 = await ItemRelationRepository.find({
         where: {
           firstItemId: relatedItemId,
           secondItemId: data.id,
         }
       })
 
-      const relations2 = await ItemRelation.find({
+      const relations2 = await ItemRelationRepository.find({
         where: {
           firstItemId: data.id,
           secondItemId: relatedItemId,
@@ -115,10 +120,10 @@ export class ItemResolver {
       })
 
       if (relations1.length === 0 && relations2.length === 0) {
-        ItemRelation.create({
+        ItemRelationRepository.save({
           firstItemId: new ObjectID(data.id),
           secondItemId: new ObjectID(relatedItemId),
-        }).save()
+        })
       }
     })
 
@@ -129,7 +134,7 @@ export class ItemResolver {
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
   deleteItem(@Arg('id') id: string) {
-    Item.delete(id)
+    ItemRepository.delete(id)
     return true
   }
 }

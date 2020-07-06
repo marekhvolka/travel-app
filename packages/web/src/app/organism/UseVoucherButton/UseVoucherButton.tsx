@@ -1,10 +1,9 @@
 import { useMutation } from '@apollo/react-hooks'
-import { Modal } from 'antd'
+import { Input, Modal } from 'antd'
 import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import { Button } from '../../../common/atoms/Button/Button'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
-import { Input } from '../../../common/atoms/Input/Input'
 
 const MUTATION = gql`
   mutation($voucherCode: String!) {
@@ -52,9 +51,8 @@ export const UseVoucherButton = () => {
         title="Enter voucher code"
       >
         <Input
-          label="Voucher code"
-          name="voucherCode"
-          onChange={(change) => setVoucherCode(change.voucherCode)}
+          placeholder="Voucher code"
+          onChange={(event) => setVoucherCode(event.target.value)}
           value={voucherCode}
         />
         {error && error.graphQLErrors[0].message}

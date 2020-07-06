@@ -22,5 +22,8 @@
   },
   "include": [
     "src"
-  ]
+  ],
+  "paths": {
+    "typeorm": ["../../node_modules/typeorm/typeorm-model-shim.js"]
+  }
 }

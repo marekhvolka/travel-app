@@ -32,9 +32,11 @@ const FETCH_QUERY = gql`
       published
       showOnMap
       description
-      latitude
-      longitude
-      zoomLevel
+      location {
+        latitude
+        longitude
+        zoomLevel
+      }
       previewImageUrl
       tagIds
       relatedItemsIds
@@ -104,7 +106,7 @@ const initialModel = {
   }
 }
 
-const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
+const Edit = ({ model }: EditViewProps) => {
   const { loading: loadingItems, data: itemsData } = useQuery(FETCH_ITEMS_QUERY)
   const { loading: loadingTags, data: tagsData } = useQuery(FETCH_TAGS_QUERY)
 
@@ -117,19 +119,18 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
       <Box flex={1}>
         <h2>
           {model.id ? `Edit item ${model.name}` : 'Add item'}
-          <Button float={'right'} onClick={handleSubmit}>
+          <Button type="submit" float={'right'}>
             Save
           </Button>
         </h2>
         <Tabs defaultActiveIndex={0}>
           <div title="Basic settings">
-            <ItemForm modelChanged={modelChanged} model={model}/>
+            <ItemForm model={model}/>
           </div>
           <div title="Tags">
             <h3>Tags settings</h3>
             <AssignForm
               model={model}
-              modelChanged={modelChanged}
               items={tagsData.tags}
               itemIdsArrayName={'tagIds'}
             />
@@ -137,26 +138,14 @@ const Edit = ({ model, modelChanged, handleSubmit }: EditViewProps) => {
           <div title="Related items">
             <h3>Related items settings</h3>
             <AssignForm
-              model={model}
-              modelChanged={modelChanged}
               items={itemsData.items}
+              model={model}
               itemIdsArrayName={'relatedItemsIds'}
             />
           </div>
           <div title="Restrictions">
             <h3>Restrictions</h3>
-            <RestrictionsForm
-              model={model.restrictions}
-              modelChanged={newData =>
-                modelChanged({
-                  ...model,
-                  restrictions: {
-                    ...model.restrictions,
-                    ...newData,
-                  },
-                })
-              }
-            />
+            <RestrictionsForm model={model}/>
           </div>
         </Tabs>
       </Box>

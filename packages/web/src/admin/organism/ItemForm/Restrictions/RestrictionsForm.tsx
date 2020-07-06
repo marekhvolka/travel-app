@@ -1,21 +1,20 @@
+import { Field } from 'formik'
 import React from 'react'
+import { Item } from '@md/common'
 import { Select } from '../../../../common/atoms/Select/Select'
-import { Restrictions } from '../../../../models/Restrictions'
 import { DayRestrictionForm } from './DayRestrictionForm'
 import { RestrictionState } from '../../../../models/RestrictionState'
 
 type Props = {
-  model: Restrictions
-  modelChanged: any
+  model: Item
 }
 
-export const RestrictionsForm = ({ model, modelChanged }: Props) => (
+export const RestrictionsForm = ({ model }: Props) => (
   <div>
-    <Select
-      name="state"
+    <Field
+      name="restrictions.state"
       label="Restriction state"
-      value={model.state}
-      onChange={modelChanged}
+      component={Select}
       options={[
         {
           id: RestrictionState.NOT_DEFINED,
@@ -37,21 +36,13 @@ export const RestrictionsForm = ({ model, modelChanged }: Props) => (
     />
     <h2>Days restrictions</h2>
     <div>
-      {Object.keys(model.dayRestrictions)
+      {Object.keys(model.restrictions.dayRestrictions)
         .filter((key: string) => key !== '__typename')
         .map(dayRestrictionId => (
           <DayRestrictionForm
             key={dayRestrictionId}
+            dayRestriction={model.restrictions.dayRestrictions[dayRestrictionId]}
             dayId={dayRestrictionId}
-            model={model.dayRestrictions[dayRestrictionId]}
-            modelChanged={dayRestriction => {
-              modelChanged({
-                dayRestrictions: {
-                  ...model.dayRestrictions,
-                  [dayRestrictionId]: dayRestriction,
-                },
-              })
-            }}
           />
         ))}
     </div>

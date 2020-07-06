@@ -1,14 +1,16 @@
-import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
-import { Field, Float, ID, Int, ObjectType } from 'type-graphql'
+import { Field, ID, Int, ObjectType } from 'type-graphql'
+import { Column, Entity, ObjectIdColumn } from 'typeorm'
 import { Item } from './Item'
+import { Location } from './Location'
 import { Voucher } from './Voucher'
 
 @Entity()
 @ObjectType()
-export class Guide extends BaseEntity {
+export class Guide {
   @Field(() => ID)
   @ObjectIdColumn()
-  id: ObjectID
+  // id: ObjectID
+  id: string
 
   @Field(() => String)
   @Column()
@@ -22,17 +24,9 @@ export class Guide extends BaseEntity {
   @Column()
   description: string
 
-  @Field(() => Float)
+  @Field(() => Location)
   @Column()
-  latitude: number
-
-  @Field(() => Float)
-  @Column()
-  longitude: number
-
-  @Field(() => Float)
-  @Column()
-  zoomLevel: number
+  location: Location
 
   @Field(() => Boolean)
   @Column()

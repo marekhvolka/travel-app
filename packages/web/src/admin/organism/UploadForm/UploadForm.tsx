@@ -1,9 +1,8 @@
-import { Modal } from 'antd'
+import { Input, Modal } from 'antd'
 import axios from 'axios'
 import React, { useRef, useState } from 'react'
 import ReactCrop, { ArrayBuffer, makeAspectCrop } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
-import { Input } from '../../../common/atoms/Input/Input'
 import { config } from '../../../config'
 
 type Props = {
@@ -19,15 +18,15 @@ type State = {
   crop: any
 }
 
-export const UploadForm = ({onClose, path}: Props) => {
+export const UploadForm = ({ onClose, path }: Props) => {
   const [fileName, setFileName] = useState('')
   const [state, setState] = useState<State>({
-      src: null,
-      width: null,
-      height: null,
-      crop: {
-        width: 100,
-      },
+    src: null,
+    width: null,
+    height: null,
+    crop: {
+      width: 100,
+    },
   })
   const fileRef = useRef(undefined)
 
@@ -129,7 +128,7 @@ export const UploadForm = ({onClose, path}: Props) => {
       )}
       {state.src && (
         <>
-          <Input label="Image name" value={fileName} name="filename" onChange={(data) => setFileName(data.filename)} />
+          <Input placeholder="Image name" value={fileName} onChange={(event) => setFileName(event.target.value)}/>
           <ReactCrop
             src={state.src}
             onImageLoaded={onImageLoaded}

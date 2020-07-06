@@ -23,6 +23,9 @@ export class GuideData {
   showFullDetail: boolean
 
   @Column()
+  showSearch: boolean
+
+  @Column()
   viewType: string
 
   @Column()

@@ -1,21 +1,22 @@
-import { Form, Input as BaseInput } from 'antd'
-import { FieldProps } from 'formik'
 import React from 'react'
+import { TimePicker as BaseTimePicker, Form } from 'antd'
+import { FieldProps } from 'formik'
 
 type Props = FieldProps & {
-  type?: string
   label?: string
   placeholder?: string
 }
 
-export const Input = React.memo(({ field, form: { touched, errors }, ...props }: Props) => (
+export const TimePicker = React.memo(({ field, form: { setFieldValue, touched, errors }, ...props }: Props) => (
     <Form.Item
       label={props.label}
       validateStatus={touched[field.name] && errors[field.name] ? 'error' : ''}
     >
-      <BaseInput
+      <BaseTimePicker
         {...field}
         {...props}
+        format={'HH:mm'}
+        onChange={data => setFieldValue(field.name, data.toString())}
       />
       {touched[field.name] && errors[field.name] && <p style={{color: 'red', lineHeight: '20px'}}>{errors[field.name]}</p>}
     </Form.Item>
