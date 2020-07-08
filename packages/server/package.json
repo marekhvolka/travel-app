@@ -9,7 +9,7 @@
     "start": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "debug": "nodemon ./src/server.js --inspect --exec babel-node",
     "copy": "rm -rf public/config & cp -a config public/config",
-    "build": "tsc && node ./public/src/server.js",
+    "build": "tsc",
     "format": "prettier --write '*/**/*.{ts,js,css,md,json}'"
   },
   "author": "",

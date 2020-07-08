@@ -9,7 +9,7 @@ import { getGuideUrl } from '../../urlMaker'
 const QUERY = gql`
   {
     guides {
-      id
+      _id
       name
       published
     }
@@ -63,20 +63,20 @@ export const AllGuides = () => {
         rowActions={item => [
           {
             label: 'Edit',
-            link: getGuideUrl(item.id),
+            link: getGuideUrl(item._id),
           },
           {
             label: 'Routes',
-            link: `/routes/${item.id}`,
+            link: `/routes/${item._id}`,
           },
           {
             label: 'Delete',
             action: (item) => {
-              console.log('Deleting guide' + item.id)
+              console.log('Deleting guide' + item._id)
               showFlashMessage('Guide ' + item.name + ' successfully removed', FlashMessageType.SUCCESS)
               deleteGuide({
                 variables: {
-                  id: item.id
+                  id: item._id
                 }
               })
             }

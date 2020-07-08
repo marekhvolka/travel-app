@@ -16,7 +16,7 @@ const GUIDE_QUERY = gql`
     to
   }
   fragment itemBaseFields on Item {
-    id
+    _id
     name
     showOnMap
     title
@@ -24,7 +24,7 @@ const GUIDE_QUERY = gql`
     previewImageUrl
     type
     tags {
-      id
+      _id
       name
       color
       icon
@@ -59,7 +59,7 @@ const GUIDE_QUERY = gql`
 
   query fetch($id: String, $url: String) {
     fetchGuide(id: $id, url: $url) {
-      id
+      _id
       name
       url
       description
@@ -78,7 +78,7 @@ const GUIDE_QUERY = gql`
       }
     }
     tags {
-      id
+      _id
       name
     }
   }

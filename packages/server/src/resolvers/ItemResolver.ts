@@ -1,10 +1,10 @@
 import { defaultRestrictions, Item, ItemRelation, Restrictions, Tag } from '@md/common'
 import { GraphQLJSONObject } from 'graphql-type-json'
-import { ObjectID } from 'mongodb'
 import { Arg, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql'
 import { getRepository } from 'typeorm'
 import { ItemInput } from '../inputs/ItemInput'
 import { isAuth } from '../middleware/isAuth'
+import { generateId } from '../utils/random'
 
 const ItemRepository = getRepository(Item)
 const ItemRelationRepository = getRepository(ItemRelation)
@@ -16,7 +16,7 @@ export class ItemResolver {
   tags(@Root() item: Item) {
     return TagRepository.find({
       where: {
-        _id: { $in: item.tagIds.map(id => new ObjectID(id)) },
+        _id: { $in: item.tagIds },
       },
     })
   }
@@ -25,19 +25,19 @@ export class ItemResolver {
   async relatedItemsIds(@Root() item: Item) {
     const relations1 = await ItemRelationRepository.find({
       where: {
-        firstItemId: item.id.toString(),
+        firstItemId: item._id
       },
     })
 
     const relations2 = await ItemRelationRepository.find({
       where: {
-        secondItemId: item.id.toString(),
+        secondItemId: item._id
       },
     })
 
     return [
-      ...relations1.map(relation => new ObjectID(relation.secondItemId)),
-      ...relations2.map(relation => new ObjectID(relation.firstItemId)),
+      ...relations1.map(relation => relation.secondItemId),
+      ...relations2.map(relation => relation.firstItemId),
     ]
   }
 
@@ -45,13 +45,13 @@ export class ItemResolver {
   async relatedItems(@Root() item: Item, @Arg('published', { nullable: true }) published: boolean) {
     const relations1 = await ItemRelationRepository.find({
       where: {
-        firstItemId: item.id.toString(),
+        firstItemId: item._id
       },
     })
 
     const relations2 = await ItemRelationRepository.find({
       where: {
-        secondItemId: item.id.toString(),
+        secondItemId: item._id
       },
     })
 
@@ -59,8 +59,8 @@ export class ItemResolver {
       where: {
         _id: {
           $in: [
-            ...relations1!.map(relation => new ObjectID(relation.secondItemId)),
-            ...relations2!.map(relation => new ObjectID(relation.firstItemId)),
+            ...relations1!.map(relation => relation.secondItemId),
+            ...relations2!.map(relation => relation.firstItemId),
           ],
         },
         ...(published ? { published: true } : {})
@@ -78,8 +78,8 @@ export class ItemResolver {
   }
 
   @Query(() => Item)
-  fetchItem(@Arg('id') id: string) {
-    return ItemRepository.findOne(id)
+  fetchItem(@Arg('id') _id: string) {
+    return ItemRepository.findOne({ _id })
   }
 
   @Query(() => GraphQLJSONObject)
@@ -98,31 +98,34 @@ export class ItemResolver {
   async updateItem(@Arg('data') data: ItemInput) {
     let item: Item | undefined
 
-    if (data.id) {
-      await ItemRepository.update(data.id, data)
-      item = await ItemRepository.findOne(data.id)
+    if (data._id) {
+      await ItemRepository.update(data._id, data)
+      item = await ItemRepository.findOne(data._id)
     } else {
-      item = await ItemRepository.save(data)
+      item = await ItemRepository.save({
+        ...data,
+        _id: generateId()
+      })
     }
     const promises = data.relatedItemsIds.map(async (relatedItemId: string) => {
       const relations1 = await ItemRelationRepository.find({
         where: {
           firstItemId: relatedItemId,
-          secondItemId: data.id,
+          secondItemId: data._id,
         }
       })
 
       const relations2 = await ItemRelationRepository.find({
         where: {
-          firstItemId: data.id,
+          firstItemId: data._id,
           secondItemId: relatedItemId,
         }
       })
 
       if (relations1.length === 0 && relations2.length === 0) {
         ItemRelationRepository.save({
-          firstItemId: new ObjectID(data.id),
-          secondItemId: new ObjectID(relatedItemId),
+          firstItemId: data._id,
+          secondItemId: relatedItemId,
         })
       }
     })

@@ -15,7 +15,6 @@ type EditViewOptions = {
   mutation: DocumentNode
   mutationName: string
   slug: string,
-  initialModel?: any
   validate?: any
 }
 
@@ -37,7 +36,7 @@ export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
       variables: { id: params.id }
     } : {})
     const [updateMutation, { loading: mutationLoading }] = useMutation(options.mutation)
-    const [model, setModel] = useState(data ? data[params.id ? options.queryName : options.queryNewObjectName] : options.initialModel || {})
+    const [model, setModel] = useState(data ? data[params.id ? options.queryName : options.queryNewObjectName] : null)
 
     useEffect(() => {
       setModel(data ? data[params.id ? options.queryName : options.queryNewObjectName] : {})
@@ -52,7 +51,7 @@ export const makeEditView = (WrappedComponent, options: EditViewOptions) => {
 
       if (!values.id) {
         showFlashMessage('Item successfully created', FlashMessageType.SUCCESS)
-        const redirectUrl = `/${options.slug}/edit/${data.data[options.mutationName].id}`
+        const redirectUrl = `/${options.slug}/edit/${data.data[options.mutationName]._id}`
         history.push(redirectUrl)
       } else {
         showFlashMessage('Item successfully changed', FlashMessageType.SUCCESS)

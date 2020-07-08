@@ -12,7 +12,7 @@ import { IMAGE_SIZES } from '../../../common/common'
 const QUERY = gql`
   {
     guides {
-      id
+      _id
       url
       name
       previewImageUrl
@@ -70,7 +70,7 @@ export const Guides = () => {
     <div>
       <div>
         {data.guides.map(guide => (
-          <Link key={guide.id} to={`/guides/${guide.url}`}>
+          <Link key={guide._id} to={`/guides/${guide.url}`}>
             <GuideWrapper>
               <Row>
                 <Col xs={24} md={8}>

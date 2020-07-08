@@ -4,14 +4,15 @@ import { Arg, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql'
 import { getRepository } from 'typeorm'
 import { TagInput } from '../inputs/TagInput'
 import { isAuth } from '../middleware/isAuth'
+import { generateId } from '../utils/random'
 
 const TagRepository = getRepository(Tag)
 
 @Resolver(() => Tag)
 export class TagResolver {
   @Query(() => Tag)
-  fetchTag(@Arg('id', { nullable: false }) id: string) {
-    return TagRepository.findOne(id)
+  fetchTag(@Arg('id', { nullable: false }) _id: string) {
+    return TagRepository.findOne({ _id })
   }
 
   @Query(() => GraphQLJSONObject)
@@ -28,11 +29,14 @@ export class TagResolver {
   @Mutation(() => Tag)
   @UseMiddleware(isAuth)
   async updateTag(@Arg('data') data: TagInput) {
-    if (data.id) {
-      await TagRepository.update(data.id, data)
-      return TagRepository.findOne(data.id)
+    if (data._id) {
+      await TagRepository.update(data._id, data)
+      return TagRepository.findOne(data._id)
     } else {
-      return TagRepository.save(data)
+      return TagRepository.save({
+        ...data,
+        _id: generateId()
+      })
     }
   }
 

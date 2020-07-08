@@ -11,7 +11,7 @@ import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditVie
 const Edit = ({ model }: EditViewProps) => (
   <>
     <h1>
-      {model.id ? `Edit tag ${model.name}` : 'Add tag'}
+      {model._id ? `Edit tag ${model.name}` : 'Add tag'}
       <Button type="submit" float={'right'}>Save</Button>
     </h1>
     <Field
@@ -75,7 +75,7 @@ const CREATE_NEW_OBJECT_QUERY = gql`
 const FETCH_QUERY = gql`
   query fetch($id: String!) {
     fetchTag(id: $id) {
-      id
+      _id
       name
       published
       description
@@ -88,7 +88,7 @@ const FETCH_QUERY = gql`
 const UPDATE_MUTATION = gql`
   mutation($data: TagInput!) {
     updateTag(data: $data) {
-      id
+      _id
     }
   }
 `

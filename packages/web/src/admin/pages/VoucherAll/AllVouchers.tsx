@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import gql from 'graphql-tag'
+import { Voucher } from '@md/common'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
 import { DataTable } from '../../organism/DataTable/DataTable'
 import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
@@ -13,7 +14,7 @@ import { getVoucherUrl } from '../../urlMaker'
 const QUERY = gql`
   {
     vouchers {
-      id
+      _id
       code
       price
       description
@@ -73,16 +74,16 @@ export const AllVouchers = () => {
         rowActions={item => [
           {
             label: <FaPencil />,
-            link: getVoucherUrl(item.id),
+            link: getVoucherUrl(item._id),
           },
           {
             label: <FaTrash />,
-            action: (item) => {
-              console.log('Deleting voucher' + item.id)
+            action: (item: Voucher) => {
+              console.log('Deleting voucher' + item._id)
               showFlashMessage('Voucher ' + item.code + ' successfully removed', FlashMessageType.SUCCESS)
               deleteVoucher({
                 variables: {
-                  id: item.id
+                  id: item._id
                 }
               })
             }

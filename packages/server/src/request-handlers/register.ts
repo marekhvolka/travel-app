@@ -3,6 +3,7 @@ import { hash } from 'bcrypt'
 import { RequestHandler } from 'express'
 import { getRepository } from 'typeorm'
 import { generateToken } from '../utils/auth-functions'
+import { generateId } from '../utils/random'
 
 export const registerRequestHandler: RequestHandler = async (req, res) => {
   const UserRepository = getRepository(User)
@@ -21,6 +22,7 @@ export const registerRequestHandler: RequestHandler = async (req, res) => {
   }
 
   const user = await UserRepository.save({
+    _id: generateId(),
     email,
     role: 'player',
     passwordHash: await hash(password.trim(), 10),

@@ -90,16 +90,16 @@ export const ItemDetail = React.memo(({ guide, isInFavourites, item }: Props) =>
   const dispatch = useDispatch()
 
   const onHide = useCallback(() => {
-    dispatch({ ...new MapHideFullItemDetailAction(guide.id) })
-  }, [dispatch, guide.id])
+    dispatch({ ...new MapHideFullItemDetailAction(guide._id) })
+  }, [dispatch, guide._id])
 
   const onRelatedItemClicked = useCallback((itemId: string) => {
-    dispatch({ ...new MapSelectItemAction(guide.id, itemId) })
-  }, [dispatch, guide.id])
+    dispatch({ ...new MapSelectItemAction(guide._id, itemId) })
+  }, [dispatch, guide._id])
 
   const onToggleFavouriteItemClicked = useCallback(() => {
-    dispatch({ ...new ToggleFavouriteItemAction(guide.id, item.id) })
-  }, [dispatch, guide.id, item.id])
+    dispatch({ ...new ToggleFavouriteItemAction(guide._id, item._id) })
+  }, [dispatch, guide._id, item._id])
 
   return (
     <>
@@ -122,7 +122,7 @@ export const ItemDetail = React.memo(({ guide, isInFavourites, item }: Props) =>
         <>
           <Subheading>Related places</Subheading>
           {item.relatedItems.map(relatedItem => (
-            <div key={relatedItem.id} onClick={() => onRelatedItemClicked(relatedItem.id)}>
+            <div key={relatedItem._id} onClick={() => onRelatedItemClicked(relatedItem._id)}>
               <ItemCard item={relatedItem}/>
             </div>
           ))}

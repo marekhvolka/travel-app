@@ -1,10 +1,10 @@
 import { Guide, Item, Voucher } from '@md/common'
 import { GraphQLJSONObject } from 'graphql-type-json'
-import { ObjectID } from 'mongodb'
 import { Arg, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql'
 import { getRepository } from 'typeorm'
 import { GuideInput } from '../inputs/GuideInput'
 import { isAuth } from '../middleware/isAuth'
+import { generateId } from '../utils/random'
 
 const GuideRepository = getRepository(Guide)
 const ItemRepository = getRepository(Item)
@@ -16,7 +16,7 @@ export class GuideResolver {
   items(@Root() guide: Guide, @Arg('published', { nullable: true }) published: boolean) {
     return ItemRepository.find({
       where: {
-        _id: { $in: guide.itemIds.map(id => new ObjectID(id)) },
+        _id: { $in: guide.itemIds },
         ...(published ? { published: true } : {})
       },
     })
@@ -26,14 +26,14 @@ export class GuideResolver {
   vouchers(@Root() guide: Guide) {
     return VoucherRepository.find({
       where: {
-        guideId: guide.id,
+        guideId: guide._id,
       },
     })
   }
 
   @Query(() => Guide)
-  fetchGuide(@Arg('id', { nullable: true }) id: string, @Arg('url', { nullable: true }) url: string) {
-    return id ? GuideRepository.findOne(id) : GuideRepository.findOne({ url })
+  fetchGuide(@Arg('id', { nullable: true }) _id: string, @Arg('url', { nullable: true }) url: string) {
+    return _id ? GuideRepository.findOne({ _id }) : GuideRepository.findOne({ url })
   }
 
   @Query(() => GraphQLJSONObject)
@@ -50,11 +50,14 @@ export class GuideResolver {
   @Mutation(() => Guide)
   @UseMiddleware(isAuth)
   async updateGuide(@Arg('data') data: GuideInput) {
-    if (data.id) {
-      await GuideRepository.update(data.id, data)
-      return GuideRepository.findOne(data.id)
+    if (data._id) {
+      await GuideRepository.update(data._id, data)
+      return GuideRepository.findOne(data._id)
     } else {
-      return GuideRepository.save(data)
+      return GuideRepository.save({
+        ...data,
+        _id: generateId()
+      })
     }
   }
 

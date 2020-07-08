@@ -1,13 +1,12 @@
-import { Field, ID, InputType } from 'type-graphql'
-import { ObjectID } from 'typeorm'
 import { ItemType } from '@md/common'
+import { Field, ID, InputType } from 'type-graphql'
 import { LocationInput } from './LocationInput'
 import { RestrictionsInput } from './RestrictionsInput'
 
 @InputType()
 export class ItemInput {
   @Field(() => ID, { nullable: true })
-  id: ObjectID
+  _id: string
 
   @Field(() => String)
   name: string

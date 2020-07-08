@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
+import { Column, Entity, ObjectIdColumn } from 'typeorm'
 
 @ObjectType()
 @Entity({
@@ -8,7 +8,7 @@ import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 export class ItemRelation {
   @Field(() => ID)
   @ObjectIdColumn()
-  id: ObjectID
+  _id: string
 
   @Field(() => String)
   @Column()

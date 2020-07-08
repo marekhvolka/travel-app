@@ -24,7 +24,7 @@ const ItemWrapper = styled.div`
 export const SearchResults = ({ onItemCardClicked, results }: Props) => (
   <Wrapper>
     {results.map(relatedItem => (
-      <ItemWrapper key={relatedItem.id} onClick={() => {onItemCardClicked(relatedItem.id)}}>
+      <ItemWrapper key={relatedItem._id} onClick={() => {onItemCardClicked(relatedItem._id)}}>
         <ItemCard item={relatedItem}/>
       </ItemWrapper>
     ))}

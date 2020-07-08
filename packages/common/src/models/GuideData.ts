@@ -1,8 +1,8 @@
-import { Column, ObjectID, ObjectIdColumn } from 'typeorm'
+import { Column, ObjectIdColumn } from 'typeorm'
 
 export class GuideData {
   @ObjectIdColumn()
-  id: ObjectID
+  _id: string
 
   @Column()
   guideId: string

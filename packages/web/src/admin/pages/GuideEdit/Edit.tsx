@@ -19,11 +19,11 @@ import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditVie
 const FETCH_ADDITIONAL_DATA_QUERY = gql`
   {
     cities {
-      id
+      _id
       name
     }
     items {
-      id
+      _id
       name
     }
   }
@@ -40,7 +40,7 @@ const Edit = ({ model }: EditViewProps) => {
     <Flex>
       <Box flex={7}>
         <h1>
-          {model.id ? `Edit guide ${model.name}` : 'Add guide'}
+          {model._id ? `Edit guide ${model.name}` : 'Add guide'}
           <Button type="submit" float={'right'}>Save</Button>
         </h1>
         <Tabs defaultActiveIndex={0}>
@@ -115,7 +115,7 @@ const CREATE_NEW_OBJECT_QUERY = gql`
 const FETCH_QUERY = gql`
   query fetch($id: String!) {
     fetchGuide(id: $id) {
-      id
+      _id
       name
       cityId
       url
@@ -137,7 +137,7 @@ const FETCH_QUERY = gql`
 const UPDATE_MUTATION = gql`
   mutation($data: GuideInput!) {
     updateGuide(data: $data) {
-      id
+      _id
     }
   }
 `

@@ -41,7 +41,7 @@ export const ItemsSearch = React.memo(({ guide, tags }: Props) => {
   }, [setSearchedTerm])
 
   const onItemCardClicked = useCallback((itemId: string) => {
-    dispatch({...new MapSelectItemAction(guide.id, itemId)})
+    dispatch({...new MapSelectItemAction(guide._id, itemId)})
   }, [guide, dispatch])
 
   return (

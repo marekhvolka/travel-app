@@ -7,8 +7,7 @@ import { Item } from './Item'
 export class Tag {
   @Field(() => ID)
   @ObjectIdColumn()
-  // id: ObjectID
-  id: string
+  _id: string
 
   @Field(() => String)
   @Column()

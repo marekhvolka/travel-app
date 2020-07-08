@@ -1,10 +1,9 @@
-import { ObjectID } from 'typeorm'
 import { Field, ID, InputType } from 'type-graphql'
 
 @InputType()
 export class TagInput {
   @Field(() => ID, { nullable: true })
-  id: ObjectID
+  _id: string
 
   @Field(() => String)
   name: string
@@ -18,6 +17,6 @@ export class TagInput {
   @Field(() => String, { nullable: true })
   icon: string
 
-  @Field(() => Boolean, { nullable: true, defaultValue: false})
+  @Field(() => Boolean, { nullable: true, defaultValue: false })
   published: boolean
 }

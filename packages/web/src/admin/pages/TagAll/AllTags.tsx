@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
+import { Tag } from '@md/common'
 import gql from 'graphql-tag'
 import React from 'react'
 import FaPencil from 'react-icons/lib/fa/pencil'
@@ -11,7 +12,7 @@ import { getTagUrl } from '../../urlMaker'
 const QUERY = gql`
   {
     tags {
-      id
+      _id
       name
       description
       published
@@ -75,16 +76,16 @@ export const AllTags = () => {
         rowActions={item => [
           {
             label: <FaPencil/>,
-            link: getTagUrl(item.id),
+            link: getTagUrl(item._id),
           },
           {
             label: <FaTrash/>,
-            action: (item) => {
-              console.log('Deleting tag' + item.id)
+            action: (item: Tag) => {
+              console.log('Deleting tag' + item._id)
               showFlashMessage('Tag ' + item.name + ' successfully removed', FlashMessageType.SUCCESS)
               deleteTag({
                 variables: {
-                  id: item.id
+                  id: item._id
                 }
               })
             }

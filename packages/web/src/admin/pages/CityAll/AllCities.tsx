@@ -9,7 +9,7 @@ import { getCityUrl } from '../../urlMaker'
 const QUERY = gql`
   {
     cities {
-      id
+      _id
       name
     }
   }
@@ -57,16 +57,16 @@ export const AllCities = () => {
         rowActions={item => [
           {
             label: 'Edit',
-            link: getCityUrl(item.id),
+            link: getCityUrl(item._id),
           },
           {
             label: 'Delete',
             action: (item) => {
-              console.log('Deleting item' + item.id)
+              console.log('Deleting item' + item._id)
               showFlashMessage('City ' + item.name + ' successfully removed', FlashMessageType.SUCCESS)
               deleteCity({
                 variables: {
-                  id: item.id
+                  id: item._id
                 }
               })
             }

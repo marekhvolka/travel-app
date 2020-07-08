@@ -12,12 +12,12 @@ type Props = {
 
 export const CustomMarker = React.memo(({ item, onClick, isSelected }: Props) => {
   const handleOnClick = useCallback(() => {
-    onClick(item.id)
-  }, [item.id])
+    onClick(item._id)
+  }, [item._id])
 
   return (
     <Marker
-      key={item.id}
+      key={item._id}
       // icon={{
       //   url: getImageUrl(IMAGE_SIZES.THUMBNAIL, item.previewImageUrl),
       //   size: new google.maps.Size(50, 50),

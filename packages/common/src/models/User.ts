@@ -1,5 +1,5 @@
-import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
-import { ObjectType, Field, ID } from 'type-graphql'
+import { Field, ID, ObjectType } from 'type-graphql'
+import { Column, Entity, ObjectIdColumn } from 'typeorm'
 import { GuidesData } from './GuidesData'
 import { UnlockedGuide } from './UnlockedGuide'
 
@@ -8,7 +8,7 @@ import { UnlockedGuide } from './UnlockedGuide'
 export class User {
   @Field(() => ID)
   @ObjectIdColumn()
-  id: ObjectID
+  _id: string
 
   @Field(() => String)
   @Column()

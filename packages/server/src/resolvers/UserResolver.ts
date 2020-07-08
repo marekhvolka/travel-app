@@ -17,7 +17,7 @@ export class UserResolver {
   @Mutation(() => User)
   @UseMiddleware(isAuth)
   async updateUser(@Arg('user') user: UserInput) {
-    return UserRepository.update(user.id, {
+    return UserRepository.update(user._id, {
       email: user.email,
       role: user.role,
       passwordHash: await hash(user.password, 10),

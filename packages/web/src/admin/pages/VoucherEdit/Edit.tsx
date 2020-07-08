@@ -11,7 +11,7 @@ import { Button } from '../../../common/atoms/Button/Button'
 const GUIDES_QUERY = gql`
   {
     guides {
-      id
+      _id
       name
     }
   } 
@@ -27,7 +27,7 @@ const Edit = ({ model }: EditViewProps) => {
   return (
     <div>
       <h1>
-        {model.id ? `Edit voucher ${model.code}` : 'Add voucher'}
+        {model._id ? `Edit voucher ${model.code}` : 'Add voucher'}
         <Button type="submit" float={'right'} >Save</Button>
       </h1>
       <Field
@@ -71,7 +71,7 @@ const CREATE_NEW_OBJECT_QUERY = gql`
 const FETCH_QUERY = gql`
   query fetch($id: String!) {
     fetchVoucher(id: $id) {
-      id
+      _id
       code
       price
       description
@@ -85,7 +85,7 @@ const FETCH_QUERY = gql`
 const UPDATE_MUTATION = gql`
   mutation($data: VoucherInput!) {
     updateVoucher(data: $data) {
-      id
+      _id
     }
   }
 `

@@ -1,11 +1,11 @@
 import { Field, ID, Int, ObjectType } from 'type-graphql'
-import { Column, ObjectID, ObjectIdColumn } from 'typeorm'
+import { Column, ObjectIdColumn } from 'typeorm'
 
 @ObjectType()
 export class UnlockedGuide {
   @Field(() => ID)
   @ObjectIdColumn()
-  id?: ObjectID
+  _id: string
 
   @Field(() => String)
   @Column()

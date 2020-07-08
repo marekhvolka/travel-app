@@ -4,12 +4,13 @@ import gql from 'graphql-tag'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { SearchResult } from '@md/common'
 import { getUrl } from '../../urlMaker'
 
 const GET_SEARCH_RESULTS = gql`
   query($searchTerm: String!) {
     search(searchTerm: $searchTerm) {
-      id
+      _id
       name
       type
     }
@@ -17,19 +18,19 @@ const GET_SEARCH_RESULTS = gql`
 `
 
 const MainWrapper = styled.div`
-  display: inline-block
-  margin-left: 20px
-  width: 250px
+  display: inline-block;
+  margin-left: 20px;
+  width: 250px;
 `
 
 const ListWrapper = styled.ul`
-  position: absolute
-  z-index: 1000
-  background: #fff
-  border: 1px solid #ddd
-  padding: 10px 20px
-  list-style: none
-  line-height: 35px
+  position: absolute;
+  z-index: 1000;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  list-style: none;
+  line-height: 35px;
 `
 
 export const GlobalSearch = () => {
@@ -56,8 +57,8 @@ export const GlobalSearch = () => {
       />
       {searchTerm !== '' && !loading && data && data.search.length !== 0 && (
         <ListWrapper>
-          {data.search && data.search.map((item) => (
-            <li><Link onClick={() => setSearchedTerm('')} to={getUrl(item.id, item.type)}>{item.name}</Link></li>
+          {data.search && data.search.map((item: SearchResult) => (
+            <li><Link onClick={() => setSearchedTerm('')} to={getUrl(item._id, item.type)}>{item.name}</Link></li>
           ))}
         </ListWrapper>
       )}

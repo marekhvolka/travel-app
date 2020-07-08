@@ -1,4 +1,4 @@
-import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
+import { Column, Entity, ObjectIdColumn } from 'typeorm'
 import { Field, ID, ObjectType } from 'type-graphql'
 
 @Entity()
@@ -6,7 +6,7 @@ import { Field, ID, ObjectType } from 'type-graphql'
 export class City {
   @Field(() => ID)
   @ObjectIdColumn()
-  id: ObjectID
+  _id: string
 
   @Field(() => String)
   @Column()

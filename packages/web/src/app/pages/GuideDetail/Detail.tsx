@@ -29,7 +29,7 @@ const GuideDescription = styled(Text)`
 const GUIDE_QUERY = gql`
   query fetchGuide($id: String, $url: String) {
     fetchGuide(id: $id, url: $url) {
-      id
+      _id
       name
       url
       previewImageUrl

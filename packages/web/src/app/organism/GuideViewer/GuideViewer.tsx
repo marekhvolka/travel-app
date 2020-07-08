@@ -71,8 +71,8 @@ type Props = {
 
 export const GuideViewer = ({ model, tags }: Props) => {
   const dispatch = useDispatch()
-  const guideData: GuideData = useSelector((state: State) => state.userData.guidesData[model.id])
-  const selectedItem = model.items && model.items.find(item => guideData && item.id === guideData.selectedItemId)
+  const guideData: GuideData = useSelector((state: State) => state.userData.guidesData[model._id])
+  const selectedItem = model.items && model.items.find(item => guideData && item._id === guideData.selectedItemId)
 
   return (
     <GuideViewerWrapper>
@@ -91,12 +91,12 @@ export const GuideViewer = ({ model, tags }: Props) => {
           <SidebarWrapper>
             <ItemDetail
               guide={model}
-              isInFavourites={!!guideData.favouriteItemsIds[selectedItem.id]}
+              isInFavourites={!!guideData.favouriteItemsIds[selectedItem._id]}
               item={selectedItem}
             />
           </SidebarWrapper>
         ) : (
-          <SelectedItemWrapper onClick={() => dispatch({ ...new MapShowFullItemDetailAction(model.id) })}>
+          <SelectedItemWrapper onClick={() => dispatch({ ...new MapShowFullItemDetailAction(model._id) })}>
             <ItemCard item={selectedItem}/>
           </SelectedItemWrapper>
         ))}

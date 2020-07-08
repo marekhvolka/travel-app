@@ -8,7 +8,7 @@ import { getUserUrl } from '../../urlMaker'
 const QUERY = gql`
   {
     users {
-      id
+      _id
       email
       role
     }
@@ -49,12 +49,12 @@ export const AllUsers = () => {
         rowActions={user => [
           {
             label: 'Edit',
-            link: getUserUrl(user.id),
+            link: getUserUrl(user._id),
           },
           user.role === 'player'
             ? {
               label: 'Progress',
-              link: `/users/progress/${user.id}`,
+              link: `/users/progress/${user._id}`,
             }
             : null,
         ]}

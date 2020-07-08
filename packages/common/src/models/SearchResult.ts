@@ -1,13 +1,11 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Column, ObjectID } from 'typeorm'
 
 @ObjectType()
 export class SearchResult {
   @Field(() => ID)
-  id: ObjectID
+  _id: string
 
   @Field(() => String)
-  @Column()
   name: string
 
   @Field(() => String)

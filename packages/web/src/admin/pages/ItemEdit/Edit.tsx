@@ -25,7 +25,7 @@ const FETCH_QUERY = gql`
   }
   query fetch($id: String!) {
     fetchItem(id: $id) {
-      id
+      _id
       name
       title
       type
@@ -73,7 +73,7 @@ const FETCH_QUERY = gql`
 const FETCH_TAGS_QUERY = gql`
   {
     tags {
-      id
+      _id
       name
     }
   }
@@ -82,7 +82,7 @@ const FETCH_TAGS_QUERY = gql`
 const FETCH_ITEMS_QUERY = gql`
   {
     items {
-      id
+      _id
       name
     }
   }
@@ -91,20 +91,10 @@ const FETCH_ITEMS_QUERY = gql`
 const UPDATE_MUTATION = gql`
   mutation($data: ItemInput!) {
     updateItem(data: $data) {
-      id
+      _id
     }
   }
 `
-
-const initialModel = {
-  model: {
-    name: '',
-    tags: [],
-    tagIds: [],
-    relatedItemsIds: [],
-    relatedItems: []
-  }
-}
 
 const Edit = ({ model }: EditViewProps) => {
   const { loading: loadingItems, data: itemsData } = useQuery(FETCH_ITEMS_QUERY)
@@ -118,7 +108,7 @@ const Edit = ({ model }: EditViewProps) => {
     <Flex>
       <Box flex={1}>
         <h2>
-          {model.id ? `Edit item ${model.name}` : 'Add item'}
+          {model._id ? `Edit item ${model.name}` : 'Add item'}
           <Button type="submit" float={'right'}>
             Save
           </Button>
@@ -162,5 +152,4 @@ export default makeEditView(Edit, {
   queryNewObject: CREATE_NEW_OBJECT_QUERY,
   queryNewObjectName: 'returnNewItem',
   slug: 'item',
-  initialModel
 })

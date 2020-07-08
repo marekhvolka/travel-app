@@ -46,7 +46,7 @@ export const SearchForm = ({ tags, searchedTerm, onChange }: Props) => {
         >
           {tags.map((tag: Tag) => (
             <Select.Option
-              key={tag.id}
+              key={tag._id}
             >
               {tag.name}
             </Select.Option>

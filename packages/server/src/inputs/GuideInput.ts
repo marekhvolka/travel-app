@@ -1,11 +1,10 @@
 import { Field, ID, InputType, Int } from 'type-graphql'
-import { ObjectID } from 'typeorm'
 import { LocationInput } from './LocationInput'
 
 @InputType()
 export class GuideInput {
   @Field(() => ID, { nullable: true })
-  id: ObjectID
+  _id: string
 
   @Field(() => String)
   name: string

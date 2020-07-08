@@ -1,10 +1,9 @@
 import { Field, ID, InputType, Int } from 'type-graphql'
-import { ObjectID } from 'typeorm'
 
 @InputType()
 export class VoucherInput {
   @Field(() => ID, { nullable: true })
-  id: ObjectID
+  _id: string
 
   @Field(() => String)
   code: string

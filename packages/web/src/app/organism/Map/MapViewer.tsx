@@ -17,8 +17,8 @@ export const MapViewer = React.memo(({ model, guideData }: Props) => {
   const dispatch = useDispatch()
 
   const onMarkerClicked = useCallback((itemId: string) => {
-    dispatch({...new MapSelectItemAction(model.id, itemId)})
-  }, [dispatch, model.id])
+    dispatch({...new MapSelectItemAction(model._id, itemId)})
+  }, [dispatch, model._id])
 
   return (
     <>
@@ -32,8 +32,8 @@ export const MapViewer = React.memo(({ model, guideData }: Props) => {
             position: 'absolute',
           }}
           onLoad={(mapRef) => setMap(mapRef)}
-          onZoomChanged={() => map && dispatch({ ...new MapZoomLevelChangedAction(model.id, map.zoom) })}
-          onDragEnd={() => map && dispatch({ ...new MapLatLngChangedAction(model.id, map.center.lat(), map.center.lng()) })}
+          onZoomChanged={() => map && dispatch({ ...new MapZoomLevelChangedAction(model._id, map.zoom) })}
+          onDragEnd={() => map && dispatch({ ...new MapLatLngChangedAction(model._id, map.center.lat(), map.center.lng()) })}
           zoom={guideData ? guideData.mapZoomLevel || model.location.zoomLevel : model.location.zoomLevel}
           center={{
             lat: guideData ? guideData.mapLatitude || model.location.latitude : model.location.latitude,
@@ -45,8 +45,8 @@ export const MapViewer = React.memo(({ model, guideData }: Props) => {
             .filter(item => item.type === ITEM_TYPES.PLACE && item.showOnMap)
             .map(item => (
               <CustomMarker
-                key={item.id}
-                isSelected={guideData && guideData.selectedItemId === item.id}
+                key={item._id}
+                isSelected={guideData && guideData.selectedItemId === item._id}
                 item={item}
                 onClick={onMarkerClicked}
               />

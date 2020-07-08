@@ -8,7 +8,7 @@ import { EditViewProps, makeEditView } from '../../organism/EditView/makeEditVie
 const Edit = ({ model }: EditViewProps) => (
   <div>
     <h1>
-      {model.id ? `Edit city ${model.name}` : 'Add city'}
+      {model._id ? `Edit city ${model.name}` : 'Add city'}
       <Button type="submit" float={'right'}>Save</Button>
     </h1>
     <Field
@@ -28,7 +28,7 @@ const CREATE_NEW_OBJECT_QUERY = gql`
 const FETCH_QUERY = gql`
   query fetch($id: String!) {
     fetchCity(id: $id) {
-      id
+      _id
       name
     }
   }
@@ -37,7 +37,7 @@ const FETCH_QUERY = gql`
 const UPDATE_MUTATION = gql`
   mutation($data: CityInput!) {
     updateCity(data: $data) {
-      id
+      _id
     }
   }
 `

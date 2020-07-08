@@ -9,8 +9,7 @@ import { Voucher } from './Voucher'
 export class Guide {
   @Field(() => ID)
   @ObjectIdColumn()
-  // id: ObjectID
-  id: string
+  _id: string
 
   @Field(() => String)
   @Column()

@@ -38,7 +38,7 @@ export class CityResolver {
 
     items.map((item: Item) => {
       result.push({
-        id: item.id,
+        _id: item._id,
         name: item.name + ' (Item)',
         type: 'item'
       })
@@ -72,7 +72,7 @@ export class CityResolver {
 
     guides.map((guide: Guide) => {
       result.push({
-        id: guide.id,
+        _id: guide._id,
         name: guide.name + ' (Guide)',
         type: 'guide'
       })
@@ -100,7 +100,7 @@ export class CityResolver {
 
     tags.map((tag: Tag) => {
       result.push({
-        id: tag.id,
+        _id: tag._id,
         name: tag.name + ' (Tag)',
         type: 'tag'
       })
@@ -128,7 +128,7 @@ export class CityResolver {
 
     vouchers.map((voucher: Voucher) => {
       result.push({
-        id: voucher.id,
+        _id: voucher._id,
         name: voucher.code + ' (Voucher)',
         type: 'voucher'
       })
