@@ -8,7 +8,7 @@ type Props = ThemeProps<typeof theme> & {
 }
 
 export const Button = styled.button`
-  float: ${props => props.float || 'none'}
+  float: ${props => props.float || 'none'};
   border: 2px solid;
   margin: 0 24px;
   border-color: ${props => props.theme.color.primary};
@@ -17,11 +17,11 @@ export const Button = styled.button`
   font-weight: bold;
   font-size: 20px;
   ${(props: Props) => props.primary ? css`
-    color: ${props.theme.color.secondary}
-    background: ${props.theme.color.primary}
+    color: ${props.theme.color.secondary};
+    background: ${props.theme.color.primary};
   ` : css`
-    color: ${props.theme.color.primary}
-    background: ${props.theme.color.secondary}
+    color: ${props.theme.color.primary};
+    background: ${props.theme.color.secondary};
   `}
 
 `

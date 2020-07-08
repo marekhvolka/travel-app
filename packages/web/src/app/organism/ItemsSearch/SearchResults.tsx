@@ -9,16 +9,16 @@ type Props = {
 }
 
 const Wrapper = styled.div`
-  overflow-y: scroll
-  height: á5vh
+  overflow-y: scroll;
+  height: 85vh;
 `
 
 const ItemWrapper = styled.div`
-  background-color: #fff
-  padding: 10px
-  margin-bottom: 10px
-  border: 1px solid #efefef
-  border-radius: 5px
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #efefef;
+  border-radius: 5px;
 `
 
 export const SearchResults = ({ onItemCardClicked, results }: Props) => (

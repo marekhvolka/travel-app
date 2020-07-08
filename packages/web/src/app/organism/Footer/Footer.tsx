@@ -7,7 +7,7 @@ const FooterWrapper = styled.div`
   border-color: ${props => props.theme.border.color};
   background: #fff;
   z-index: -1;
-  text-align: center
+  text-align: center;
   padding-top: 15px;
 `
 

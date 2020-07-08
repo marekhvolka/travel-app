@@ -15,15 +15,15 @@ import { State } from '../../../store'
 import { UseVoucherButton } from '../../organism/UseVoucherButton/UseVoucherButton'
 
 const GuideTitle = styled.h1`
-  font-weight: bold
-  text-transform: uppercase
-  margin-top: 0px
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 0px;
 `
 
 const GuideDescription = styled(Text)`
-  font-size: 14px
-  line-height: 25px
-  text-align: justify
+  font-size: 14px;
+  line-height: 25px;
+  text-align: justify;
 `
 
 const GUIDE_QUERY = gql`

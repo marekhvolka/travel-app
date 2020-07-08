@@ -10,5 +10,5 @@ export const Box = styled.div`
   // border-color: ${props => props.theme.border.color};
   // padding: 10px;
   // margin: 10px;
-  flex: ${(props: Props) => props.flex}
+  flex: ${(props: Props) => props.flex};
 `

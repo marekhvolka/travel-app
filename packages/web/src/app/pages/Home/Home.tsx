@@ -9,8 +9,8 @@ import { Steps } from './Steps'
 import headerImage from './header.jpg'
 
 const HeaderWrapper = styled.div`
-  padding: 20px 20px 70px
-  margin-bottom: 80px
+  padding: 20px 20px 70px;
+  margin-bottom: 80px;
   background-image: url(${headerImage});
   background-size: 50%;
   background-repeat: no-repeat;
@@ -18,23 +18,23 @@ const HeaderWrapper = styled.div`
 `
 
 const StepsHeadline = styled.h2`
-  text-align: center
-  font-weight: bold
-  text-transform: uppercase
-  font-size: 25px
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 25px;
 `
 
 const MainHeading = styled.h1`
-  text-transform: uppercase
-  font-weight: bold
-  line-height: 29px
-  font-size: 30px
+  text-transform: uppercase;
+  font-weight: bold;
+  line-height: 29px;
+  font-size: 30px;
 `
 
 const HeaderText = styled.p`
-  margin-bottom: 20px
+  margin-bottom: 20px;
   font-size: 18px;
-  line-height: 30px;  
+  line-height: 30px;
 `
 
 export const Home = () => (

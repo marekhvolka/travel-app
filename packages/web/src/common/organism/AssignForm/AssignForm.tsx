@@ -11,10 +11,10 @@ type Props = {
 }
 
 const AssignedItem = styled(Label)`
-  margin-left: 5px
-  margin-bottom: 4px
-  float: left
-  line-height: 20px
+  margin-left: 5px;
+  margin-bottom: 4px;
+  float: left;
+  line-height: 20px;
 `
 
 export const AssignForm = ({ model, items, itemIdsArrayName }: Props) => (
@@ -22,7 +22,7 @@ export const AssignForm = ({ model, items, itemIdsArrayName }: Props) => (
     {({ push, remove }) => (
       <div>
         {model[itemIdsArrayName].map((itemId, index) => {
-          const item = items.find((currentItem) => currentItem.id === itemId)
+          const item = items.find((currentItem) => currentItem._id === itemId)
 
           if (!item) {
             console.log(itemId)
@@ -41,8 +41,8 @@ export const AssignForm = ({ model, items, itemIdsArrayName }: Props) => (
           style={{ width: 200 }}
           onChange={push}
         >
-          {items.filter(item => !model[itemIdsArrayName].includes(item.id)).map(item => (
-            <Select.Option key={item.id} value={item.id}>
+          {items.filter(item => !model[itemIdsArrayName].includes(item._id)).map(item => (
+            <Select.Option key={item._id} value={item._id}>
               {item.name}
             </Select.Option>
           ))}

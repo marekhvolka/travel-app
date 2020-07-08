@@ -21,15 +21,15 @@ type FlashMessageProps = {
 }
 
 const Container = styled.div`
-  border: 1px solid ${(props: FlashMessageProps) => ColorMap[props.type]}
-  border-radius: 5px
-  position: absolute
-  bottom: 30px
-  right: 50px
-  padding: 10px 20px
-  z-index: 1000
-  background: #fff
-  color: ${(props: FlashMessageProps) => ColorMap[props.type]}
+  border: 1px solid ${(props: FlashMessageProps) => ColorMap[props.type]};
+  border-radius: 5px;
+  position: absolute;
+  bottom: 30px;
+  right: 50px;
+  padding: 10px 20px;
+  z-index: 1000;
+  background: #fff;
+  color: ${(props: FlashMessageProps) => ColorMap[props.type]};
 `
 
 const eventEmitter = new EventEmitter()

@@ -28,39 +28,39 @@ const MainContent = styled.div`
 `
 
 const SelectedItemWrapper = styled.div`
-  width: 500px
-  left: 0
-  right: 0
-  margin-left: auto
-  margin-right: auto
-  position: absolute
-  bottom: 20px
-  border: 1px solid #c7b7b7
-  border-radius: 4px
-  background: #fff
-  padding: 10px
-  cursor: pointer
+  width: 500px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  bottom: 20px;
+  border: 1px solid #c7b7b7;
+  border-radius: 4px;
+  background: #fff;
+  padding: 10px;
+  cursor: pointer;
   
   ${media.mobile} {
-    width: 90%
+    width: 90%;
   }
 `
 
 const SidebarWrapper = styled.div`
-  position: absolute
-  left: 0
-  top: 50px
-  bottom: 0
-  background: #fff
-  padding: 15px
-  overflow-y: scroll
+  position: absolute;
+  left: 0;
+  top: 50px;
+  bottom: 0;
+  background: #fff;
+  padding: 15px;
+  overflow-y: scroll;
   
   ${media.tablet} {
-    width: 50%
+    width: 50%;
   }
   
   ${media.desktop} {
-    width: 400px
+    width: 400px;
   }
 `
 

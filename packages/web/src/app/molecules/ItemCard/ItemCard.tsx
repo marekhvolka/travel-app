@@ -13,22 +13,22 @@ type Props = {
 const defaultTitle = 'This is default title. It\'s usually shorter than a description. Two sentences seems to be all right'
 
 const Wrapper = styled.div`
-  cursor: pointer
+  cursor: pointer;
 `
 
 const ItemName = styled.h4`
-  font-weight: bold
-  margin-bottom: 4px
-  text-transform: uppercase
+  font-weight: bold;
+  margin-bottom: 4px;
+  text-transform: uppercase;
 `
 
 const ItemText = styled.p`
-  text-align: justify
-  color: #13111196
+  text-align: justify;
+  color: #13111196;
 `
 
 const BoxCardInfo = styled(Box)`
-  padding: 0px 10px
+  padding: 0px 10px;
 `
 
 export const ItemCard = React.memo((props: Props) => (

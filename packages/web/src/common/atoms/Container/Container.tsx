@@ -11,14 +11,14 @@ export const Container = styled.div`
   `}
   
   @media (min-width: 768px) {
-    width:750px
+    width:750px;
   }
 
   @media (min-width: 992px) {
-    width:970px
+    width:970px;
   }
 
   @media (min-width: 1200px) {
-    width:1170px 
+    width:1170px; 
   }
 `

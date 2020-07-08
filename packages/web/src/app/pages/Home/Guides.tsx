@@ -28,31 +28,31 @@ const QUERY = gql`
 
 const GuideWrapper = styled.div`
   border: 1px solid ${props => props.theme.border.color};
-  border-radius: 2px
-  margin-bottom: 20px
+  border-radius: 2px;
+  margin-bottom: 20px;
   box-shadow: 0 0 2px rgba(0,0,0,.2);
   padding: 10px;
   
   :hover {
-    box-shadow: 0 0 8px rgba(0,0,0,.35)
+    box-shadow: 0 0 8px rgba(0,0,0,.35);
   }
 `
 
 const GuideInfoWrapper = styled.div`
-  text-align: center
-  padding: 5px 20px
+  text-align: center;
+  padding: 5px 20px;
 `
 
 const GuideHeading = styled.h4`
-  font-size: 20px
-  font-weight: bold
-  text-transform: uppercase
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
 `
 
 const GuideDescription = styled(Text)`
-  line-height: 25px
-  color: ${(props) => props.theme.color.muted}
-  text-align: justify
+  line-height: 25px;
+  color: ${(props) => props.theme.color.muted};
+  text-align: justify;
 `
 
 export const Guides = () => {

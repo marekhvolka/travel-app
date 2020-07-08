@@ -17,7 +17,7 @@ const TabButton = styled.div`
 `
 
 const ContentWrapper = styled.div`
-  padding: 20px
+  padding: 20px;
 `
 
 type Props = {

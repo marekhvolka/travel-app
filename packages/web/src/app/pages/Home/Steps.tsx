@@ -7,27 +7,27 @@ type Props = {
 }
 
 const StepsWrapper = styled.div`
-  margin-bottom: 50px
+  margin-bottom: 50px;
 `
 
 const StepWrapper = styled.div`
-  padding: 5px 10px
+  padding: 5px 10px;
 `
 
 const StepTitle = styled.h5`
-  font-size: 20px
-  display: inline-block
-  margin-left: 10px
+  font-size: 20px;
+  display: inline-block;
+  margin-left: 10px;
 `
 
 const StepIcon = styled.span`
-  color: #000
+  color: #000;
 `
 
 const StepDescription = styled.p`
-  margin-top: 15px
-  font-size: 13px
-  color: ${props => props.theme.color.muted}
+  margin-top: 15px;
+  font-size: 13px;
+  color: ${props => props.theme.color.muted};
 `
 
 export const Steps = ({ steps }: Props) => (
