@@ -30,7 +30,7 @@ const FETCH_ADDITIONAL_DATA_QUERY = gql`
 `
 
 const Edit = ({ model }: EditViewProps) => {
-  const { loading, data: data } = useQuery(FETCH_ADDITIONAL_DATA_QUERY)
+  const { loading, data } = useQuery(FETCH_ADDITIONAL_DATA_QUERY)
 
   if (loading) {
     return <Spinner/>

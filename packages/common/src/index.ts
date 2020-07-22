@@ -9,6 +9,7 @@ import { GuideData } from './models/GuideData'
 import { GuidesData } from './models/GuidesData'
 import { Item } from './models/Item'
 import { ItemRelation } from './models/ItemRelation'
+import { Location } from './models/Location'
 import { Restrictions } from './models/Restrictions'
 import { SearchResult } from './models/SearchResult'
 import { Tag } from './models/Tag'
@@ -26,6 +27,7 @@ export const entities = [
   Guide,
   GuideData,
   GuidesData,
+  Location,
   Item,
   ItemRelation,
   Restrictions,
@@ -56,6 +58,7 @@ export * from './models/GuidesData'
 export * from './models/Item'
 export * from './models/ItemRelation'
 export * from './models/ItemType'
+export * from './models/Location'
 export * from './models/Restrictions'
 export * from './models/SearchResult'
 export * from './models/Tag'

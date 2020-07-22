@@ -33,10 +33,10 @@ export const UploadForm = ({ onClose, path }: Props) => {
   const aspect = 3 / 2
 
   const onCropChange = crop => {
-    setState({
-      ...state,
+    setState((currentState) => ({
+      ...currentState,
       crop
-    })
+    }))
   }
 
   const returnCrop = image => {
@@ -54,12 +54,12 @@ export const UploadForm = ({ onClose, path }: Props) => {
   }
 
   const onImageLoaded = image => {
-    setState({
-      ...state,
+    setState((currentState) => ({
+      ...currentState,
       crop: returnCrop(image),
       width: image.width,
       height: image.height,
-    })
+    }))
   }
 
   const updateFile = () => {
@@ -67,16 +67,16 @@ export const UploadForm = ({ onClose, path }: Props) => {
 
     if (file) {
       setFileName(file.name)
-      setState({
-        ...state,
+      setState((currentState) => ({
+        ...currentState,
         fileUrl: URL.createObjectURL(file),
-      })
+      }))
 
       const reader = new FileReader()
-      reader.addEventListener('load', () => setState({
-          ...state,
+      reader.addEventListener('load', () => setState((currentState) => ({
+          ...currentState,
           src: reader.result,
-        }),
+        })),
         false
       )
       reader.readAsDataURL(file)

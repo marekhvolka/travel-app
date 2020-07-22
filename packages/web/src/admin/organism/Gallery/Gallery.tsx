@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import FaTrash from 'react-icons/lib/fa/trash'
 import styled from 'styled-components'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
@@ -64,7 +64,7 @@ export const Gallery = ({onImageSelected }: Props) => {
     files: []
   })
 
-  const queryDirContent = async () => {
+  const queryDirContent = useCallback(async () => {
     const result = await client.query({
       query: QUERY,
       variables: {
@@ -73,12 +73,12 @@ export const Gallery = ({onImageSelected }: Props) => {
       fetchPolicy: 'network-only',
     })
 
-    setState({
-      ...state,
+    setState((currentState) => ({
+      ...currentState,
       subdirectories: result.data.dir.subdirectories,
       files: result.data.dir.files,
-    })
-  }
+    }))
+  }, [path, client])
 
   useEffect(() => {
     queryDirContent()
@@ -135,7 +135,7 @@ export const Gallery = ({onImageSelected }: Props) => {
                 <br/>
                 {`${Math.floor(item.stats.size / 1024)} KB`}
                 <br/>
-                <a onClick={() => onImageSelected && onImageSelected(item.path)}>Copy</a>
+                <span onClick={() => onImageSelected && onImageSelected(item.path)}>Copy</span>
                 <FaTrash onClick={() => deleteItem(item.path)}/>
               </p>
             </GalleryItem>

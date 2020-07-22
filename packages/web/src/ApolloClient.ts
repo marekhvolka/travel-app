@@ -24,7 +24,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: config.backendUrl + config.graphqlEndPoint,
+  uri: config.backendUrl + '/graphql',
 })
 
 export const client = new ApolloClient({

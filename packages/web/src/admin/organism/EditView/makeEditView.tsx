@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { Formik, Form } from 'formik'
 import { DocumentNode } from 'graphql'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { FlashMessageType, showFlashMessage } from '../../../common/atoms/FlashMessage/FlashMessage'
 import { Spinner } from '../../../common/atoms/Spinner/Spinner'

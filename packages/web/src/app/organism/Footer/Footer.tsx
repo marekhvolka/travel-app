@@ -18,7 +18,7 @@ export const Footer = () => {
     <>
       {location.pathname.indexOf('explore') === -1 && (
         <FooterWrapper>
-          <p>&copy; 2020 Marco&apos;sGuide.com All rights reserved</p>
+          <p>&copy; 2020 TravelApp.com All rights reserved</p>
         </FooterWrapper>
       )}
     </>

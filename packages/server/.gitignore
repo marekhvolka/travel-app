@@ -1,5 +1,6 @@
 /node_modules
-/public
+/dist
+.env
 /resources/
 /config/dev.json
 /config/prod.json

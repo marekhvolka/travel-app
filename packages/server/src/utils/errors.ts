@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express'
-import config from '../../config/config'
 import { logger } from './logger'
 
 class AppError extends Error {
@@ -58,7 +57,7 @@ export const handleErrors = async (req: Request, res: Response, next: NextFuncti
       responseError = new InternalServerError()
     }
 
-    const isDevelopment = ['local', 'test', 'development'].includes(config.env)
+    const isDevelopment = ['local', 'test', 'development'].includes(process.env.NODE_ENV as string)
 
     res.status = responseError.status
     res.send({

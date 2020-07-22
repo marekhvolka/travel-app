@@ -13,7 +13,11 @@ import https, { ServerOptions } from 'https'
 import 'reflect-metadata'
 import { buildSchema } from 'type-graphql'
 import { createConnection, getRepository } from 'typeorm'
-import config from '../config/config'
+
+import dotenv from 'dotenv'
+dotenv.config()
+
+import { config } from './config'
 import { loginRequestHandler } from './request-handlers/login'
 import { registerRequestHandler } from './request-handlers/register'
 import { uploadFileRequestHandler } from './request-handlers/upload'
@@ -24,12 +28,12 @@ import { logger } from './utils/logger'
   await createConnection({
     useUnifiedTopology: true,
     type: 'mongodb',
-    host: config.mongodb.host,
+    host: config.dbHost,
     port: 27017,
     logging: true,
-    database: config.mongodb.database,
-    username: config.mongodb.username,
-    password: config.mongodb.password,
+    database: config.dbName,
+    username: config.dbUser,
+    password: config.dbPassword,
     entities: entities,
   })
 
@@ -42,12 +46,18 @@ import { logger } from './utils/logger'
   app.use(cors())
   app.use(helmet())
 
-  app.use(express.static(config.resourcesDir))
+  app.get('/hello', (req, res) => {
+    res.send({
+      msg: "Hello from the server22222"
+    })
+  })
+
+  app.use(express.static('resources'))
   app.use(handleErrors)
 
   try {
     const schema = await buildSchema({
-      resolvers: [__dirname + '/resolvers/*.ts'],
+      resolvers: [__dirname + '/resolvers/*'],
     })
 
     const apolloServer = new ApolloServer({
@@ -75,25 +85,25 @@ import { logger } from './utils/logger'
     next()
   })
 
-  app.use(handleNotFound)
+  // app.use(handleNotFound)
 
-  app.listen(config.server.port, () => {
+  app.listen(config.port, () => {
     if (process.env.NODE_ENV === 'production') {
       logger.info('Server successfully running')
     } else {
-      logger.info(`GraphiQL is now running on http://localhost:${config.server.port}/graphiql`)
+      logger.info(`GraphiQL is now running on http://localhost:${config.port}/graphiql`)
     }
   })
 
-  if (config.https.enabled) {
-    const options: ServerOptions = {
-      key: await fs.readFileSync(config.https.keyFile),
-      cert: await fs.readFileSync(config.https.certFile),
-      dhparam: await fs.readFileSync(config.https.dhParam),
-    }
-
-    https.createServer(options, app).listen(config.server.httpsPort, () => {
-      logger.info('HTTPS active')
-    })
-  }
+  // if (config.httpsEnabled) {
+  //   const options: ServerOptions = {
+  //     key: await fs.readFileSync(config.https.keyFile),
+  //     cert: await fs.readFileSync(config.https.certFile),
+  //     dhparam: await fs.readFileSync(config.https.dhParam),
+  //   }
+  //
+  //   https.createServer(options, app).listen(config.server.httpsPort, () => {
+  //     logger.info('HTTPS active')
+  //   })
+  // }
 })()

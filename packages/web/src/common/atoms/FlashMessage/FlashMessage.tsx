@@ -54,7 +54,7 @@ export const FlashMessage = () => {
     return () => {
       clearTimeout(timeoutHandler)
     }
-  }, [])
+  })
 
   return (
     visibility ? (

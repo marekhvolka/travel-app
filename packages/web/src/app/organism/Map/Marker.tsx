@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { Marker } from '@react-google-maps/api'
 import { Item } from '@md/common'
 
-/* global google*/
+// /* global google*/
 
 type Props = {
   isSelected: boolean
@@ -13,7 +13,7 @@ type Props = {
 export const CustomMarker = React.memo(({ item, onClick, isSelected }: Props) => {
   const handleOnClick = useCallback(() => {
     onClick(item._id)
-  }, [item._id])
+  }, [onClick, item._id])
 
   return (
     <Marker

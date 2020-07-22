@@ -1,4 +1,3 @@
-import config from '../../config/config'
 import shell from 'shelljs'
 import sharp from 'sharp'
 import fs from 'fs-extra'
@@ -26,7 +25,7 @@ export const resourcesSizes = [
   },
 ]
 
-const relativePath = __dirname + `/../../${config.resourcesDir}/`
+const relativePath = __dirname + `/../../resources/`
 
 export const saveFile = async (sourcePath: string, targetPath: string, targetFileName: string, cropData: any) => {
   const info = await sharp(sourcePath).metadata()
