@@ -1,6 +1,7 @@
 import { Col, Row } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
+import { media } from '../../../theme'
 
 type Props = {
   steps: any[]
@@ -12,6 +13,10 @@ const StepsWrapper = styled.div`
 
 const StepWrapper = styled.div`
   padding: 5px 10px;
+  
+  ${media.mobile} {
+    text-align: center;
+  }
 `
 
 const StepTitle = styled.h5`

@@ -2,13 +2,22 @@ import axios from 'axios'
 import { Field, Form, Formik } from 'formik'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import styled from 'styled-components'
 import { Button } from '../../../common/atoms/Button/Button'
 import { Input } from '../../../common/atoms/Input/Input'
 import { MainHeading } from '../../../common/atoms/MainHeading/MainHeading'
 import { Spinner } from '../../../common/atoms/Spinner/Spinner'
 import { config } from '../../../config'
 import { LoadUserAction } from '../../../store'
+import { media } from '../../../theme'
+
+const RegisterWrapper = styled.div`
+  ${media.nonMobile} {
+    width: 500px;
+    margin: auto;
+  }
+`
 
 type RegisterModel = {
   email: string
@@ -48,7 +57,7 @@ export const Register = () => {
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, { setErrors }) => {
     setIsLoading(true)
     delete values.passwordCheck
 
@@ -57,16 +66,23 @@ export const Register = () => {
         email: values.email,
         password: values.password,
       })
-      .then((result) => {
+      .then(({ data }) => {
         setIsLoading(false)
-        dispatch({
-          ...new LoadUserAction({
-            ...result.data.user,
-            token: result.data.token,
-          })
-        })
 
-        history.push('/')
+        if (data.error) {
+          setErrors({
+            passwordCheck: data.error.message
+          })
+        } else {
+          dispatch({
+            ...new LoadUserAction({
+              ...data.user,
+              token: data.token,
+            })
+          })
+
+          history.push('/')
+        }
       }, (error) => {
         setIsLoading(false)
         console.log(error)
@@ -74,9 +90,9 @@ export const Register = () => {
   }
 
   return (
-    <>
+    <RegisterWrapper>
       {isLoading && <Spinner/>}
-      <MainHeading>Register form</MainHeading>
+      <MainHeading center>Create Account</MainHeading>
       <Formik
         validate={validate}
         enableReinitialize={true}
@@ -100,13 +116,16 @@ export const Register = () => {
             <Field
               type="password"
               name="passwordCheck"
-              label="Password again"
+              label="Confirm password"
               component={Input}
             />
-            <Button type="submit">Register</Button>
+            <Button center type="submit">Register</Button>
+            <p style={{ textAlign: 'center', marginTop: '20px' }}>
+              Already registered? Let's <Link to={'/login'}>Sign In</Link>
+            </p>
           </Form>
         )}
       </Formik>
-    </>
+    </RegisterWrapper>
   )
 }

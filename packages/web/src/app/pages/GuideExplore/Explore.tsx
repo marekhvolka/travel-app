@@ -70,8 +70,11 @@ const GUIDE_QUERY = gql`
       }
       items(published: true) {
         ...itemBaseFields
-        latitude
-        longitude
+        location {
+          latitude
+          longitude
+          zoomLevel
+        }
         relatedItems(published: true) {
           ...itemBaseFields
         }

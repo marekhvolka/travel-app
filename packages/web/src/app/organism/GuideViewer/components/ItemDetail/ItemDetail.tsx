@@ -1,14 +1,21 @@
+import { Guide, Item } from '@md/common'
 import React, { useCallback } from 'react'
 import FaAngleDoubleLeft from 'react-icons/lib/fa/angle-double-left'
 import FaHeart from 'react-icons/lib/fa/heart'
+import FaMapMarkerAlt from 'react-icons/lib/fa/map-marker'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { ImageWrapper } from '../../../common/atoms/ImageWrapper/ImageWrapper'
-import { Text } from '../../../common/atoms/Text/Text'
-import { IMAGE_SIZES } from '../../../common/common'
-import { Guide, Item } from '@md/common'
-import { MapHideFullItemDetailAction, MapSelectItemAction, ToggleFavouriteItemAction } from '../../../store'
-import { ItemCard } from '../../molecules/ItemCard/ItemCard'
+import { ImageWrapper } from '../../../../../common/atoms/ImageWrapper/ImageWrapper'
+import { Text } from '../../../../../common/atoms/Text/Text'
+import { IMAGE_SIZES } from '../../../../../common/common'
+import {
+  MapHideItemDetailAction,
+  MapLatLngChangedAction,
+  MapShowItemDetailAction,
+  MapZoomLevelChangedAction,
+  ToggleFavouriteItemAction
+} from '../../../../../store'
+import { ItemCard } from '../../../../molecules/ItemCard/ItemCard'
 
 const ItemName = styled.h2`
   text-transform: uppercase;
@@ -21,7 +28,6 @@ const ItemName = styled.h2`
 
 const ItemDescription = styled(Text)`
   text-align: justify;
-  margin-top: 10px;
   font-size: 15px;
   line-height: 25px;
   color: #13111196;
@@ -67,6 +73,22 @@ const HideButton = styled(FaAngleDoubleLeft)`
   }
 `
 
+const LocateButton = styled(FaMapMarkerAlt)`
+  background-color: #fff;
+  border: 1px solid #c3bdbd;
+  border-radius: 5px;
+  vertical-align: middle;
+  font-size: 45px;
+  position: absolute;
+  right: 60px;
+  top: 5px;
+  cursor: pointer;
+  
+  :hover {
+    background-color: #efefef;
+  }
+`
+
 const TagWrapper = styled.span`
   display: inline-block;
   border: 1px solid;
@@ -90,22 +112,28 @@ export const ItemDetail = React.memo(({ guide, isInFavourites, item }: Props) =>
   const dispatch = useDispatch()
 
   const onHide = useCallback(() => {
-    dispatch({ ...new MapHideFullItemDetailAction(guide._id) })
+    dispatch({...new MapHideItemDetailAction(guide._id)})
   }, [dispatch, guide._id])
 
+  const onLocate = useCallback(() => {
+    dispatch({...new MapLatLngChangedAction(guide._id, item.location.latitude, item.location.longitude)})
+    dispatch({...new MapZoomLevelChangedAction(guide._id, item.location.zoomLevel)})
+  }, [dispatch, guide._id, item])
+
   const onRelatedItemClicked = useCallback((itemId: string) => {
-    dispatch({ ...new MapSelectItemAction(guide._id, itemId) })
+    dispatch({...new MapShowItemDetailAction(guide._id, itemId)})
   }, [dispatch, guide._id])
 
   const onToggleFavouriteItemClicked = useCallback(() => {
-    dispatch({ ...new ToggleFavouriteItemAction(guide._id, item._id) })
+    dispatch({...new ToggleFavouriteItemAction(guide._id, item._id)})
   }, [dispatch, guide._id, item._id])
 
   return (
     <>
+      <LocateButton onClick={onLocate}/>
       <HideButton onClick={onHide}/>
       <ImageWrapper size={IMAGE_SIZES.MEDIUM} url={item.previewImageUrl}/>
-      <div>
+      <div style={{marginTop: '10px'}}>
         <ItemName>{item.name}</ItemName>
         <FavouriteButton
           active={isInFavourites}

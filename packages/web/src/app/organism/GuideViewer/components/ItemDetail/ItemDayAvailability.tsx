@@ -1,7 +1,7 @@
 import React from 'react'
 import { DayRestriction } from '@md/common'
-import { RestrictionState } from '../../../models/RestrictionState'
-import { DayLabels } from '../../../models/DayRestriction'
+import { RestrictionState } from '../../../../../models/RestrictionState'
+import { DayLabels } from '../../../../../models/DayRestriction'
 
 type Props = {
   dayId: string

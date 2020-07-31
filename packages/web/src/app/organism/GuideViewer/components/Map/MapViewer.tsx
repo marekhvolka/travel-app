@@ -2,9 +2,9 @@ import { GoogleMap, LoadScript } from '@react-google-maps/api'
 import React, { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Guide, GuideData } from '@md/common'
-import { ITEM_TYPES } from '../../../common/common'
-import { config } from '../../../config'
-import { MapLatLngChangedAction, MapSelectItemAction, MapZoomLevelChangedAction, } from '../../../store'
+import { ITEM_TYPES } from '../../../../../common/common'
+import { config } from '../../../../../config'
+import { MapLatLngChangedAction, MapShowItemDetailAction, MapZoomLevelChangedAction, } from '../../../../../store'
 import { CustomMarker } from './Marker'
 
 type Props = {
@@ -17,7 +17,7 @@ export const MapViewer = React.memo(({ model, guideData }: Props) => {
   const dispatch = useDispatch()
 
   const onMarkerClicked = useCallback((itemId: string) => {
-    dispatch({...new MapSelectItemAction(model._id, itemId)})
+    dispatch({...new MapShowItemDetailAction(model._id, itemId)})
   }, [dispatch, model._id])
 
   return (
@@ -26,10 +26,13 @@ export const MapViewer = React.memo(({ model, guideData }: Props) => {
         <GoogleMap
           mapContainerStyle={{
             left: 0,
-            top: '50px',
+            top: 0,
             bottom: 0,
             right: 0,
             position: 'absolute',
+          }}
+          options={{
+            disableDefaultUI: true
           }}
           onLoad={(mapRef) => setMap(mapRef)}
           onZoomChanged={() => map && dispatch({ ...new MapZoomLevelChangedAction(model._id, map.zoom) })}

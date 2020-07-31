@@ -5,6 +5,7 @@ type Props = ThemeProps<typeof theme> & {
   primary?: boolean
   small?: boolean
   float?: string
+  center?: boolean
 }
 
 export const Button = styled.button`
@@ -22,6 +23,11 @@ export const Button = styled.button`
   ` : css`
     color: ${props.theme.color.primary};
     background: ${props.theme.color.secondary};
+  `}
+  ${(props: Props) => props.center && css`
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   `}
 
 `

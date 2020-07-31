@@ -26,6 +26,7 @@ const size = {
 
 export const media = {
   mobile: `@media only screen and (max-width: ${size.mobileL})`,
+  nonMobile: `@media only screen and (min-width: ${size.tablet})`,
   tablet: `@media only screen and (min-width: ${size.tablet}) and (max-width: ${size.laptop})`,
   desktop: `@media only screen and (min-width: ${size.laptop})`,
   bigDesktop: `@media only screen and (min-width: ${size.laptopL})`,

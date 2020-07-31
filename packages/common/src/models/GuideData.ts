@@ -20,9 +20,6 @@ export class GuideData {
   selectedItemId: string
 
   @Column()
-  showFullDetail: boolean
-
-  @Column()
   showSearch: boolean
 
   @Column()

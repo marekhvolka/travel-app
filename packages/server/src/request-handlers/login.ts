@@ -12,19 +12,31 @@ export const loginRequestHandler: RequestHandler = async (req, res) => {
   const password = req.body.password
 
   if (!email || !password) {
-    return res.status(400).send({ message: 'Please enter both id and password' })
+    return res.send({
+      error: {
+        message: 'Please enter both email and password'
+      }
+    })
   }
 
   const user = await UserRepository.findOne({ email })
 
   if (!user) {
-    return res.status(400).send({ message: 'Invalid credentials!' })
+    return res.send({
+      error: {
+        message: 'Invalid credentials!'
+      }
+    })
   }
 
   const valid = await compare(password, user.passwordHash)
 
   if (!valid) {
-    return res.status(400).send({ message: 'Invalid credentials!' })
+    return res.send({
+      error: {
+        message: 'Invalid credentials!'
+      }
+    })
   }
 
   // if (restricted && user.role !== 'admin') {

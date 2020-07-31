@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Guide, Item, Tag } from '@md/common'
-import { MapSelectItemAction } from '../../../store'
+import { MapShowItemDetailAction } from '../../../../../store'
 import { SearchForm } from './SearchForm'
 import { SearchResults } from './SearchResults'
 
@@ -41,7 +41,7 @@ export const ItemsSearch = React.memo(({ guide, tags }: Props) => {
   }, [setSearchedTerm])
 
   const onItemCardClicked = useCallback((itemId: string) => {
-    dispatch({...new MapSelectItemAction(guide._id, itemId)})
+    dispatch({...new MapShowItemDetailAction(guide._id, itemId)})
   }, [guide, dispatch])
 
   return (

@@ -15,23 +15,30 @@ export const LoginContainer = () => {
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
 
-  const onLogin = (values) => {
+  const onLogin = (values, { setErrors }) => {
     setIsLoading(true)
     axios
       .post(config.backendUrl + '/login', {
         email: values.email,
         password: values.password,
       })
-      .then((result) => {
+      .then(({ data }) => {
         setIsLoading(false)
-        dispatch({
-          ...new LoadUserAction({
-            ...result.data.user,
-            token: result.data.token,
+
+        if (data.error) {
+          setErrors({
+            password: data.error.message
           })
-        })
-        localStorage.setItem(AUTH_TOKEN, result.data.token)
-        history.push('/')
+        } else {
+          dispatch({
+            ...new LoadUserAction({
+              ...data.user,
+              token: data.token,
+            })
+          })
+          localStorage.setItem(AUTH_TOKEN, data.token)
+          history.push('/')
+        }
       }, (error) => {
         setIsLoading(false)
         console.log(error)

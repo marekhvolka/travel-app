@@ -12,13 +12,21 @@ export const registerRequestHandler: RequestHandler = async (req, res) => {
   const password = req.body.password
 
   if (!email || !password) {
-    return res.status(400).send({ message: 'Please enter both id and password' })
+    return res.send({
+      error: {
+        message: 'Please enter both email and password'
+      }
+    })
   }
 
   const existedUser = await UserRepository.findOne({ email })
 
   if (existedUser) {
-    return res.status(400).send({ message: 'User already existed' })
+    return res.send({
+      error: {
+        message: 'User already existed'
+      }
+    })
   }
 
   const user = await UserRepository.save({

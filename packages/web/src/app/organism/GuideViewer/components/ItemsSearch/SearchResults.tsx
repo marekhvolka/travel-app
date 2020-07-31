@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Item } from '@md/common'
-import { ItemCard } from '../../molecules/ItemCard/ItemCard'
+import { ItemCard } from '../../../../molecules/ItemCard/ItemCard'
 
 type Props = {
   results: Item[]
@@ -10,7 +10,6 @@ type Props = {
 
 const Wrapper = styled.div`
   overflow-y: scroll;
-  height: 85vh;
 `
 
 const ItemWrapper = styled.div`

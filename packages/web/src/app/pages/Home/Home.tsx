@@ -43,7 +43,7 @@ export const Home = () => (
       <div style={{width: '50%'}}>
         <MainHeading>Explore cities with our guides</MainHeading>
         <HeaderText>
-          On vacation in foreign city? Find the most beautiful places according to your preferences. Explore facts about
+          On vacation in Prague? Find the most beautiful places based on your preferences. Explore facts about
           historic buildings, navigate with the app to find the right way and spend a romantic walk with your partner.
         </HeaderText>
         <div>
@@ -58,7 +58,7 @@ export const Home = () => (
           {
             icon: <FaShoppingCart size={60}/>,
             title: 'Buy a guide',
-            text: 'Pay for your chosen guide with your credit card',
+            text: 'Pay for the guide with your credit card',
           },
           {
             icon: <FaSearch size={60}/>,
@@ -67,7 +67,7 @@ export const Home = () => (
           },
           {
             icon: <FaMap size={60}/>,
-            title: 'Explore the city',
+            title: 'Enjoy the city',
             text: `Navigate to the places with your phone and explore details.`,
           },
         ]}

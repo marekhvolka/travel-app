@@ -6,11 +6,11 @@ import { User } from '@md/common'
 export enum ActionTypes {
   LOAD_USER = 'LOAD_USER',
   LOGOUT = 'LOGOUT',
+  OPEN_GUIDE = 'OPEN_GUIDE',
   MAP_ZOOM_LEVEL_CHANGED = 'MAP_ZOOM_LEVEL_CHANGED',
   MAP_LAT_LNG_CHANGED = 'MAP_LAT_LNG_CHANGED',
-  MAP_SELECT_ITEM = 'MAP_SELECT_ITEM',
-  MAP_SHOW_FULL_ITEM_DETAIL = 'MAP_SHOW_FULL_ITEM_DETAIL',
-  MAP_HIDE_FULL_ITEM_DETAIL = 'MAP_HIDE_FULL_ITEM_DETAIL',
+  MAP_SHOW_ITEM_DETAIL = 'MAP_SHOW_ITEM_DETAIL',
+  MAP_HIDE_ITEM_DETAIL = 'MAP_HIDE_ITEM_DETAIL',
   TOGGLE_FAVOURITE_ITEM = 'TOGGLE_FAVOURITE_ITEM',
   TOGGLE_SEARCH = 'TOGGLE_SEARCH',
 }
@@ -60,8 +60,8 @@ export class MapLatLngChangedAction {
   }
 }
 
-export class MapSelectItemAction {
-  type: typeof ActionTypes.MAP_SELECT_ITEM = ActionTypes.MAP_SELECT_ITEM
+export class MapShowItemDetailAction {
+  type: typeof ActionTypes.MAP_SHOW_ITEM_DETAIL = ActionTypes.MAP_SHOW_ITEM_DETAIL
   payload: {
     guideId: string,
     selectedItemId: string
@@ -75,21 +75,8 @@ export class MapSelectItemAction {
   }
 }
 
-export class MapShowFullItemDetailAction {
-  type: typeof ActionTypes.MAP_SHOW_FULL_ITEM_DETAIL = ActionTypes.MAP_SHOW_FULL_ITEM_DETAIL
-  payload: {
-    guideId: string
-  }
-
-  constructor(guideId: string) {
-    this.payload = {
-      guideId
-    }
-  }
-}
-
-export class MapHideFullItemDetailAction {
-  type: typeof ActionTypes.MAP_HIDE_FULL_ITEM_DETAIL = ActionTypes.MAP_HIDE_FULL_ITEM_DETAIL
+export class MapHideItemDetailAction {
+  type: typeof ActionTypes.MAP_HIDE_ITEM_DETAIL = ActionTypes.MAP_HIDE_ITEM_DETAIL
   payload: {
     guideId: string
   }
@@ -130,14 +117,28 @@ export class ToggleSearchAction {
   }
 }
 
+export class OpenGuideAction {
+  type: typeof ActionTypes.OPEN_GUIDE = ActionTypes.OPEN_GUIDE
+
+  payload: {
+    guideId: string
+  }
+
+  constructor(guideId: string) {
+    this.payload = {
+      guideId
+    }
+  }
+}
+
 export type Actions =
   | LoadUserAction
   | LogoutUserAction
+  | OpenGuideAction
   | MapLatLngChangedAction
   | MapZoomLevelChangedAction
-  | MapSelectItemAction
-  | MapShowFullItemDetailAction
-  | MapHideFullItemDetailAction
+  | MapShowItemDetailAction
+  | MapHideItemDetailAction
   | ToggleFavouriteItemAction
   | ToggleSearchAction
 
@@ -167,6 +168,20 @@ const baseReducer = (state: State, action: Actions): State => {
       }
     }
 
+    case ActionTypes.OPEN_GUIDE: {
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          guidesData: {
+            [action.payload.guideId]: {
+              ...(state.userData.guidesData || {})[action.payload.guideId]
+            }
+          }
+        },
+      }
+    }
+
     case ActionTypes.MAP_ZOOM_LEVEL_CHANGED: {
       return {
         ...state,
@@ -175,7 +190,7 @@ const baseReducer = (state: State, action: Actions): State => {
           guidesData: {
             ...state.userData.guidesData,
             [action.payload.guideId]: {
-              ...(state.userData.guidesData || {})[action.payload.guideId],
+              ...state.userData.guidesData[action.payload.guideId],
               mapZoomLevel: action.payload.zoomLevel,
             }
           }
@@ -191,7 +206,7 @@ const baseReducer = (state: State, action: Actions): State => {
           guidesData: {
             ...state.userData.guidesData,
             [action.payload.guideId]: {
-              ...(state.userData.guidesData || {})[action.payload.guideId],
+              ...state.userData.guidesData[action.payload.guideId],
               mapLatitude: action.payload.latitude,
               mapLongitude: action.payload.longitude,
             }
@@ -200,7 +215,7 @@ const baseReducer = (state: State, action: Actions): State => {
       }
     }
 
-    case ActionTypes.MAP_SELECT_ITEM: {
+    case ActionTypes.MAP_SHOW_ITEM_DETAIL: {
       return {
         ...state,
         userData: {
@@ -208,15 +223,16 @@ const baseReducer = (state: State, action: Actions): State => {
           guidesData: {
             ...state.userData.guidesData,
             [action.payload.guideId]: {
-              ...(state.userData.guidesData || {})[action.payload.guideId],
+              ...state.userData.guidesData[action.payload.guideId],
               selectedItemId: action.payload.selectedItemId,
+              showSearch: false
             }
           }
         },
       }
     }
 
-    case ActionTypes.MAP_SHOW_FULL_ITEM_DETAIL: {
+    case ActionTypes.MAP_HIDE_ITEM_DETAIL: {
       return {
         ...state,
         userData: {
@@ -224,24 +240,8 @@ const baseReducer = (state: State, action: Actions): State => {
           guidesData: {
             ...state.userData.guidesData,
             [action.payload.guideId]: {
-              ...(state.userData.guidesData || {})[action.payload.guideId],
-              showFullDetail: true,
-            }
-          }
-        },
-      }
-    }
-
-    case ActionTypes.MAP_HIDE_FULL_ITEM_DETAIL: {
-      return {
-        ...state,
-        userData: {
-          ...state.userData,
-          guidesData: {
-            ...state.userData.guidesData,
-            [action.payload.guideId]: {
-              ...(state.userData.guidesData || {})[action.payload.guideId],
-              showFullDetail: false,
+              ...state.userData.guidesData[action.payload.guideId],
+              selectedItemId: undefined
             }
           }
         },
@@ -251,8 +251,7 @@ const baseReducer = (state: State, action: Actions): State => {
     case ActionTypes.TOGGLE_FAVOURITE_ITEM: {
       let favouriteItemsIds
 
-      if (state.userData.guidesData &&
-        state.userData.guidesData[action.payload.guideId] &&
+      if (state.userData.guidesData[action.payload.guideId].favouriteItemsIds &&
         state.userData.guidesData[action.payload.guideId].favouriteItemsIds[action.payload.selectedItemId]) {
         favouriteItemsIds = {
           ...state.userData.guidesData[action.payload.guideId].favouriteItemsIds
@@ -261,7 +260,7 @@ const baseReducer = (state: State, action: Actions): State => {
         delete favouriteItemsIds[action.payload.selectedItemId]
       } else {
         favouriteItemsIds = {
-          ...(state.userData.guidesData ? state.userData.guidesData[action.payload.guideId].favouriteItemsIds : {}),
+          ...state.userData.guidesData[action.payload.guideId].favouriteItemsIds,
           [action.payload.selectedItemId]: {}
         }
       }
@@ -273,7 +272,7 @@ const baseReducer = (state: State, action: Actions): State => {
           guidesData: {
             ...state.userData.guidesData,
             [action.payload.guideId]: {
-              ...(state.userData.guidesData || {})[action.payload.guideId],
+              ...state.userData.guidesData[action.payload.guideId],
               favouriteItemsIds
             }
           }
@@ -289,7 +288,7 @@ const baseReducer = (state: State, action: Actions): State => {
           guidesData: {
             ...state.userData.guidesData,
             [action.payload.guideId]: {
-              ...(state.userData.guidesData || {})[action.payload.guideId],
+              ...state.userData.guidesData[action.payload.guideId],
               showSearch: !state.userData.guidesData[action.payload.guideId].showSearch
             }
           }

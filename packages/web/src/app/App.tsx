@@ -29,7 +29,6 @@ export const App = () => (
           <Navbar/>
           <div
             style={{
-              marginTop: '50px',
               paddingBottom: '70px',
             }}
           >

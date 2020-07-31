@@ -3,6 +3,7 @@ import { Col, Row } from 'antd'
 import gql from 'graphql-tag'
 import isNil from 'lodash/isNil'
 import React from 'react'
+import { Guide } from '@md/common'
 import { useSelector } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -70,8 +71,8 @@ export const GuideDetail = (props: RouteComponentProps<MatchParams>) => {
     return <div>Loading</div>
   }
 
-  const guide = data.fetchGuide
-  const isBought = userData.unlockedGuides && userData.unlockedGuides.find((unlockedGuideData) => unlockedGuideData.guideId === guide.id)
+  const guide: Guide = data.fetchGuide
+  const isBought = userData && userData.unlockedGuides && userData.unlockedGuides.find((unlockedGuideData) => unlockedGuideData.guideId === guide._id)
 
   return (
     <div style={{ marginTop: '20px' }}>
