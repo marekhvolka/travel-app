@@ -1,3 +1,4 @@
+import 'antd/dist/antd.css'
 import React, { useEffect, useState } from 'react'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { Provider } from 'react-redux'

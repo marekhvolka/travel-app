@@ -2,7 +2,7 @@ import { Guide, GuideData, Tag } from '@md/common'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled, { createGlobalStyle } from 'styled-components'
-import { OpenGuideAction, State, ToggleSearchAction } from '../../../store'
+import { MapLatLngChangedAction, OpenGuideAction, State, ToggleSearchAction } from '../../../store'
 import { media } from '../../../theme'
 import { ItemsSearch } from './components/ItemsSearch'
 import { ItemDetail } from './components/ItemDetail/ItemDetail'
@@ -62,6 +62,10 @@ export const GuideViewer = ({ model, tags }: Props) => {
   const guideData: GuideData = useSelector((state: State) => (state.userData.guidesData && state.userData.guidesData[model._id]) ? state.userData.guidesData[model._id] : {})
   const selectedItem = model.items && model.items.find(item => guideData && item._id === guideData.selectedItemId)
 
+  const handleOnLocateMe = (latitude: number, longitude: number) => {
+    dispatch({...new MapLatLngChangedAction(model._id, latitude, longitude)})
+  }
+
   useEffect(() => {
     dispatch({...new OpenGuideAction(model._id)})
   }, [])
@@ -79,7 +83,10 @@ export const GuideViewer = ({ model, tags }: Props) => {
           guideData={guideData}
         />
         <SidebarWrapper>
-          <Navbar onSearchClick={() => dispatch({ ...new ToggleSearchAction(model._id) })}/>
+          <Navbar
+            onSearchClick={() => dispatch({ ...new ToggleSearchAction(model._id) })}
+            onLocateMe={handleOnLocateMe}
+          />
 
           {showSearchPanel && (
             <div style={{ marginTop: '10px', position: 'relative' }}>

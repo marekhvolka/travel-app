@@ -4,7 +4,6 @@ import moment from 'moment'
 import { DayRestriction } from '@md/common'
 import { TimePicker } from '../../../../common/atoms/TimePicker/TimePicker'
 import { Select } from '../../../../common/atoms/Select/Select'
-import 'antd/dist/antd.css'
 import { RestrictionState } from '../../../../models/RestrictionState'
 
 type Props = {
